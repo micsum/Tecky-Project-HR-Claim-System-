@@ -20,6 +20,7 @@ Claim Management System - Simple version
   https://www.npmjs.com/package/formidable
 
 - pending status -> approved (admin)
+for applicant, they can know who is responsible for the approval of application and able to send email to him/her
 - 2 factor verification login ?
 - email notification for claimed amount?
   any other features ?
