@@ -1,6 +1,8 @@
 Claim Management System - Simple version
 
 - Login (User, Admin)
+  session
+  
 - dashboard design(preview):
   https://preview.codecanyon.net/item/hr-manager-human-resource-management-system-hr-software-hrms/full_screen_preview/20386502
 
