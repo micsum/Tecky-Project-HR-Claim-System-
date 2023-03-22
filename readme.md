@@ -21,12 +21,15 @@ Claim Management System - Simple version
 
 - pending status -> approved (admin)
 for applicant, they can know who is responsible for the approval of application and able to send email to him/her
-- 2 factor verification login ?
+- 2 factor verification login / web authn eg: https://blog.passwordless.id/new-webauthn-library-web-authentication-through-touch-swipe-face
+by using faceid or touchid to login through mobile browser.
+
 - email notification for claimed amount?
   any other features ?
   - instruction page if needed
   - check/search claim record
-  - import file to excel/csv file
+  - import file to excel/csv file & also export?
   - check claimed amount of particular person/ppl
   - e-signature
+  
   pls update the md.
