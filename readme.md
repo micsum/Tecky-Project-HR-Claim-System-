@@ -23,4 +23,9 @@ Claim Management System - Simple version
 - 2 factor verification login ?
 - email notification for claimed amount?
   any other features ?
+  - instruction page if needed
+  - check/search claim record
+  - import file to excel/csv file
+  - check claimed amount of particular person/ppl
+  - e-signature
   pls update the md.
