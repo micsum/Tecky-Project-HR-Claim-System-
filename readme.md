@@ -28,10 +28,13 @@ for applicant, they can know who is responsible for the approval of application 
 by using faceid or touchid to login through mobile browser.
 
 - email notification for claimed amount?
+- chase the approval status through email 
+
   any other features ?
   - instruction page if needed
   - check/search claim record
-  - import file to excel/csv file & also export?
+  - import file to excel/csv file 
+  - export xlsx or csv 
   - check claimed amount of particular person/ppl
   - e-signature
   
