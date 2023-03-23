@@ -7,6 +7,9 @@ Claim Management System - Simple version
   https://preview.codecanyon.net/item/hr-manager-human-resource-management-system-hr-software-hrms/full_screen_preview/20386502
 
   https://raddy.dev/blog/user-management-system-nodejs-express-mongodb-ejs-crud/
+  
+  github reference:
+  https://github.com/Hitman-lab/InsuranceClaimRegistration/tree/master/WebContent
 
 - API usage ?
   claimable API:
