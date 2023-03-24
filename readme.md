@@ -38,4 +38,10 @@ by using faceid or touchid to login through mobile browser.
   - check claimed amount of particular person/ppl
   - e-signature
   
+  page list:
+  1. login page
+  2. claim
+  3. record
+  4. instruction
+  5. dashboard
   pls update the md.
