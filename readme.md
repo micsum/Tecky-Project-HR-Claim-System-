@@ -8,6 +8,8 @@ Claim Management System - Simple version
 
   https://raddy.dev/blog/user-management-system-nodejs-express-mongodb-ejs-crud/
   
+  https://documentation.in-time.co.uk/display/ds/Expense+Entry
+  
   github reference:
   https://github.com/Hitman-lab/InsuranceClaimRegistration/tree/master/WebContent
 
