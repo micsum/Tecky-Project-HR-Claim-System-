@@ -1,21 +1,25 @@
-import express from 'express'
-import { print } from 'listening-on'
-import path from 'path'
-import { app } from './app'
-import './memo-cb'
-import { userRouter } from './user'
+import express from "express";
+import path from "path";
+import { attachRouter } from "./attachment";
 
-app.use(userRouter)
+export const app = express();
 
-app.use(express.static('public'))
+app.use(express.static("public"));
+app.use(express.static("protected"));
+app.use(attachRouter);
+app.use(express.json());
 
 app.use((req, res) => {
-  res.status(404)
-  res.sendFile(path.resolve('public', '404.html'))
-})
+  res.status(404);
+  res.sendFile(path.resolve("public", "404.html"));
+});
 
-let PORT = 8100
+app.use('/adduser', (req, res) => {
+  res.sendFile(path.resolve("protected", "adduser.html"));
+});
+
+let PORT = 8100;
 
 app.listen(PORT, () => {
-  print(PORT)
-})
+  console.log(`Listening at http://localhost:${PORT}/`);
+});

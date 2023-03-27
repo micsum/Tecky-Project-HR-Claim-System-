@@ -9,5 +9,6 @@
             "database": "wsp_group_project",
             "username": "postgres"
         }
-    ]
+    ],
+    "liveServer.settings.port": 5501
 }
