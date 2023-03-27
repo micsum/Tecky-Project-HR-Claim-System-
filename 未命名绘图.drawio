@@ -1,0 +1,145 @@
+<mxfile host="app.diagrams.net" modified="2023-03-24T10:33:42.063Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="m_eqUctPJ_4CbauixPwP" version="21.1.0" type="device">
+  <diagram name="第 1 页" id="RcHGJkyg_coiWy4XuecU">
+    <mxGraphModel dx="2074" dy="1156" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-7" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="139" y="60" width="550" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-8" value="Login" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="334" y="160" width="160" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-10" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="44" y="400" width="740" height="490" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-11" value="Logo" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="160" y="80" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-12" value="Dashboard/Content" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="210" y="450" width="510" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-15" value="Nav bar:&lt;br&gt;Dashboard&lt;br&gt;Profile&lt;br&gt;History&amp;gt;&lt;br&gt;- Application&lt;br&gt;- Record&lt;br&gt;Employee(admin)&lt;br&gt;Notice Board (tbd)&lt;br&gt;Meeting (tbd)&lt;br&gt;Schedule (tbd)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="70" y="460" width="120" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-17" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="59" y="960" width="710" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-19" value="Name" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="330" y="1040" width="330" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-20" value="id" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="334" y="1090" width="326" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-21" value="Title:&amp;nbsp;Profile" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="330" y="990" width="330" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-22" value="Department" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="334" y="1140" width="326" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-23" value="&amp;nbsp;Contact number/other info" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="334" y="1240" width="326" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-24" value="Hire Date" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="334" y="1190" width="326" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-25" value="Login.html" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+          <mxGeometry x="354" y="330" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-26" value="Dashboard.html" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+          <mxGeometry x="374" y="870" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-27" value="profile.html" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+          <mxGeometry x="374" y="1350" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-28" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="53" y="1410" width="721" height="540" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-30" value="id" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="292" y="1470" width="410" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-31" value="department" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="292" y="1520" width="410" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-32" value="name" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="292" y="1570" width="410" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-33" value="claim type" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="1620" width="410" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-34" value="claim amount" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="1670" width="410" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-35" value="claim description" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="1720" width="410" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-36" value="Submission button" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="209" y="1870" width="410" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-37" value="file" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="1770" width="410" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-38" value="Claim/Application.html" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+          <mxGeometry x="334" y="1930" width="170" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-39" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="59" y="1990" width="720" height="490" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-42" value="Claim/History.html" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+          <mxGeometry x="340" y="2460" width="170" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-43" value="Claim Column" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="260" y="2090" width="450" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-44" value="Title:&amp;nbsp;Claim Application" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="292" y="1420" width="410" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-45" value="Title: Claim History" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="260" y="2000" width="450" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-46" value="Claim Data" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="260" y="2140" width="450" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-47" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="59" y="2520" width="720" height="490" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-48" value="Employee(admin).html" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+          <mxGeometry x="324" y="2990" width="170" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-49" value="Title: Employee" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="250" y="2550" width="450" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-50" value="&amp;nbsp;Employee Search" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="252" y="2600" width="450" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-51" value="&amp;nbsp;Employee Column" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="252" y="2650" width="450" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-52" value="&amp;nbsp;Employee data" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="252" y="2700" width="450" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-53" value="Claim Search" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="260" y="2050" width="450" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-54" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="65" y="3050" width="720" height="490" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-55" value="Title: Notice Board" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="230" y="3070" width="450" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-56" value="Notice Search(tbd)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="230" y="3120" width="450" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-57" value="Notice Column" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="230" y="3170" width="450" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-58" value="Notice data" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="230" y="3220" width="450" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="XkUPbP8qZNaD_hrWPvgO-59" value="NoticeBoard.html" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+          <mxGeometry x="329" y="3520" width="170" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
