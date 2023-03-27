@@ -23,6 +23,9 @@ CREATE TABLE authorizing_officer (
   FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
+ALTER TABLE authorizing_officer
+ADD COLUMN hire_date DATE;
+
 CREATE TABLE claim(
     id serial primary key,
     claim_type varchar(20),
@@ -46,3 +49,29 @@ CREATE TABLE file (
   claim_id INTEGER,
   FOREIGN KEY (claim_id) REFERENCES claim(id)
 );
+
+--- I mistakenly insert those teams twice --
+insert into department(name) values ('Accounting Team'),
+('Sales Team');
+
+insert into employee(name, email, phone_number, hire_date, department_id) values
+('Alice','alice@tecky.com','12345678', '2023-01-01','2');
+
+insert into authorizing_officer (name, email, phone_number, hire_date, department_id) values 
+('Bob', 'bob@tecky.com', '87654321','2022-01-01', '1');
+
+insert into department(name) values ('Marketing Team');
+
+ALTER TABLE employee
+ADD COLUMN password VARCHAR(255);
+
+ALTER TABLE authorizing_officer
+ADD COLUMN password VARCHAR(255);
+
+UPDATE employee
+SET password = 'password123'
+WHERE id IN (1);
+
+UPDATE authorizing_officer
+SET password = 'password456'
+WHERE id IN (1);
