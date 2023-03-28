@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Page</title>
+    <style>
+      .userPage {
+        display: flex;
+        align-items: center;
+      }
+      #userLogout {
+        margin: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="userPage">
+      <h1>USER PAGE</h1>
+      <form action="/logout" method="POST">
+        <input type="submit" value="Logout" id="userLogout" />
+      </form>
+    </div>
+    <form action="/createClaim" method="POST">
+      <div class="title">Claim Submission</div>
+      <div>
+        <label for="claim">Amount: </label>
+        <input id="amount" type="text" placeholder="amount" name="amount" />
+        <label for="userid">User ID: </label>
+        <input
+          id="UserIdCreate"
+          type="text"
+          placeholder="User ID"
+          name="useid"
+        />
+      </div>
+      <div>
+        <label for="description">Description:</label>
+        <input
+          id="description"
+          type="text"
+          placeholder="describe"
+          name="description"
+        />
+      </div>
+    </form>
+  </body>
+</html>

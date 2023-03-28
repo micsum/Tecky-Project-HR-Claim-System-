@@ -1,5 +1,7 @@
-database_draft.vuerd.json
+/database_draft.vuerd.json
 .env
 /node_modules
 /uploads
 /package-lock.json
+/file-cb (beeno).ts
+/res

@@ -39,7 +39,7 @@ attachRouter.post("/attachment", (req, res) => {
 
     let attachMaybeArray = files.attachment;
     let attachment = Array.isArray(attachMaybeArray)
-      ? attachMaybeArray
+      ? attachMaybeArray[0]
       : attachMaybeArray;
     //@ts-ignore
     let filename = attachment?.newFilename;

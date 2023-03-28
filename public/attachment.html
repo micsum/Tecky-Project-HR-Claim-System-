@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <h1>Claim Management System</h1>
+    <form
+      action="/attachment"
+      method="POST"
+      id="attach"
+      enctype="multipart/form-data"
+    >
+      <label for="attachment">Please Upload the Attachment</label>
+      <input
+        type="file"
+        id="attachment"
+        name="attachment"
+        accept="image/*, .pdf,capture=camera"
+      />
+      <div class="previewClass">
+        <img id="preview" />
+      </div>
+
+      <input type="submit" value="Submit" id="attach-btn" />
+    </form>
+
+    <script>
+      let attach = document.querySelector("#attach");
+
+      attach.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const attachment = event.target;
+        const attachData = new FormData(attachment);
+
+        const res = await fetch("/attachment", {
+          method: "POST",
+          body: attachData,
+        });
+        const result = await res.json();
+        //document.querySelector(".preview").textContent = console.log(result); show the sucess:true result
+      });
+
+      let attachInput = document.querySelector("#attachment");
+      attachInput.addEventListener("change", preview);
+      function preview() {
+        let fileObject = this.files[0];
+        let fileReader = new FileReader();
+        console.log(fileReader);
+        fileReader.readAsDataURL(fileObject);
+        fileReader.onload = function () {
+          let result = fileReader.result;
+          let preview = document.querySelector("#preview");
+          preview.setAttribute("src", result);
+        };
+      }
+    </script>
+  </body>
+</html>
