@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="claimpage.css">
+</head>
+<body>
+    <div class="bg-gray-50 min-h-screen text-sm text-gray-700">
+
+  <div class="bg-white shadow-card w-full pt-8 pb-4 sm:pt-10 sm:pb-6 mb-2">
+    <div class="max-w-4xl mx-auto px-4">
+      <img src="https://helloclaims.com.au/images/main-logo.png" alt="HelloClaims" class="mb-4 sm:mb-6 h-10 sm:h-12">
+      <h1 class="text-xl sm:text-2xl font-semibold">Submit a claim</h1>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto">
+    <section class="w-full border-b border-gray-200 px-4 py-6 flex flex-col md:flex-row">
+      <div class="mb-4 mr-6 md:w-64">
+        <h3 class="text-base font-semibold mb-1">Policyholder details</h3>
+        <p class="text-grey-500">Secondary text could go here to help explain why we need this info</p>
+      </div>
+
+      <div class="shadow-card bg-white sm:rounded -mx-4 sm:m-0 px-4 pt-5 pb-1 sm:px-5 flex flex-wrap justify-between md:w-full md:max-w-xl">
+
+        <div class="field-group flex flex-col mb-4 w-full md:w-1/2">
+          <label class="field-label mb-1 required" for="policy_name">Department</label>
+          <input class="field md:mr-2 border  text-grey-700 rounded" type="text" name="business_name" id="business_name" placeholder="Nook inc.">
+        </div>
+        <div class="field-group flex flex-col mb-4 w-full md:w-1/2">
+          <label class="field-label mb-1 md:ml-2" for="last_name">Name</label>
+          <input class="field md:ml-2 border text-grey-700 rounded" type="text" name="contact_name" id="contact_name" value="Johannes Blümel">
+        </div>
+        <div class="field-group flex flex-col mb-4 w-1/2">
+          <label class="field-label mb-1 required" for="policy_name">Personal ID</label>
+          <input class="field mr-2 border text-grey-700 rounded" type="text" name="first_name" id="first_name">
+        </div>
+        <div class="field-group flex flex-col mb-4 w-1/2">
+          <label class="field-label mb-1 ml-2" for="last_name">Email</label>
+          <input class="field ml-2 border text-grey-700 rounded" type="text" name="last_name" id="last_name">
+        </div>
+      </div>
+    </section>
+
+    <section class="w-full border-b border-gray-200 px-4 py-6 flex flex-col md:flex-row">
+      <div class="mb-4 mr-6 md:w-64">
+        <h3 class="text-base font-semibold">Claim Details</h3>
+        <!--         <p class="text-grey-500">Secondary text could go here to help explain why we need this info</p> -->
+      </div>
+
+      <div class="shadow-card bg-white sm:rounded -mx-4 sm:m-0 px-4 pt-5 pb-1 sm:px-5 flex flex-wrap justify-between md:w-full md:max-w-xl">
+
+        <div class="field-group flex flex-col mb-4 w-full">
+          <label class="field-label mb-1 required" for="catastrophe_event">Claim Type</label>
+          <select name="pets" id="pet-select" class="field border text-grey-700 rounded">
+            <option value="">Please select the claim type....</option>
+            <option value="CAT195">Transportation</option>
+            <option value="CAT196">Purchase</option>
+            <option value="CAT201">Meal</option>
+            <option value="CAT202">Allowance</option>
+            <option value="CAT203">Medical/Insurance</option>
+          </select>
+
+        </div>
+        <div class="field-group flex flex-col mb-4 w-1/2">
+            <label class="field-label mb-1 ml-2" for="last_name">Amount</label>
+            <input class="field ml-2 border text-grey-700 rounded" type="text" name="last_name" id="last_name">
+        </div>
+        <div class="field-group flex flex-col mb-4 w-1/2">
+            <label class="field-label mb-1 ml-2" for="last_name">Transaction Date</label>
+            <input class="field ml-2 border text-grey-700 rounded" type="date" name="last_name" id="last_name">
+        </div>
+    
+        </div>
+    </section>
+
+    <section class="w-full border-b border-gray-200 px-4 py-6 flex flex-col md:flex-row">
+      <div class="mb-4 mr-6 md:w-64">
+        <h3 class="text-base font-semibold">Incident location</h3>
+      </div>
+
+      <div class="shadow-card bg-white sm:rounded -mx-4 sm:m-0 px-4 pt-5 pb-1 sm:px-5 flex flex-wrap justify-between md:w-full md:max-w-xl">
+
+        <div class="field-group flex flex-col mb-4 w-full">
+          <div class="flex items-center mb-4">
+            <input id="remember_me" type="checkbox" class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out" />
+            <label for="use_policyholder_address" class="ml-2">
+              Use policyholder address
+            </label>
+          </div>
+
+          <div class="field-group flex flex-col mb-4 w-full">
+            <label class="field-label mb-1 required" for="catastrophe_event">Address</label>
+
+            <div class="rounded flex flex-col sm:flex-row">
+              <div class="sm:w-1/2 sm:mr-2">
+                <input aria-label="Address 1" name="address-1" type="address-1" required class="appearance-none relative block w-full  rounded-b-none sm:rounded focus:z-10" placeholder="Address line 1" />
+              </div>
+              <div class="-mt-px sm:mt-0  sm:w-1/2 sm:ml-2">
+                <input aria-label="Address 2" name="address-2" type="address-2" required class="appearance-none relative block w-full rounded-t-none sm:rounded focus:z-10" placeholder="Address line 2" />
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <section class="w-full border-b border-gray-200 px-4 py-6 flex flex-col md:flex-row h-screen"></section>
+    </section>
+    
+    </section>
+
+  </div>
+
+</div>
+
+<div class="bg-white w-full text-sm fixed bottom-0 left-0 border-t border-gray-200">
+
+  <div class="max-w-4xl mx-auto px-4 flex flex-row justify-end pt-4 pb-5">
+    <button class="btn">Save for later</button>
+    <button class="btn btn-primary">View summary</button>
+  </div>
+</div>
+</body>
+</html>
