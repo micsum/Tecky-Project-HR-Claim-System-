@@ -1,25 +1,24 @@
 import express from "express";
 import path from "path";
 import { attachRouter } from "./attachment";
-<<<<<<< HEAD
 import { isAdmin, isUser, userRouter } from "./login (old)";
+import { registerRouter } from "./register";
 
 export const app = express();
+
+app.use(express.static("public"));
+//app.use(express.static("protected"));
 
 app.use(express.json());
-app.use(userRouter);
-=======
-import { userRouter } from "./login";
-
-export const app = express();
-
-app.use(express.static("public"));
-//app.use(userRouter);
->>>>>>> 59837d16218501034978d073de684f6260fed8e5
 app.use(attachRouter);
 app.use(registerRouter);
+app.use(userRouter);
 
-app.use(express.static("public"));
+
+//app.use(userRouter);
+
+
+
 app.use(isUser, express.static("user"));
 app.use(isAdmin, express.static("admin"));
 

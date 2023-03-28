@@ -3,7 +3,7 @@ import expressSession from "express-session";
 export let userRouter = Router();
 
 userRouter.use(express.static("public")); //read the html and css file , sequence is matter, public guy watch public
-userRouter.use(express.urlencoded()); //middleware for html-form-post
+userRouter.use(express.urlencoded({ extended: true })); //middleware for html-form-post
 
 //type User = {
 //username: string;
