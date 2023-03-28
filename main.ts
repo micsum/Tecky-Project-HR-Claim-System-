@@ -1,11 +1,14 @@
 import express from "express";
 import path from "path";
 import { attachRouter } from "./attachment";
+import { userRouter } from "./login";
 
 export const app = express();
 
 app.use(express.static("public"));
+app.use(userRouter);
 app.use(attachRouter);
+
 app.use(express.json());
 
 app.use((req, res) => {

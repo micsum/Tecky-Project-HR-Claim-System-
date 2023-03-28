@@ -3,7 +3,7 @@
     "version": "2.2.11",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -1,
+    "scrollTop": 0,
     "scrollLeft": 0,
     "zoomLevel": 1,
     "show": {
@@ -19,7 +19,7 @@
     },
     "database": "PostgreSQL",
     "databaseName": "",
-    "canvasType": "@vuerd/builtin-sql-ddl",
+    "canvasType": "ERD",
     "language": "GraphQL",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
@@ -97,7 +97,7 @@
           "active": false,
           "left": 41,
           "top": 13,
-          "zIndex": 74,
+          "zIndex": 40,
           "widthName": 60,
           "widthComment": 60
         },
