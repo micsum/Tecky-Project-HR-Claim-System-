@@ -9,34 +9,11 @@
 <body>
     <form action="/adduser" method="POST" id="contact-form">
         <div>
-          <label for="department">
-            Department Name:
-            <input
-              type="text"
-              name="department"
-              placeholder="Input your Department Name"
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label for="departmentid">
-            Department id:
-            <input
-              type="text"
-              name="departmentid"
-              placeholder="Input your department id"
-              required
-            />
-          </label>
-        </div>
-        <div>
-            <label for="username">
-              Username:
+            <label for="employeename">
+              Employee Name:
               <input
                 type="text"
-                name="username"
-                placeholder="Input your Username"
+                name="employeename"
                 required
               />
             </label>
@@ -47,7 +24,6 @@
             <input
               type="text"
               name="email"
-              placeholder="Input your Email here"
               required
             />
           </label>
@@ -58,12 +34,52 @@
               <input
                 type="text"
                 name="password"
-                placeholder="Input your Password here"
+               
                 required
               />
             </label>
           </div>
-
+          <div>
+            <label for="phonenumber">
+              Phone Number:
+              <input
+                type="text"
+                name="phonenumber"
+  
+              />
+            </label>
+          </div>
+          <div>
+            <label for="role">
+              Role:
+              <select name="role">
+                <option value="user">User</option>
+                <option value="authority">Authority</option>
+              </select>
+            </label>
+          </div>
+          <div>
+            <label for="hiredate">
+              Hire Date:
+                <input
+                  type="date"
+                  name="hiredate"
+                  />
+          </div>
+          <div>
+            <label for="departmentid">
+              Department Info:
+              <select
+                name="departmentid"
+                >
+                <option value="1">1.Accounting Team</option>
+                <option value="2">2.Sales Team</option></select>
+            </select>
+              
+            
+              
+            </label>
+          </div>
         <div>
           <input type="submit" value="Submit" />
           <input type="reset" value="Clear" />
