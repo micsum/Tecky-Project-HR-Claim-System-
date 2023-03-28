@@ -35,7 +35,7 @@ userRouter.post("/login", (req, res) => {
   }
 });
 
-function isAdmin( //check the session is Admin or not
+export function isAdmin( //check the session is Admin or not
   req: express.Request,
   res: express.Response,
   next: express.NextFunction

@@ -10,32 +10,47 @@ userRouter.use(express.urlencoded()); //middleware for html-form-post
 //password: string;
 //};
 
+declare module "express-session" {
+  interface SessionData {
+    user: {
+      id: number;
+      username: string;
+      role: string;
+      email: string;
+      department_id: number;
+    };
+  }
+}
+
 userRouter.use(
-  //for session saving, no need user / admin login again
+  //for session saving or deliver session, no need user / admin login again, if new user : create session
   expressSession({
     secret: Math.random().toString(36).slice(2),
     saveUninitialized: true,
     resave: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60, //1hr auto logout
+    },
   })
 );
 
-userRouter.post("/login", (req, res) => {
-  //logic for frontend login and check is Admin or User or Invalid
-  if (req.body.username === "admin" && req.body.password === "1234") {
-    req.session["isAdmin"] = true;
-    console.log("admin:", req.session);
-    res.redirect("/admin.html");
-  } else if (req.body.username === "user" && req.body.password === "1234") {
-    req.session["isUser"] = true;
-    console.log("user:", req.session);
-    res.redirect("/user.html");
-  } else {
-    res.status(403);
-    res.send("Invalid Username / Password");
-  }
-});
+//userRouter.post("/login", (req, res) => {  check the login role and redirect to different path with session, testing
+//  //logic for frontend login and check is Admin or User or Invalid
+//  if (req.body.username === "admin" && req.body.password === "1234") {
+//    req.session["isAdmin"] = true;
+//    console.log("admin:", req.session);
+//    res.redirect("/admin.html");
+//  } else if (req.body.username === "user" && req.body.password === "1234") {
+//    req.session["isUser"] = true;
+//    console.log("user:", req.session);
+//    res.redirect("/user.html");
+//  } else {
+//    res.status(403);
+//    res.send("Invalid Username / Password");
+//  }
+//});
 
-function isAdmin( //check the session is Admin or not
+export function isAdmin( //check the session is Admin or not
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
@@ -89,6 +104,3 @@ userRouter.post("/logout", (req, res) => {
   //res.json({});
   console.log("destroy:", req.session);
 });
-userRouter.use(isUser, express.static("user"));
-
-userRouter.use(isAdmin, express.static("admin"));
