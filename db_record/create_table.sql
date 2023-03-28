@@ -75,3 +75,4 @@ WHERE id IN (1);
 UPDATE authorizing_officer
 SET password = 'password456'
 WHERE id IN (1);
+

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/adduser" method="POST" id="contact-form">
+        <div>
+          <label for="department">
+            Department Name:
+            <input
+              type="text"
+              name="department"
+              placeholder="Input your Department Name"
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label for="departmentid">
+            Department id:
+            <input
+              type="text"
+              name="departmentid"
+              placeholder="Input your department id"
+              required
+            />
+          </label>
+        </div>
+        <div>
+            <label for="username">
+              Username:
+              <input
+                type="text"
+                name="username"
+                placeholder="Input your Username"
+                required
+              />
+            </label>
+          </div>
+        <div>
+          <label for="email">
+            Email:
+            <input
+              type="text"
+              name="email"
+              placeholder="Input your Email here"
+              required
+            />
+          </label>
+        </div>
+        <div>
+            <label for="password">
+              Password:
+              <input
+                type="text"
+                name="password"
+                placeholder="Input your Password here"
+                required
+              />
+            </label>
+          </div>
+
+        <div>
+          <input type="submit" value="Submit" />
+          <input type="reset" value="Clear" />
+        </div>
+      </form>
+</body>
+</html>
