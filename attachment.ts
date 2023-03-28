@@ -6,6 +6,7 @@ import express, { Router } from "express";
 //import dotenv from "dotenv";
 import { join } from "path";
 import { client } from "./db";
+//import { isUser } from "./login";
 export let attachRouter = Router();
 
 //dotenv.config();
@@ -35,7 +36,7 @@ let attach = formidable({
 
 attachRouter.post("/attachment", (req, res) => {
   attach.parse(req, async (err, fields, files) => {
-    console.log("files:", files);
+    //console.log("files:", files);
 
     let attachMaybeArray = files.attachment;
     let attachment = Array.isArray(attachMaybeArray)
