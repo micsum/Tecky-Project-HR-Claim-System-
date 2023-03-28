@@ -11,8 +11,7 @@ CREATE TABLE employee (
   phone_number VARCHAR(25),
   role VARCHAR(15),
   hire_date DATE,
-  department_id INTEGER,
-  FOREIGN KEY (department_id) REFERENCES department(id)
+
 );
 
 
@@ -45,3 +44,4 @@ insert into department(name) values ('Accounting Team'),
 insert into employee(name, email, password, phone_number, role, hire_date, department_id) values
 ('Alice','alice@tecky.com','password1', '12345678', 'user', '2023-01-01','2'),
 ('Bob', 'bob@tecky.com', 'password2','87654321', 'authority', '2022-01-01', '1');
+

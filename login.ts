@@ -1,6 +1,8 @@
 import express, { Router } from "express";
 import expressSession from "express-session";
+import {client} from "/db"
 export let userRouter = Router();
+
 
 userRouter.use(express.static("public")); //read the html and css file , sequence is matter, public guy watch public
 userRouter.use(express.urlencoded()); //middleware for html-form-post
@@ -50,6 +52,9 @@ userRouter.use(
 //  }
 //});
 
+userRouter.post("/login",(req,res) =>{ //use db to check the role
+let users = 
+})
 export function isAdmin( //check the session is Admin or not
   req: express.Request,
   res: express.Response,
