@@ -1,8 +1,8 @@
 import express from "express";
 import path from "path";
 import { attachRouter } from "./attachment";
-//import { userRouter } from "./login";
-import { registerRouter } from "./register";
+import { userRouter } from "./login";
+
 export const app = express();
 
 app.use(express.static("public"));
