@@ -3,13 +3,14 @@ import path from "path";
 import { attachRouter } from "./attachment";
 import { isAdmin, isUser, userRouter } from "./login (old)";
 import { registerRouter } from "./register";
-
+import { passwordRouter } from "./changePassword";
 export const app = express();
 
 app.use(express.static("public"));
 //app.use(express.static("protected"));
 
 app.use(express.json());
+app.use(passwordRouter);
 app.use(attachRouter);
 app.use(registerRouter);
 app.use(userRouter);
