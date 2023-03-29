@@ -12,11 +12,11 @@
       <form id="login" action="/login" method="POST">
         <div class="title">Login</div>
         <div>
-          <label for="username">Email / User ID: </label>
+          <label for="username">Email / User Name: </label>
           <input
             id="loginInput"
             type="text"
-            placeholder="Enter email/User ID here..."
+            placeholder="Enter email/User Name here..."
             name="username"
           />
         </div>
@@ -32,7 +32,29 @@
         <div class="text-center">
           <input type="submit" value="Login" />
         </div>
+        <div id="loginStatus"></div>
       </form>
     </div>
+    <script>
+      let loginInput = document.querySelector("#loginInput");
+      let passwordInput = document.querySelector("#passwordInput");
+      let login = document.querySelector("#login");
+
+      //login.addEventListener("submit", async function (event) {
+      //  event.preventDefault();
+      //  const loginForm = event.target;
+      //  const loginObject = {};
+      //  loginObject.username = loginForm.username.value;
+      //  loginObject.password = loginForm.password.value;
+      //
+      //  const res = await fetch("/login", {
+      //    method: "POST",
+      //    headers: { "Content-Type": "application/json" },
+      //    body: JSON.stringify(loginObject),
+      //  });
+      //  const result = await res.json();
+      //  document.querySelector("#loginStatus").textContent = result;
+      //});
+    </script>
   </body>
 </html>

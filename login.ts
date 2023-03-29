@@ -1,22 +1,19 @@
 import express, { Router } from "express";
 import expressSession from "express-session";
-import {client} from "/db"
+import { client } from "./db";
+import { comparePassword } from "./hash";
+//import path from "path";
+
 export let userRouter = Router();
 
-
-userRouter.use(express.static("public")); //read the html and css file , sequence is matter, public guy watch public
+//read the html and css file , sequence is matter, public guy watch public
 userRouter.use(express.urlencoded()); //middleware for html-form-post
-
-//type User = {
-//username: string;
-//password: string;
-//};
 
 declare module "express-session" {
   interface SessionData {
     user: {
       id: number;
-      username: string;
+      name: string;
       role: string;
       email: string;
       department_id: number;
@@ -35,38 +32,55 @@ userRouter.use(
     },
   })
 );
+//let dbResult = await client.query(
+//    /*sql*/ `SELECT * FROM employee WHERE (email = $1 or name =$1) AND password = $2`,
+//    [username, password]
+//  );
 
-//userRouter.post("/login", (req, res) => {  check the login role and redirect to different path with session, testing
-//  //logic for frontend login and check is Admin or User or Invalid
-//  if (req.body.username === "admin" && req.body.password === "1234") {
-//    req.session["isAdmin"] = true;
-//    console.log("admin:", req.session);
-//    res.redirect("/admin.html");
-//  } else if (req.body.username === "user" && req.body.password === "1234") {
-//    req.session["isUser"] = true;
-//    console.log("user:", req.session);
-//    res.redirect("/user.html");
-//  } else {
-//    res.status(403);
-//    res.send("Invalid Username / Password");
-//  }
-//});
+userRouter.post("/login", async (req, res) => {
+  const { username, password } = req.body; //login username(either email or name)
+  let dbResult = await client.query(
+    /*sql*/ `SELECT * FROM employee WHERE (email = $1 or name =$1)`,
+    [username]
+  );
+  let dbUser = dbResult.rows[0]; // check the db user
+  if (dbResult.rows.length === 1) {
+    let dbPassword = dbUser.password;
+    //console.log(await comparePassword(password, dbPassword)); //check hashpassword against with userinput
+    if (await comparePassword(password, dbPassword)) {
+      req.session.user = {
+        id: dbUser.id,
+        name: dbUser.name,
+        role: dbUser.role,
+        email: dbUser.email,
+        department_id: dbUser.department_id,
+      };
+      if (dbUser.role === "admin") {
+        res.redirect("./admin.html");
+      } else {
+        res.redirect("./user.html");
+      }
+    } else {
+      res.status(401);
+      res.send({ Error: `Incorrect username/email/password` });
+    }
+  } else {
+    res.status(401);
+    res.send({ Error: `Incorrect username/email/password` });
+  }
+});
 
-userRouter.post("/login",(req,res) =>{ //use db to check the role
-let users = 
-})
 export function isAdmin( //check the session is Admin or not
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
 ) {
-  //console.log("isadmin:", req.session["isAdmin"]);
-
-  if (req.session["isAdmin"]) {
+  if (req.session.user?.role === `admin`) {
     next();
   } else {
     res.status(401);
     //res.json({});
+    //console.log("user redirect in isadmin");
     res.redirect("/");
   }
 }
@@ -76,26 +90,22 @@ export function isUser( //check the session is User or not
   res: express.Response,
   next: express.NextFunction
 ) {
-  //console.log("isuser:", req.session["isUser"]);
-
-  if (req.session["isUser"] || req.session["isAdmin"]) {
+  if (req.session.user) {
     next();
   } else {
     res.status(401);
     //res.json({});
+    //console.log("user redirect in isuser");
     res.redirect("/");
   }
 }
 
-userRouter.get("/admin", isAdmin, (req, res) => {
-  res.redirect("admin.html");
-});
-
-userRouter.get("/user", isUser, (req, res) => {
-  res.redirect("user.html");
-});
-
-//read the html and css file , sequence is matter, admin/user read the private
+//userRouter.get("/admin", isAdmin, (req, res) => {
+//  res.redirect("admin.html");
+//});
+//userRouter.get("/user", isUser, (req, res) => {
+//  res.redirect("/user.html");
+//});
 
 userRouter.post("/logout", (req, res) => {
   console.log("logout");
