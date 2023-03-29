@@ -13,6 +13,14 @@
       #adminLogout {
         margin: 50px;
       }
+
+      #adduser {
+        cursor: pointer;
+        text-decoration: none;
+      }
+      #adduser:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -23,7 +31,9 @@
       </form>
     </div>
     <form action="/addUser" method="POST">
-      <div class="title">Register User</div>
+      <div class="title">
+        <a id="adduser" href="./adduser.html">Register User</a>
+      </div>
       <div>
         <label for="username">Email: </label>
         <input

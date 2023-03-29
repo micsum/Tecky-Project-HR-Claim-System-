@@ -1,6 +1,7 @@
 import express, { Router } from "express";
 import expressSession from "express-session";
 import { client } from "./db";
+import { comparePassword } from "./hash";
 //import path from "path";
 
 export let userRouter = Router();
@@ -31,33 +32,41 @@ userRouter.use(
     },
   })
 );
+//let dbResult = await client.query(
+//    /*sql*/ `SELECT * FROM employee WHERE (email = $1 or name =$1) AND password = $2`,
+//    [username, password]
+//  );
 
 userRouter.post("/login", async (req, res) => {
   const { username, password } = req.body; //login username(either email or name)
-
   let dbResult = await client.query(
-    /*sql*/ `SELECT * FROM employee WHERE (email = $1 or name =$1) AND password = $2`,
-    [username, password]
+    /*sql*/ `SELECT * FROM employee WHERE (email = $1 or name =$1)`,
+    [username]
   );
-  let user = dbResult.rows[0];
-  // check the db user
+  let dbUser = dbResult.rows[0]; // check the db user
   if (dbResult.rows.length === 1) {
-    req.session.user = {
-      id: user.id,
-      name: user.name,
-      role: user.role,
-      email: user.email,
-      department_id: user.department_id,
-    };
-
-    if (user.role == "admin") {
-      res.redirect("/admin.html");
+    let dbPassword = dbUser.password;
+    //console.log(await comparePassword(password, dbPassword)); //check hashpassword against with userinput
+    if (await comparePassword(password, dbPassword)) {
+      req.session.user = {
+        id: dbUser.id,
+        name: dbUser.name,
+        role: dbUser.role,
+        email: dbUser.email,
+        department_id: dbUser.department_id,
+      };
+      if (dbUser.role === "admin") {
+        res.redirect("./admin.html");
+      } else {
+        res.redirect("./user.html");
+      }
     } else {
-      res.redirect("/user.html");
+      res.status(401);
+      res.send({ Error: `Incorrect username/email/password` });
     }
   } else {
     res.status(401);
-    res.send({ Error: `Incorrect username or email,password` });
+    res.send({ Error: `Incorrect username/email/password` });
   }
 });
 
@@ -86,7 +95,7 @@ export function isUser( //check the session is User or not
   } else {
     res.status(401);
     //res.json({});
-    console.log("user redirect in isuser");
+    //console.log("user redirect in isuser");
     res.redirect("/");
   }
 }
