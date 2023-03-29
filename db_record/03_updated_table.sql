@@ -47,3 +47,7 @@ insert into employee(name, email, password, phone_number, role, hire_date, depar
 ALTER TABLE claim
 DROP COLUMN authorizing_officer_id;
 
+ALTER TABLE employee
+ALTER COLUMN password
+TYPE VARCHAR(255);
+

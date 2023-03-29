@@ -9,7 +9,7 @@
 <body>
     <form action="/adduser" method="POST" id="contact-form">
         <div>
-            <label for="employeename">
+            <label for="employeeName">
               Employee Name:
               <input
                 type="text"
@@ -67,7 +67,7 @@
                   />
           </div>
           <div>
-            <label for="departmentid">
+            <label for="departmentId">
               Department Info:
               <select
                 name="departmentId"
@@ -86,11 +86,40 @@
         </div>
       </form>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  let submitBtn = document.querySelector('.submitbutton');
-  submitBtn.addEventListener("click", (e) => {
-    e.preventDefault();
+  let contactForm = document.querySelector("#contact-form");
+  contactForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
     console.log("submitted");
-  })
+    let form = event.target;
+    let formObject = {};
+    formObject["employeeName"] = form.employeeName.value;
+    formObject["email"] = form.email.value;
+    formObject["password"] = form.password.value;
+    formObject["phoneNumber"] = form.phoneNumber.value;
+    formObject["role"] = form.role.value;
+    formObject["hireDate"] = form.hireDate.value;
+    formObject["departmentId"] = form.departmentId.value;
+    let res = await fetch("/adduser", {
+    method:"POST",
+    headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formObject),
+    });
+    const result = await res.json(); // { success: true }
+    console.log(result.error)
+    if(result.error.length !== 0){
+      Swal.fire({
+  icon: 'error',
+  title: '',
+  text: result.error,
+})
+    }
+  });
+ 
+  
+   
 </script>
 </html>
