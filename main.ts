@@ -1,17 +1,20 @@
 import express from "express";
 import path from "path";
 import { attachRouter } from "./attachment";
-import { userRouter } from "./login";
-import { isAdmin, isUser } from "./login";
+import { isAdmin, isUser, userRouter } from "./login";
+//import { registerRouter } from "./register";
 
 export const app = express();
 
 app.use(express.static("public"));
+//app.use(express.static("protected"));
+app.use(express.json());
 app.use(userRouter);
-
 //app.use(registerRouter);
+
+app.use(isUser, express.static("user"));
 app.use(isAdmin, express.static("admin"));
-app.use(isUser, express.static("user")); //read the html and css file , sequence is matter, admin/user read the private
+//read the html and css file , sequence is matter, admin/user read the private
 app.use(attachRouter);
 
 app.use((req, res) => {

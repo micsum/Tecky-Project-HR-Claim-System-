@@ -13,7 +13,7 @@
               Employee Name:
               <input
                 type="text"
-                name="employeename"
+                name="employeeName"
                 required
               />
             </label>
@@ -40,11 +40,11 @@
             </label>
           </div>
           <div>
-            <label for="phonenumber">
+            <label for="phoneNumber">
               Phone Number:
               <input
                 type="text"
-                name="phonenumber"
+                name="phoneNumber"
   
               />
             </label>
@@ -59,18 +59,18 @@
             </label>
           </div>
           <div>
-            <label for="hiredate">
+            <label for="hireDate">
               Hire Date:
                 <input
                   type="date"
-                  name="hiredate"
+                  name="hireDate"
                   />
           </div>
           <div>
             <label for="departmentid">
               Department Info:
               <select
-                name="departmentid"
+                name="departmentId"
                 >
                 <option value="1">1.Accounting Team</option>
                 <option value="2">2.Sales Team</option></select>
@@ -81,9 +81,16 @@
             </label>
           </div>
         <div>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Submit" class="submitbutton" />
           <input type="reset" value="Clear" />
         </div>
       </form>
 </body>
+<script>
+  let submitBtn = document.querySelector('.submitbutton');
+  submitBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    console.log("submitted");
+  })
+</script>
 </html>
