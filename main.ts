@@ -1,27 +1,18 @@
 import express from "express";
 import path from "path";
 import { attachRouter } from "./attachment";
-<<<<<<< HEAD
-import { isAdmin, isUser, userRouter } from "./login (old)";
-
-export const app = express();
-
-app.use(express.json());
-app.use(userRouter);
-=======
 import { userRouter } from "./login";
+import { isAdmin, isUser } from "./login";
 
 export const app = express();
 
 app.use(express.static("public"));
-//app.use(userRouter);
->>>>>>> 59837d16218501034978d073de684f6260fed8e5
-app.use(attachRouter);
-app.use(registerRouter);
+app.use(userRouter);
 
-app.use(express.static("public"));
-app.use(isUser, express.static("user"));
+//app.use(registerRouter);
 app.use(isAdmin, express.static("admin"));
+app.use(isUser, express.static("user")); //read the html and css file , sequence is matter, admin/user read the private
+app.use(attachRouter);
 
 app.use((req, res) => {
   res.status(404);
