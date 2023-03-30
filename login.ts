@@ -2,12 +2,14 @@ import express, { Router } from "express";
 import expressSession from "express-session";
 import { client } from "./db";
 import { comparePassword } from "./hash";
+
 //import path from "path";
 
 export let userRouter = Router();
 
 //read the html and css file , sequence is matter, public guy watch public
 userRouter.use(express.urlencoded()); //middleware for html-form-post
+userRouter.use(express.json());
 
 declare module "express-session" {
   interface SessionData {
@@ -56,17 +58,19 @@ userRouter.post("/login", async (req, res) => {
         department_id: dbUser.department_id,
       };
       if (dbUser.role === "admin") {
-        res.redirect("./admin.html");
+        res.json({ role: "admin" });
+        //res.redirect("./admin.html");
       } else {
-        res.redirect("./user.html");
+        res.json({ role: "user" });
+        //res.redirect("./user.html");
       }
     } else {
       res.status(401);
-      res.send({ Error: `Incorrect username/email/password` });
+      res.json({ Error: `Incorrect username/email/password` });
     }
   } else {
     res.status(401);
-    res.send({ Error: `Incorrect username/email/password` });
+    res.json({ Error: `Incorrect username/email/password` });
   }
 });
 

@@ -5,3 +5,7 @@
 #passwordInput {
   width: 200px;
 }
+
+#forgotpw {
+  text-decoration: none;
+}

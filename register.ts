@@ -26,6 +26,22 @@ registerRouter.get("/adduser", isAdmin, (req, res) => {
 //    console.log(employeeName, email, password, phoneNumber, role, hireDate, departmentId)
 //})
 
+registerRouter.post("/addDepartment", async (req, res) => {
+  let department_id = req.body.id;
+  let department_name = req.body.name;
+  await client.query(
+    /*sql*/ `INSERT INTO department (id, name) values ($1,$2)
+  `,
+    [department_id, department_name]
+  );
+});
+registerRouter.get("/getDepartment", async (req, res) => {
+  let dbDepartment = await client.query(/*sql*/ `SELECT name FROM department`);
+  let dbDepartmentName = dbDepartment.rows;
+  console.log(dbDepartmentName);
+  res.json(dbDepartmentName);
+});
+
 registerRouter.post("/adduser", async (req, res) => {
   console.log("hi: ", req.body);
   let employeeName = req.body.employeeName;
@@ -66,7 +82,7 @@ registerRouter.post("/adduser", async (req, res) => {
       res.json({ error: "invalid Phone Number" });
       return;
     }
-    if (departmentId.length > 3) {
+    if (departmentId.length < 0) {
       console.log("invalid Department Info");
       res.json({ error: "invalid Department Info" });
       return;

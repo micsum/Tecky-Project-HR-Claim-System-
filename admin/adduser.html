@@ -22,7 +22,7 @@
           <label for="email">
             Email:
             <input
-              type="text"
+              type="email"
               name="email"
               required
             />
@@ -43,9 +43,10 @@
             <label for="phoneNumber">
               Phone Number:
               <input
-                type="text"
+                type="tel"
                 name="phoneNumber"
-  
+                pattern="[0-9]{4}-[0-9]{4}"
+                placeholder="XXXX-XXXX"
               />
             </label>
           </div>
@@ -70,13 +71,14 @@
             <label for="departmentId">
               Department Info:
               <select
+                id="departmentSelect"
                 name="departmentId"
                 >
-                <option value="1">1.Accounting Team</option>
-                <option value="2">2.Sales Team</option></select>
+                <option disabled selected value>--Select Department-- </option>
+                <option value="1">Accounting Team</option>
+                <option value="2">Sales Team</option>
             </select>
-              
-            
+            <button id="#addDepartBtn" type="button" onclick="showAddDepart()">+</button>  
               
             </label>
           </div>
@@ -88,6 +90,25 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+  let departSelect = document.querySelector("#departmentSelect");
+  window.addEventListener("load", async()=>{
+    const res = await fetch ("/getDepartment", {
+        method:"GET",
+        headers:{"Content-Type": "application/json"},
+      });
+      const department = await res.json()
+      console.log(department) //check the department lsit
+      let newDepart =department.slice(2);
+      for(let indiv of newDepart){
+      const newOption = document.createElement("Option");
+      const newOptionName = document.createTextNode(indiv.name);
+      newOption.appendChild(newOptionName);
+      departSelect.insertBefore(newOption, departSelect.lastChild);
+      }
+    }
+  )
+  
+  
   let contactForm = document.querySelector("#contact-form");
   contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -118,7 +139,47 @@
 })
     }
   });
- 
+
+  let addDepartBtn = document.querySelector("#addDepartBtn");
+  function showAddDepart(){
+    Swal.fire({
+      title: "Edit Department",
+      html:
+      '<input id="id" type="hidden">' +
+      '<input id="val" class="swal2-input" placeholder="Department Name">',
+      focusConfirm: false,
+      showCloseButton:true,
+      showCancelButton:true,
+      confirmButtonText:"Add",
+      preConfirm:() =>{
+        createDepartment();
+      }
+    })}
+
+  async function createDepartment(){
+    const select = document.querySelector("#departmentSelect")
+    const departVal = document.querySelector("#val").value
+    const newOption = document.createElement("Option");
+    //const newOptionName = document.createTextNode(departVal);
+
+    //newOption.appendChild(newOptionName);
+    //select.insertBefore(newOption, select.lastChild);
+    newOption.value=select.options.length
+    newOption.text=departVal;
+    select.add(newOption,null)
+
+    async function updateDb(){
+      const res = await fetch ("/addDepartment", {
+        method:"POST",
+        headers:{"Content-Type": "application/json"},
+        body: JSON.stringify({id:`${newOption.value}`, name:`${newOption.text}`})
+      });
+      const result = await res.json()
+    }
+    updateDb()
+  }
+  
+  
   
    
 </script>

@@ -18,6 +18,7 @@
             type="text"
             placeholder="Enter email/User Name here..."
             name="username"
+            required
           />
         </div>
         <div>
@@ -27,12 +28,20 @@
             type="password"
             placeholder="Password"
             name="password"
+            required
           />
         </div>
         <div class="text-center">
           <input type="submit" value="Login" />
+          <a id="forgotpw" href="">Forgot Password?</a>
         </div>
         <div id="loginStatus"></div>
+      </form>
+      <form action="/resetpw">
+        <h2>Reset Password</h2>
+        <div>
+          <input type="text" name="usernameCopy" placeholder="username" />
+        </div>
       </form>
     </div>
     <script>
@@ -40,21 +49,26 @@
       let passwordInput = document.querySelector("#passwordInput");
       let login = document.querySelector("#login");
 
-      //login.addEventListener("submit", async function (event) {
-      //  event.preventDefault();
-      //  const loginForm = event.target;
-      //  const loginObject = {};
-      //  loginObject.username = loginForm.username.value;
-      //  loginObject.password = loginForm.password.value;
-      //
-      //  const res = await fetch("/login", {
-      //    method: "POST",
-      //    headers: { "Content-Type": "application/json" },
-      //    body: JSON.stringify(loginObject),
-      //  });
-      //  const result = await res.json();
-      //  document.querySelector("#loginStatus").textContent = result;
-      //});
+      login.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const loginForm = event.target;
+        const loginObject = {};
+        loginObject.username = loginForm.username.value;
+        loginObject.password = loginForm.password.value;
+
+        const res = await fetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(loginObject),
+        });
+        const result = await res.json();
+        document.querySelector("#loginStatus").textContent = result.Error;
+        if (result.role === "admin") {
+          window.location.href = "/admin.html";
+        } else if (result.role === "user") {
+          window.location.href = "/user.html";
+        }
+      });
     </script>
   </body>
 </html>
