@@ -1,66 +1,88 @@
-//import express, { Router } from "express";
-//import path from "path";
-//
-//export let passwordRouter = Router();
-//
-//passwordRouter.use(express.static("protected")); //read the html and css file , sequence is matter, public guy watch public
-//passwordRouter.use(express.urlencoded({ extended: true })); //middleware for html-form-post
-//passwordRouter.use(express.json());
-//
-//passwordRouter.get('/changepassword', (req,res) => {
-//    res.sendFile(path.resolve("protected","changepassword.html"))
-//})
-//
-//passwordRouter.post('/', async (req,res) => {
-//    console.log('hi: ', req.body)
-//    let employeeName = req.body.employeeName;
-//    let email = req.body.email;
-//    let currentPassword = req.body.currentPpassword;
-//    let newPassword = req.body.newPassword;
-//    let rePassword = req.body.rePassword;
-//    console.log(employeeName, email, currentPassword, newPassword, rePassword)
-//
-//    async function insertQuery(){
-//        if(employeeName.length < 2){
-//            console.log('invalid Employee Name')
-//           res.json({error: 'invalid Employee Name'})
-//            return
-//        }
-//        if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) === false){
-//            console.log('invalid email')
-//            res.json({error: "invalid email"})
-//            return
-//        }
-//        if(currentPassword.length < 6){
-//            console.log('invalid password')
-//            res.json({error: "invalid password"})
-//            return
-//        }
-//        if(newPassword.length < 8){
-//            console.log('invalid Phone Number')
-//            res.json({error: "invalid Phone Number"})
-//            return
-//        }
-//        if(currentPassword.length < 8){
-//            console.log('invalid Department Info')
-//            res.json({error: "invalid Department Info"})
-//            return
-//        }
-//
-//
-////        let result = await demo()
-////        console.log(result);
-////    await client.query(
-//
+import express, { Router } from "express";
+import path from "path";
+import { client } from "./db";
+import { comparePassword, hashPassword } from "./hash";
+export let passwordRouter = Router();
+
+passwordRouter.use(express.static("protected")); //read the html and css file , sequence is matter, public guy watch public
+passwordRouter.use(express.urlencoded({ extended: true })); //middleware for html-form-post
+passwordRouter.use(express.json());
+passwordRouter.get('/changepassword', (req,res) => {
+    res.sendFile(path.resolve("protected","changepassword.html"))
+})
+
+passwordRouter.post('/changepassword', async (req,res) => {
+    console.log('hi: ', req.body)
+    let employeeName = req.body.employeeName;
+    let email = req.body.email;
+    let currentPassword = req.body.currentPassword;
+    let newPassword = req.body.newPassword;
+    let rePassword = req.body.rePassword;
+    console.log(employeeName, email, currentPassword, newPassword, rePassword)
+    //res.sendFile(path.resolve("protected","changepassword.html"))
+    
+
+      if (newPassword.length < 6) {
+        console.log("invalid new Password");
+        res.json({ error: "invalid new Password" });
+        return;
+      }
+      if (rePassword.length < 6) {
+        console.log("Re-type Password failed");
+        res.json({ error: "Re-type Password failed" });
+        return;
+      }
+      if (rePassword != newPassword) {
+        console.log("2 New Password Inputs should be Equal");
+        res.json({ error: "2 New Password Inputs should be Equal" });
+        return;
+      }
+//try{
+//     await client.query(
 //        `
-//        insert into employee (name, email, password, phone_number, role, hire_date, department_id) values ($1,$2,$3,$4,$5,$6,$7)
-//        `, [employeeName, email, result, phoneNumber, role, hireDate, departmentId]
-//    )
-//    res.json({error: ""})
-//
-//    await client.end();
-//    console.log('done')
-//}
-//insertQuery()
-//})
-//
+//        SELECT * FROM employee
+//        WHERE name = $1 AND email = $2;
+//          `,
+//        [employeeName, email]
+//      );
+//    } catch {
+//        console.log("Incorrect Current Password");
+//        res.json({ error: "Incorrect Current Password" });
+//    }
+    let dbChecking =
+     await client.query(
+        `
+        SELECT * FROM employee
+        WHERE name = $1 AND email = $2;
+          `,
+        [employeeName, email]
+      ); 
+      //console.log(dbChecking)
+    if(dbChecking.rows.length != 1){
+        console.log("Incorrect Employee Name or Email");
+        res.json({ error: "Incorrect Employee Name or Email" });
+        return;
+    }
+    if(dbChecking.rows.length = 1){
+        let dbRow = dbChecking.rows[0];
+        console.log(dbRow.password)
+        if (await comparePassword(currentPassword, dbRow.password)){
+            let newHashPassword = await hashPassword(newPassword)
+            await client.query(
+                `
+                UPDATE employee
+    SET password = $1
+    WHERE name = $2 AND email = $3;
+                `,
+                [newHashPassword, employeeName, email]
+            )
+            console.log('ok: ', newPassword)
+            console.log('hashed: ', newHashPassword)
+            res.json({ error: "Success" });
+        }
+        if (!await comparePassword(currentPassword, dbRow.password)){
+            res.json({error: "Incorrect Current Password"})
+        }
+    } 
+})
+

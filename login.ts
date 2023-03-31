@@ -6,6 +6,7 @@ import { comparePassword } from "./hash";
 //import path from "path";
 
 export let userRouter = Router();
+userRouter.use(express.static("admin")); //middleware for html-form-post
 
 //read the html and css file , sequence is matter, public guy watch public
 userRouter.use(express.urlencoded()); //middleware for html-form-post
