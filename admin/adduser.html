@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Register Account</title>
 </head>
 <body>
     <form action="/adduser" method="POST" id="contact-form">
@@ -15,6 +15,7 @@
                 type="text"
                 name="employeeName"
                 required
+                id="employeeName"
               />
             </label>
           </div>
@@ -25,6 +26,7 @@
               type="email"
               name="email"
               required
+              id="email"
             />
           </label>
         </div>
@@ -34,7 +36,7 @@
               <input
                 type="text"
                 name="password"
-               
+                id="password"
                 required
               />
             </label>
@@ -47,13 +49,14 @@
                 name="phoneNumber"
                 pattern="[0-9]{4}-[0-9]{4}"
                 placeholder="XXXX-XXXX"
+                id="phoneNumber"
               />
             </label>
           </div>
           <div>
             <label for="role">
               Role:
-              <select name="role">
+              <select name="role" id="role">
                 <option disabled selected value>--Select Role-- </option>
                 <option value="user">User</option>
                 <option value="admin">Admin</option> <!--change to admin to fit db-->
@@ -66,6 +69,7 @@
                 <input
                   type="date"
                   name="hireDate"
+                  id="hireDate"
                   />
           </div>
           <div>
@@ -84,8 +88,8 @@
             </label>
           </div>
         <div>
-          <input type="submit" value="Submit" class="submitbutton" />
-          <input type="reset" value="Clear" />
+          <button type="submit" class="submitbutton">Submit</button>
+          <button type="reset">Clear</button>
         </div>
       </form>
 </body>
@@ -109,12 +113,15 @@
     }
   )
   
-  
+
+
   let contactForm = document.querySelector("#contact-form");
   contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     console.log("submitted");
     let form = event.target;
+    const select = document.querySelector("#departmentSelect")
+    let text = select[select.selectedIndex].textContent;
     let formObject = {};
     formObject["employeeName"] = form.employeeName.value;
     formObject["email"] = form.email.value;
@@ -132,14 +139,25 @@
     });
     const result = await res.json(); // { success: true }
     console.log(result.error)
-    if(result.error.length !== 0){
+    if(
+      result.success === "Registered"){
+      Swal.fire({
+  icon: 'success',
+  title: 'Registered',
+  text: ` ${formObject["role"]} in ${text}:
+  ${formObject["employeeName"]} (${formObject["email"]})
+  has registered in the system.`
+})
+    }else if (result.error.length !== 0){
       Swal.fire({
   icon: 'error',
-  title: '',
+  title: 'Error Message',
   text: result.error,
 })
     }
   });
+
+
 
   let addDepartBtn = document.querySelector("#addDepartBtn");
   function showAddDepart(){
