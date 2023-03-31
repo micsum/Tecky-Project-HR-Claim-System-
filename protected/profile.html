@@ -7,11 +7,36 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Employee Id:</p>
-    <p>Employee Name:</p>
-    <p>Email:</p>
-    <p>Phone Number:</p>
-    <p>Department:</p>
+
+    <p>Employee Id: <span id="employeeId"></span></p>
+    <p>Employee Name: <span id="employeeName"></span></p>
+    <p>Email: <span id="email"></span></p>
+    <p>Phone Number: <span id="phoneNumber"></span></p>
+    <p>Department: <span id="DepartmentId"></span></p>
 
 </body>
+<script>
+let employeeDbId;
+  let departmentDbId;
+//load info from db into employee table
+ window.addEventListener("load", async()=>{ 
+    const res = await fetch ("/profile", {
+        method:"GET",
+        headers:{"Content-Type": "application/json"},
+      });
+      const employeeList = await res.json()
+      console.log(employeeList) //check the employee list
+     const departmentId = document.querySelector("#departmentId");
+     const employeeName = document.querySelector("#employeeName");
+     const email = document.querySelector("#email");
+     const phoneNumber = document.querySelector("#phoneNumber");
+     departmentId.value=employeeList.department_name
+     employeeName.value=employeeList.name
+     email.value=employeeList.email
+     phoneNumber.value=employeeList.phone_number
+     employeeDbId = employeeList.id
+     departmentDbId = employeeList.department_id
+    }
+  )
+</script>
 </html>

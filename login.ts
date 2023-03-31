@@ -24,6 +24,7 @@ declare module "express-session" {
     };
   }
 }
+
 export let sessionMiddleware = session({
   //for session saving or deliver session, no need user / admin login again, if new user : create session
   secret: Math.random().toString(36).slice(2),
@@ -59,6 +60,7 @@ userRouter.post("/login", async (req, res) => {
       };
       if (dbUser.role === "admin") {
         res.json({ role: "admin" });
+        console.log(req.session.user)
         //res.redirect("./admin.html");
       } else {
         res.json({ role: "user" });
