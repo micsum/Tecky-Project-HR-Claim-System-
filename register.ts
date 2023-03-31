@@ -38,7 +38,7 @@ registerRouter.post("/addDepartment", async (req, res) => {
 registerRouter.get("/getDepartment", async (req, res) => {
   let dbDepartment = await client.query(/*sql*/ `SELECT name FROM department`);
   let dbDepartmentName = dbDepartment.rows;
-  console.log(dbDepartmentName);
+  //console.log(dbDepartmentName); test fetch work or not
   res.json(dbDepartmentName);
 });
 
@@ -67,11 +67,24 @@ registerRouter.post("/adduser", async (req, res) => {
       res.json({ error: "invalid Employee Name" });
       return;
     }
+    let dbResult = await client.query(/*sql*/ `SELECT * FROM employee`);
+    console.log(dbResult);
+    let dbUser = dbResult.rows[0];
+    if (dbUser.name === employeeName) {
+      res.json({ error: "Duplicate Registered User Name" });
+    } //check duplicate user name
+    else if (dbUser.email === email) {
+      res.json({ error: "Duplicate Registered email" });
+    } else if (dbUser.phone_number === phoneNumber) {
+      res.json({ error: "Duplicate Registered Phone No." });
+    }
+
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) === false) {
       console.log("invalid email");
       res.json({ error: "invalid email" });
       return;
     }
+
     if (password.length < 6) {
       console.log("invalid password");
       res.json({ error: "invalid password" });

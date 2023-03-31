@@ -9,16 +9,10 @@ CREATE TABLE employee (
   email VARCHAR(40) unique not null,
   password VARCHAR(30) not null,
   phone_number VARCHAR(25),
-<<<<<<< HEAD
   role VARCHAR(15) not null,
   hire_date DATE not null,
   department_id integer not null,
   FOREIGN KEY (department_id) REFERENCES department(id)
-=======
-  role VARCHAR(15),
-  hire_date DATE,
-    department_id integer
->>>>>>> 7d30cd2834d12097ca6fe466ae90d2cb34f0c3f9
 );
 
 
@@ -28,17 +22,10 @@ CREATE TABLE claim(
     transaction_date date not null,
     amount decimal(8,2) not null,
     claim_description varchar(255),
-<<<<<<< HEAD
     date_of_submission date not null,
     status varchar(16) not null,
     employee_id integer not null,
     department_id integer not null,
-=======
-    date_of_submission date,
-    status varchar(16),
-    employee_id integer,
-    department_id integer,
->>>>>>> 7d30cd2834d12097ca6fe466ae90d2cb34f0c3f9
     foreign key (employee_id) references employee(id),
     foreign key (department_id) references department(id)
 );

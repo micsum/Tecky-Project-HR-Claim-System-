@@ -54,6 +54,7 @@
             <label for="role">
               Role:
               <select name="role">
+                <option disabled selected value>--Select Role-- </option>
                 <option value="user">User</option>
                 <option value="admin">Admin</option> <!--change to admin to fit db-->
               </select>
@@ -97,7 +98,7 @@
         headers:{"Content-Type": "application/json"},
       });
       const department = await res.json()
-      console.log(department) //check the department lsit
+      console.log(department) //check the department list
       let newDepart =department.slice(2);
       for(let indiv of newDepart){
       const newOption = document.createElement("Option");
