@@ -1,7 +1,8 @@
 import express, { Router } from "express";
-import expressSession from "express-session";
+//import expressSession from "express-session";
 import { client } from "./db";
 import { comparePassword } from "./hash";
+import session from "express-session";
 
 //import path from "path";
 
@@ -13,7 +14,7 @@ userRouter.use(express.urlencoded()); //middleware for html-form-post
 userRouter.use(express.json());
 
 declare module "express-session" {
-  interface SessionData {
+  export interface SessionData {
     user: {
       id: number;
       name: string;
@@ -23,18 +24,16 @@ declare module "express-session" {
     };
   }
 }
-
-userRouter.use(
+export let sessionMiddleware = session({
   //for session saving or deliver session, no need user / admin login again, if new user : create session
-  expressSession({
-    secret: Math.random().toString(36).slice(2),
-    saveUninitialized: true,
-    resave: true,
-    cookie: {
-      maxAge: 1000 * 60 * 60, //1hr auto logout
-    },
-  })
-);
+  secret: Math.random().toString(36).slice(2),
+  saveUninitialized: true,
+  resave: true,
+  cookie: {
+    maxAge: 1000 * 60 * 60, //1hr auto logout
+  },
+});
+userRouter.use(sessionMiddleware);
 //let dbResult = await client.query(
 //    /*sql*/ `SELECT * FROM employee WHERE (email = $1 or name =$1) AND password = $2`,
 //    [username, password]

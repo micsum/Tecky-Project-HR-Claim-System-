@@ -41,7 +41,7 @@
       <h1 class="text-xl sm:text-2xl font-semibold">Claim Application</h1>
     </div>
   </div>
-
+  <form action="/create_claim" method="POST" id="createClaim" enctype="multipart/form-data">
   <div class="max-w-4xl mx-auto">
     <section class="w-full border-b border-gray-200 px-4 py-6 flex flex-col md:flex-row">
       <div class="mb-4 mr-6 md:w-64">
@@ -78,7 +78,7 @@
 
         <!--         <p class="text-grey-500">Secondary text could go here to help explain why we need this info</p> -->
         </div>
-    <form action="/create_claim" method="POST" id="createClaim" enctype="multipart/form-data">
+    
       <div class="shadow-card bg-white sm:rounded -mx-4 sm:m-0 px-4 pt-5 pb-1 sm:px-5 flex flex-wrap justify-between md:w-full md:max-w-xl">
 
         <div class="field-group flex flex-col mb-4 w-full">
@@ -141,7 +141,8 @@
 </form>
 
 <script>
-  
+  let employeeDbId;
+  let departmentDbId;
   //load info from db into employee table
  window.addEventListener("load", async()=>{ 
     const res = await fetch ("/getEmployee", {
@@ -154,11 +155,12 @@
      const employeeName = document.querySelector("#employeeName");
      const email = document.querySelector("#email");
      const phoneNumber = document.querySelector("#phoneNumber");
-     departmentId.value=employeeList.department_id
+     departmentId.value=employeeList.department_name
      employeeName.value=employeeList.name
      email.value=employeeList.email
      phoneNumber.value=employeeList.phone_number
-
+     employeeDbId = employeeList.id
+     departmentDbId = employeeList.department_id
     }
   )
 
@@ -172,6 +174,10 @@
     event.preventDefault();
     const attachment = event.target;
     const attachData = new FormData(attachment);
+    attachData.append("employeeDbId", employeeDbId)
+    attachData.append("departmentDbId", departmentDbId)
+
+
 
     const res = await fetch("/create_claim", {
       method: "POST",
