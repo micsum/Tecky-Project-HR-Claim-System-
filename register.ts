@@ -110,7 +110,7 @@ registerRouter.post("/adduser", async (req, res) => {
         `,
       [employeeName, email, result, phoneNumber, role, hireDate, departmentId]
     );
-    res.json({ error: "" });
+    res.json({ success: "Registered " });
 
     await client.end();
     console.log("done");
