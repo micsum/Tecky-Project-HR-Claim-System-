@@ -4,6 +4,7 @@ import { createClaim } from "./create_claim";
 import { isAdmin, isUser, userRouter } from "./login";
 import { registerRouter } from "./register";
 import { passwordRouter } from "./changePassword";
+import { profileRouter } from "./profile";
 import { sessionMiddleware } from "./login";
 export const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(passwordRouter);
 app.use(createClaim);
 app.use(userRouter);
+app.use(profileRouter);
 app.use(isUser, express.static("user"));
 app.use(isAdmin, registerRouter);
 app.use(isAdmin, express.static("admin"));
