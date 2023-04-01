@@ -16,6 +16,10 @@ createClaim.use(express.static("protected"));
 createClaim.use(express.json());
 createClaim.use(sessionMiddleware);
 
+createClaim.get("/create_claim", (req, res) => {
+  res.redirect("./create_claim.html");
+});
+
 createClaim.get("/getEmployee", async (req, res) => {
   let dbEmployeeList = await client.query(
     /*sql*/ `SELECT employee.id,employee.name, employee.email, employee.phone_number,employee.department_id, department.name as department_name FROM employee join department on department.id = employee.department_id WHERE employee.id=$1`,
@@ -45,7 +49,7 @@ let attach = formidable({
 createClaim.post("/create_claim", (req, res) => {
   attach.parse(req, async (err, fields, files) => {
     //console.log("files:", files);
-    console.log("fields", fields);
+    //console.log("fields", fields);
 
     let claimTypeVal = fields.type;
     let claimDesVal = fields.claim_description;
@@ -55,8 +59,8 @@ createClaim.post("/create_claim", (req, res) => {
     let employee_id = fields.employeeDbId;
     let department_id = fields.departmentDbId;
 
-    await client.query(
-      /*sql*/ `INSERT INTO claim(claim_type, transaction_date, amount, claim_description, date_of_submission, status, employee_id, department_id) VALUES($1,$2,$3,$4,NOW()::timestamp,$5,$6,$7)`,
+    const result = await client.query(
+      /*sql*/ `INSERT INTO claim(claim_type, transaction_date, amount, claim_description, date_of_submission, status, employee_id, department_id) VALUES($1,$2,$3,$4,NOW()::timestamp,$5,$6,$7)RETURNING id`,
       [
         claimTypeVal,
         tranDate,
@@ -67,9 +71,7 @@ createClaim.post("/create_claim", (req, res) => {
         department_id,
       ]
     );
-  });
-
-  attach.parse(req, async (err, fields, files) => {
+    const claimId = result.rows[0].id;
     let attachMaybeArray = files.attachment;
     let attachment = Array.isArray(attachMaybeArray)
       ? attachMaybeArray[0]
@@ -77,13 +79,11 @@ createClaim.post("/create_claim", (req, res) => {
     //@ts-ignore
     let filename = attachment?.newFilename;
     //console.log(filename);
-    //let result = await client.query(/*sql*/ `SELECT * FROM file`);
-    await client.query(/*sql*/ ` SELECT id FROM claim`);
     await client.query(
       /*sql*/ `INSERT INTO file(file_name,created_at,claim_id) VALUES($1, NOW()::timestamp,$2)`,
-      [filename] // how to create the claim id??
+      [filename, claimId] // how to create the claim id??
     );
-  });
 
-  res.json({ success: true });
+    res.json({ success: true });
+  });
 });
