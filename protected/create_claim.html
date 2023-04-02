@@ -182,8 +182,10 @@
     event.preventDefault();
     const attachment = event.target;
     const attachData = new FormData(attachment);
-    attachData.append("employeeDbId", employeeDbId)
+    let claimTypeText = document.querySelector('select[name="type"] option:checked').textContent
+   attachData.append("employeeDbId", employeeDbId)
    attachData.append("departmentDbId", departmentDbId)
+   attachData.append("claimTypeText", claimTypeText)
 
 
 

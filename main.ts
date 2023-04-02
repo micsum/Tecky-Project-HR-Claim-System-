@@ -6,6 +6,7 @@ import { registerRouter } from "./register";
 import { passwordRouter } from "./changePassword";
 import { profileRouter } from "./profile";
 import { sessionMiddleware } from "./login";
+import { emailRouter } from "./sendEmail";
 export const app = express();
 
 app.use(sessionMiddleware);
@@ -14,6 +15,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(passwordRouter);
 app.use(createClaim);
+app.use(emailRouter);
 app.use(userRouter);
 app.use(profileRouter);
 app.use(isUser, express.static("user"));

@@ -8,6 +8,7 @@ import { join } from "path";
 import { client } from "./db";
 //import { isUser } from "./login";
 import { sessionMiddleware } from "./login";
+import { sendClaimEmail } from "./sendEmail";
 
 export let createClaim = Router();
 
@@ -26,7 +27,7 @@ createClaim.get("/getEmployee", async (req, res) => {
     [req.session.user?.id]
   );
   let dbEmployee = dbEmployeeList.rows[0];
-  //console.log(dbEmployee);
+  console.log("dbEmployee", dbEmployee);
   res.json(dbEmployee);
 });
 
@@ -49,16 +50,21 @@ let attach = formidable({
 createClaim.post("/create_claim", (req, res) => {
   attach.parse(req, async (err, fields, files) => {
     //console.log("files:", files);
-    //console.log("fields", fields);
-
-    let claimTypeVal = fields.type;
-    let claimDesVal = fields.claim_description;
-    let tranDate = fields.t_date;
-    let amount = fields.amount;
-    let status = fields.claim_status;
-    let employee_id = fields.employeeDbId;
-    let department_id = fields.departmentDbId;
-
+    console.log("fields", fields);
+    function checkArray(x: any | any[]) {
+      x = Array.isArray(x) ? x[0] : x;
+      return x;
+    }
+    let employeeName = checkArray(fields.employeeName);
+    let claimTypeVal = checkArray(fields.type);
+    let claimDesVal = checkArray(fields.claim_description);
+    let tranDate = checkArray(fields.t_date);
+    let amount = checkArray(fields.amount);
+    let status = checkArray(fields.claim_status);
+    let employee_id = checkArray(fields.employeeDbId);
+    let department_id = checkArray(fields.departmentDbId);
+    let email = checkArray(fields.email);
+    let claimTypeText = checkArray(fields.claimTypeText);
     const result = await client.query(
       /*sql*/ `INSERT INTO claim(claim_type, transaction_date, amount, claim_description, date_of_submission, status, employee_id, department_id) VALUES($1,$2,$3,$4,NOW()::timestamp,$5,$6,$7)RETURNING id`,
       [
@@ -84,6 +90,14 @@ createClaim.post("/create_claim", (req, res) => {
       [filename, claimId] // how to create the claim id??
     );
 
+    sendClaimEmail(
+      email,
+      employeeName,
+      claimId,
+      claimTypeText,
+      claimDesVal,
+      amount
+    );
     res.json({ success: true });
   });
 });

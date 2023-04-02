@@ -108,6 +108,7 @@
       const newOption = document.createElement("Option");
       const newOptionName = document.createTextNode(indiv.name);
       newOption.appendChild(newOptionName);
+      newOption.setAttribute("value", indiv.id);
       departSelect.insertBefore(newOption, departSelect.lastChild);
       }
     }
@@ -118,7 +119,7 @@
   let contactForm = document.querySelector("#contact-form");
   contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    console.log("submitted");
+    
     let form = event.target;
     const select = document.querySelector("#departmentSelect")
     let text = select[select.selectedIndex].textContent;
@@ -139,6 +140,7 @@
     });
     const result = await res.json(); // { success: true }
     console.log(result.error)
+    console.log("submitted");
     if(
       result.success === "Registered"){
       Swal.fire({

@@ -60,7 +60,7 @@ userRouter.post("/login", async (req, res) => {
       };
       if (dbUser.role === "admin") {
         res.json({ role: "admin" });
-        console.log(req.session.user)
+        console.log("req.session", req.session.user);
         //res.redirect("./admin.html");
       } else {
         res.json({ role: "user" });

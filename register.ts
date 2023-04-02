@@ -36,14 +36,16 @@ registerRouter.post("/addDepartment", async (req, res) => {
   );
 });
 registerRouter.get("/getDepartment", async (req, res) => {
-  let dbDepartment = await client.query(/*sql*/ `SELECT name FROM department`);
-  let dbDepartmentName = dbDepartment.rows;
-  //console.log(dbDepartmentName); test fetch work or not
-  res.json(dbDepartmentName);
+  let dbDepartment = await client.query(
+    /*sql*/ `SELECT name,id FROM department`
+  );
+  let dbDepartmentList = dbDepartment.rows;
+  console.log("dbDepart", dbDepartmentList); //test fetch work or not
+  res.json(dbDepartmentList);
 });
 
 registerRouter.post("/adduser", async (req, res) => {
-  console.log("hi: ", req.body);
+  console.log("req.body: ", req.body);
   let employeeName = req.body.employeeName;
   let email = req.body.email;
   let password = req.body.password;
@@ -51,15 +53,15 @@ registerRouter.post("/adduser", async (req, res) => {
   let role = req.body.role;
   let hireDate = req.body.hireDate;
   let departmentId = req.body.departmentId;
-  console.log(
-    employeeName,
-    email,
-    password,
-    phoneNumber,
-    role,
-    hireDate,
-    departmentId
-  );
+  //console.log(
+  //  employeeName,
+  //  email,
+  //  password,
+  //  phoneNumber,
+  //  role,
+  //  hireDate,
+  //  departmentId
+  //);
 
   async function insertQuery() {
     if (employeeName.length < 2) {
