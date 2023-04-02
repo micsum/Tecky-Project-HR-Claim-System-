@@ -5,6 +5,7 @@ import { isAdmin, isUser, userRouter } from "./login";
 import { registerRouter } from "./register";
 import { passwordRouter } from "./changePassword";
 import { profileRouter } from "./profile";
+import { historyRouter } from "./claimHistory";
 import { sessionMiddleware } from "./login";
 import { emailRouter } from "./sendEmail";
 export const app = express();
@@ -21,6 +22,7 @@ app.use(profileRouter);
 app.use(isUser, express.static("user"));
 app.use(isAdmin, registerRouter);
 app.use(isAdmin, express.static("admin"));
+app.use(historyRouter);
 
 //read the html and css file , sequence is matter, admin/user read the private
 //app.use(createClaim);
