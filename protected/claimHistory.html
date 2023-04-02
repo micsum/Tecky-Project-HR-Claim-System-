@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="claimHistory.css">
+</head>
+<body>
+    <!--...
+    <div class="container">
+        <div class="row" id="departmentName">Department Name</div>
+        <div class="row" id="employeeName">Employee Name</div>
+        <div class="row" id="type">Type</div>
+        <div class="row" id="amount">Amount</div>
+        <div class="row" id="date">Date</div>
+        <div class="row" id="status">Status</div>
+        </div>
+    -->
+        <table id="table">
+            <tr>
+                <th class="row" id="id">ID</div>
+                <th class="row" id="departmentName">Department Name</div>
+                <th class="row" id="employeeName">Employee Name</div>
+                <th class="row" id="type">Type</div>
+                <th class="row" id="amount">Amount</div>
+                <th class="row" id="date">Date</div>
+                <th class="row" id="status">Status</div>
+                <th class="row" id="view">View</div>
+            </tr>
+            <tr>
+              <td>Alfreds Futterkiste</td>
+              <td>Maria Anders</td>
+              <td>Germany</td>
+              <td>123</td>
+            </tr>
+            
+          </table>
+          <button id="expand">Expand</button>
+    
+</body>
+<script>
+     //console.log(employeeList) //check the employee list
+    // const id = document.querySelector("#id");
+    // const departmentName = document.querySelector("#departmentName");
+    // const type = document.querySelector("#type");
+    // const amount = document.querySelector("#amount");
+    // const phoneNumber = document.querySelector("#phoneNumber");
+    // departmentId.value=employeeList.department_name
+    // employeeName.value=employeeList.name
+    // email.value=employeeList.email
+    // phoneNumber.value=employeeList.phone_number
+    // employeeDbId = employeeList.id
+    // departmentDbId = employeeList.department_id
+    var rowNumber = 0;
+    var rowLimit = 1;
+    var expand = document.querySelector("#expand");
+    expand.addEventListener("click", async () => {
+        rowNumber += 1
+        rowLimit += 1;
+        const res = await fetch ("/claimRecord", {
+        method:"GET",
+        headers:{"Content-Type": "application/json"},
+      });
+    let claimList = await res.json()
+    console.log(claimList);
+    
+    for(let i = rowNumber; i < rowLimit; i++){
+        let table = document.querySelector('#table');
+        let dataRow = document.createElement("tr");
+        console.log('123: ',dataRow)
+        table.appendChild(dataRow);
+      for(let j = 0; j < 8 ; j++){
+        var cell = document.createElement("td");
+        dataRow.appendChild(cell);
+        var cellText = document.createTextNode(Object.values(claimList[i])[j]);
+        if(j === 5){
+          dateText = document.createTextNode(Object.values(claimList[i])[j].slice(0,10));
+            console.log(dateText)
+            cell.appendChild(dateText)
+        } else if(j === 7){
+            let button = document.createElement("button");
+            button.innerHTML = "View";
+            cell.appendChild(button);
+        }
+        else{
+        cell.appendChild(cellText)
+        console.log('ok  ', cellText)
+   
+        }
+    
+      }
+      
+    }
+             
+    })
+
+    window.addEventListener("load", async()=>{ 
+    const res = await fetch ("/claimRecord", {
+        method:"GET",
+        headers:{"Content-Type": "application/json"},
+      });
+    let claimList = await res.json()
+    console.log(claimList);
+    
+    for(let i = rowNumber; i < rowLimit; i++){
+        let table = document.querySelector('#table');
+        let dataRow = document.createElement("tr");
+        console.log('123: ',dataRow)
+        table.appendChild(dataRow);
+      for(let j = 0; j < 7 ; j++){
+        var cell = document.createElement("td");
+        dataRow.appendChild(cell);
+        var cellText = document.createTextNode(Object.values(claimList[i])[j]);
+        //cell.appendChild(cellText)
+        if(j === 5){
+          dateText = document.createTextNode(Object.values(claimList[i])[j].slice(0,10));
+            console.log(dateText)
+            cell.appendChild(dateText)
+        }else{
+        cell.appendChild(cellText)
+        console.log('ok  ', cellText)
+   
+        }
+      }
+      
+    }
+}
+    
+    
+  )
+</script>
+</html>
