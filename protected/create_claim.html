@@ -134,8 +134,16 @@
 
 <div class="bg-white w-full text-sm fixed bottom-0 left-0 border-t border-gray-200">
   <div class="max-w-4xl mx-auto px-4 flex flex-row justify-end pt-4 pb-5">
-    <button class="btn">Close</button>
-    <button class="btn btn-primary" type="submit">View Summary</button>
+    <button class="btn" id="closeBtn">Close</button>
+    <button class="btn btn-primary" id="preview">Preview</button>
+<div id="popup-container">
+  <div id="popup-content">
+    <h3>Claim Preview</h3>
+    <ul id="preview-list"></ul>
+    <button class="btn" id="close-popup">Close</button>
+    <button class="btn btn-primary" id="submit" type="submit">Submit</button>
+  </div>
+</div>
   </div>
 </div>
 </form>
@@ -175,17 +183,17 @@
     const attachment = event.target;
     const attachData = new FormData(attachment);
     attachData.append("employeeDbId", employeeDbId)
-    attachData.append("departmentDbId", departmentDbId)
+   attachData.append("departmentDbId", departmentDbId)
 
 
 
-    const res = await fetch("/create_claim", {
-      method: "POST",
-      body: attachData,
-    });
-    const result = await res.json();
-    console.log(result)
-    //document.querySelector(".preview").textContent = console.log(result); show the sucess:true result
+   const res = await fetch("/create_claim", {
+     method: "POST",
+     body: attachData,
+   });
+   const result = await res.json();
+   console.log(result)
+   //document.querySelector(".preview").textContent = console.log(result); show the sucess:true result
   });
 
   let attachInput = document.querySelector("#attachment");
@@ -213,6 +221,71 @@ e.target.value="";
       preview.setAttribute("class", "mx-3");
       document.querySelector(".preview").appendChild(preview);
     };}}}}
+
+const previewBtn = document.querySelector("#preview");
+const popupContainer = document.querySelector("#popup-container");
+const popupContent = document.querySelector("#popup-content");
+const previewList = document.querySelector("#preview-list");
+const closePopupBtn = document.querySelector("#close-popup");
+const  submitBtn = document.querySelector("#submit");
+
+previewBtn.addEventListener('click', function(event) {
+  // Prevent default form submission behavior
+  event.preventDefault();
+
+  // Get form data
+  const formData = new FormData(createClaim);
+  const claimData = {
+    Department: formData.get('departmentId'),
+    "Employee Name": formData.get('employeeName'),
+    Email: formData.get('email'),
+    "Phone Number": formData.get('phoneNumber'),
+    "Claim Type": document.querySelector('select[name="type"] option:checked').textContent,
+    "Claim Amount": formData.get('amount'),
+    "Claim Description": formData.get('claim_description'),
+    attachments: formData.get('attachment')
+  };
+
+  // Display preview page with claim data
+  displayClaimPreview(claimData);
+});
+
+function displayClaimPreview(claimData) {
+  // Populate the list with claim data
+  previewList.innerHTML = '';
+  for (const [key, value] of Object.entries(claimData)) {
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `<strong>${key}:</strong> ${value}`;
+    previewList.appendChild(listItem);
+  }
+
+  // Show the popup dialog
+  popupContainer.style.display = "block";
+}
+
+
+submitBtn.addEventListener("click",function(event){
+  Swal.fire({
+  icon: 'success',
+  title: 'Submitted',
+  showCloseButton: true,
+  text: 'Your claim has been submitted!',
+})
+popupContainer.style.display="none";  
+})
+
+
+closePopupBtn.addEventListener('click', function(event) {
+  // Hide the popup dialog
+  event.preventDefault()
+  popupContainer.style.display = "none";
+});
+
+
+const closeBtn = document.querySelector("#closeBtn")
+closeBtn.addEventListener("click",function(event){
+  event.preventDefault();
+})
 </script>
 </body>
 </html>
