@@ -85,15 +85,15 @@
           <label class="field-label mb-2 ml-2 required" for="catastrophe_event">Claim Type</label>
           <select name="type" id="type-select" class="field border ml-2 text-grey-700 rounded">
             <option disabled selected value>Please select the claim type....</option>
-            <option value="Ct05">Advertising</option>
-            <option value="ct04">Allowance</option>
-            <option value="ct03">Business Meals</option>
-            <option value="ct01">Continuing Education</option>
-            <option value="Ct05">Medical</option>
-            <option value="ct02">Office expenses</option>
-            <option value="ct01">Transportation</option>
-            <option value="ct01">Travel</option>
-            <option value="Ct06">Other</option>
+            <option value="Advertising">Advertising</option>
+            <option value="Allowance">Allowance</option>
+            <option value="Meals">Meals</option>
+            <option value="Education">Education</option>
+            <option value="Medical">Medical</option>
+            <option value="Expenses">Office expenses</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Travel">Travel</option>
+            <option value="Other">Other</option>
           </select>
         </div>
 
@@ -194,11 +194,11 @@
      body: attachData,
    });
    const result = await res.json();
-   console.log(result)
-   //document.querySelector(".preview").textContent = console.log(result); show the sucess:true result
+   console.log("resut",result)
+   //document.querySelector(".preview").textContent = console.log(result); show the success:true result
   });
 
-  let attachInput = document.querySelector("#attachment");
+  let attachInput = document.querySelector("#attachment"); //image preview with different condition after browse files
   attachInput.addEventListener("change", preview);
   function preview(e) {
   let fileObject = this.files;
@@ -210,7 +210,8 @@
   text: 'Maximum Upload 4 files',
 })
 e.target.value="";
-  }else {
+  }else if(fileObject.length>1){
+    document.querySelector(".preview").innerHTML=""
   for (let i = 0; i < fileObject.length; i++) {
     let fileReader = new FileReader();
     if(fileObject[i].type ==="image/jpeg" || "image/bmp" || "image/png"){
@@ -222,7 +223,20 @@ e.target.value="";
       preview.setAttribute("class", "preview-image");
       preview.setAttribute("class", "mx-3");
       document.querySelector(".preview").appendChild(preview);
-    };}}}}
+    };}}}else if (fileObject.length === 1){
+      let fileReader = new FileReader();
+    if(fileObject[0].type ==="image/jpeg" || "image/bmp" || "image/png"){
+    fileReader.readAsDataURL(fileObject[0]);
+    fileReader.onload = function () {
+      let result = fileReader.result;
+      let preview = document.createElement("img");
+      preview.setAttribute("src", result);
+      preview.setAttribute("class", "preview-image");
+      preview.setAttribute("class", "mx-3");
+      //console.log(preview.outerHTML) preview the outerHTML
+      document.querySelector(".preview").innerHTML=preview.outerHTML;
+    };}
+    }}
 
 const previewBtn = document.querySelector("#preview");
 const popupContainer = document.querySelector("#popup-container");
@@ -237,6 +251,7 @@ previewBtn.addEventListener('click', function(event) {
 
   // Get form data
   const formData = new FormData(createClaim);
+
   const claimData = {
     Department: formData.get('departmentId'),
     "Employee Name": formData.get('employeeName'),
@@ -245,9 +260,9 @@ previewBtn.addEventListener('click', function(event) {
     "Claim Type": document.querySelector('select[name="type"] option:checked').textContent,
     "Claim Amount": formData.get('amount'),
     "Claim Description": formData.get('claim_description'),
-    attachments: formData.get('attachment')
+    attachments: formData.get('attachment').name
   };
-
+  console.log("files:",formData.get('attachment'))
   // Display preview page with claim data
   displayClaimPreview(claimData);
 });
