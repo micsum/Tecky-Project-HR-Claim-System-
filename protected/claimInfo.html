@@ -73,7 +73,7 @@
     <section class="w-full border-b border-gray-200 px-4 py-6 flex flex-col md:flex-row">
     
         <div class="mb-4 mr-6 md:w-64">
-        <h3 class="text-base font-semibold">Claim Details</h3>
+        <h3 class="text-base font-semibold">Claim Info</h3>
         <p class="text-grey-500">Please fill all required fields </p>
 
         <!--         <p class="text-grey-500">Secondary text could go here to help explain why we need this info</p> -->
@@ -83,35 +83,36 @@
 
         <div class="field-group flex flex-col mb-4 w-full">
           <label class="field-label mb-2 ml-2 required" for="catastrophe_event">Claim Type</label>
-          <select name="type" id="type-select" class="field border ml-2 text-grey-700 rounded">
+          <select name="type" id="type-select" class="field border ml-2 text-grey-700 rounded  read-only:bg-gray-100" readonly disabled>
             <option disabled selected value>Please select the claim type....</option>
-            <option value="Ct05">Advertising</option>
-            <option value="ct04">Allowance</option>
-            <option value="ct03">Business Meals</option>
-            <option value="ct01">Continuing Education</option>
-            <option value="Ct05">Medical</option>
-            <option value="ct02">Office expenses</option>
-            <option value="ct01">Transportation</option>
-            <option value="ct01">Travel</option>
-            <option value="Ct06">Other</option>
+            <option value="Advertising">Advertising</option>
+            <option value="Allowance">Allowance</option>
+            <option value="Meals">Meals</option>
+            <option value="Education">Education</option>
+            <option value="Medical">Medical</option>
+            <option value="Expenses">Office expenses</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Travel">Travel</option>
+            <option value="Other">Other</option>
           </select>
         </div>
 
         <div class="field-group flex flex-col mb-4 w-full">
           <label class="field-label mb-2 ml-2 required" for="catastrophe_event">Claim Description</label>
-          <input class="field ml-2 border text-grey-700 rounded" type="text" name="claim_description" id="claim_d">
+          <input class="field ml-2 border text-grey-700 rounded read-only:bg-gray-100" type="text" name="claim_description" id="claim_d" readonly>
         </div>
         <div class="field-group flex flex-col mb-4 w-1/2">
             <label class="field-label mb-1 ml-2 required" for="last_name">Transaction Date</label>
-            <input class="field ml-2 border text-grey-700 rounded" type="date" name="t_date" id="t_date">
+            <input class="field ml-2 border text-grey-700 rounded read-only:bg-gray-100" type="date" name="t_date" id="t_date" readonly>
         </div>
         <div class="field-group flex flex-col mb-4 w-1/2">
             <label class="field-label mb-1 ml-2 required required:border-red-50" for="last_name">Amount</label>
-            <input class="field ml-2 border text-grey-700 rounded" type="text" name="amount" id="amount" placeholder="0.00" >
+            <input class="field ml-2 border text-grey-700 rounded read-only:bg-gray-100" type="text" name="amount" id="amount" placeholder="0.00" readonly >
         </div>
         <div class="field-group flex flex-col mb-4 w-full">
           <label class="field-label mb-2 ml-2 required" for="attachment">Upload File</label>         
-          <input class="block w-full ml-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" name="attachment" id="attachment" accept="image/*, .pdf,capture=camera" multiple>
+          <input class="block w-full ml-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 read-only:bg-gray-100" 
+          type="file" name="attachment" id="attachment" accept="image/*, .pdf,capture=camera" multiple readonly disabled>
         </div>
         <div class="field-group flex flex-row mb-4 ml-2 w-full preview">
         </div>
@@ -153,22 +154,56 @@
   let departmentDbId;
   //load info from db into employee table
  window.addEventListener("load", async()=>{ 
-    const res = await fetch ("/getEmployee", {
-        method:"GET",
-        headers:{"Content-Type": "application/json"},
-      });
-      const employeeList = await res.json()
-      //console.log(employeeList) //check the employee list
-     const departmentId = document.querySelector("#departmentId");
-     const employeeName = document.querySelector("#employeeName");
-     const email = document.querySelector("#email");
-     const phoneNumber = document.querySelector("#phoneNumber");
-     departmentId.value=employeeList.department_name
-     employeeName.value=employeeList.name
-     email.value=employeeList.email
-     phoneNumber.value=employeeList.phone_number
-     employeeDbId = employeeList.id
-     departmentDbId = employeeList.department_id
+
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get("id");
+    console.log(id);
+
+    const resClaimRecord = await fetch (`/claimOneRecord?id=${id}`);
+    const claimRecord = await resClaimRecord.json();
+    console.log(claimRecord)
+    const claimRecordData = claimRecord[0]
+    const departmentId = document.querySelector("#departmentId");
+    const employeeName = document.querySelector("#employeeName");
+    const email = document.querySelector("#email");
+    const phoneNumber = document.querySelector("#phoneNumber");
+    const claim_type = document.querySelector("#type-select");
+    const claim_description = document.querySelector("#claim_d");
+    const claim_date = document.querySelector("#t_date");
+    const claim_amount = document.querySelector("#amount");
+    
+     departmentId.value = claimRecordData.department.id
+     employeeName.value = claimRecordData.employee_name
+     email.value = claimRecordData.email
+     phoneNumber.value = 
+    claim_type.value = claimRecordData.claim_type
+    claim_description.value = claimRecordData.claim_description
+    claim_date.value = claimRecordData.transaction_date.slice(0,10)
+    claim_amount.value = claimRecordData.amount
+
+
+    console.log(claimRecordData);
+    console.log(claimRecordData.claim_type)
+
+
+
+ //   const res = await fetch (`/getEmployee?id=${id}`, {
+ //       method:"GET",
+ //       headers:{"Content-Type": "application/json"},
+ //     });
+ //     const employeeList = await res.json()
+ //     //console.log(employeeList) //check the employee list
+ //    const departmentId = document.querySelector("#departmentId");
+ //    const employeeName = document.querySelector("#employeeName");
+ //    const email = document.querySelector("#email");
+ //    const phoneNumber = document.querySelector("#phoneNumber");
+//
+ //    departmentId.value=employeeList.department_name
+ //    employeeName.value=employeeList.name
+ //    email.value=employeeList.email
+ //    phoneNumber.value=employeeList.phone_number
+ //    employeeDbId = employeeList.id
+ //    departmentDbId = employeeList.department_id
     }
   )
 

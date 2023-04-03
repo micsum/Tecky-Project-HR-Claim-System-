@@ -18,15 +18,6 @@
         <div class="row" id="status">Status</div>
         </div>
     -->
-    <form action="/claimSearch" method="POST" id="contact-form">
-    Search By:<select name="search" id="search">ID</option>
-            <option value="department.name">Department</option>
-            <option value="employee.name">Employee</option>
-            <option value="claim_type">Type</option>
-            <input type="text" placeholder="Search Query" name="query"></input>
-        </select>
-        <button type="submit" class="submitbutton">Search</button>
-    </form>
         <table id="table">
             <tr>
                 <th class="row" id="id">ID</div>
@@ -50,68 +41,6 @@
     
 </body>
 <script>
-    var rowNumber = 0;
-    var rowLimit = 10;
-    let contactForm = document.querySelector("#contact-form");
-  contactForm.addEventListener("submit", async (event) => {
-     rowNumber = 0;
-     rowLimit = 10;
-    event.preventDefault();
-    let allInfo = document.querySelectorAll(".info")
-    for(let i = 0; i < allInfo.length; i++){
-        allInfo[i].remove()
-    }
-//allInfo.forEach((info)=>{
-//    info.outerHTML=""
-//})
-    let form = event.target;
-   // const select = document.querySelector("#departmentSelect")
-   // let text = select[select.selectedIndex].textContent;
-    let formObject = {};
-    formObject["search"] = form.search.value;
-    formObject["query"] = form.query.value;
-    let res = await fetch("/claimSearch", {
-    method:"POST",
-    headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formObject),
-    });
-    console.log(formObject)
-    let searchList = await res.json()
-    console.log(searchList);
-    
-    for(let i = rowNumber; i < rowLimit; i++){
-        let table = document.querySelector('#table');
-        let dataRow = document.createElement("tr");
-        dataRow.setAttribute("class" ,"info")
-        console.log('123: ',dataRow)
-        table.appendChild(dataRow);
-      for(let j = 0; j < 8 ; j++){
-        var cell = document.createElement("td");
-        dataRow.appendChild(cell);
-        var cellText = document.createTextNode(Object.values(searchList[i])[j]);
-        if(j === 5){
-          dateText = document.createTextNode(Object.values(searchList[i])[j].slice(0,10));
-            console.log(dateText)
-            cell.appendChild(dateText)
-        } else if(j === 7){
-            let button = document.createElement("button");
-            button.innerHTML = "View";
-            cell.appendChild(button);
-            button.addEventListener("click", () => {
-                console.log(searchList[i])
-                window.open(`claimInfo.html?id=${searchList[i].id}`)
-            })
-        }
-        else{
-        cell.appendChild(cellText)
-        console.log('ok  ', cellText)
-   
-        }
-    }
-}
-});
      //console.log(employeeList) //check the employee list
     // const id = document.querySelector("#id");
     // const departmentName = document.querySelector("#departmentName");
@@ -124,12 +53,13 @@
     // phoneNumber.value=employeeList.phone_number
     // employeeDbId = employeeList.id
     // departmentDbId = employeeList.department_id
-    
+    var rowNumber = 0;
+    var rowLimit = 1;
     var expand = document.querySelector("#expand");
     expand.addEventListener("click", async () => {
         rowNumber += 1
         rowLimit += 1;
-        const res = await fetch ("/claimRecord", {
+        const res = await fetch ("/userRecord", {
         method:"GET",
         headers:{"Content-Type": "application/json"},
       });
@@ -139,7 +69,6 @@
     for(let i = rowNumber; i < rowLimit; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
-        dataRow.setAttribute("class" ,"info")
         console.log('123: ',dataRow)
         table.appendChild(dataRow);
       for(let j = 0; j < 8 ; j++){
@@ -172,7 +101,7 @@
     })
 
     window.addEventListener("load", async()=>{ 
-    const res = await fetch ("/claimRecord", {
+    const res = await fetch ("/userRecord", {
         method:"GET",
         headers:{"Content-Type": "application/json"},
       });
@@ -182,7 +111,6 @@
     for(let i = rowNumber; i < rowLimit; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
-        dataRow.setAttribute("class" ,"info")
         console.log('123: ',dataRow)
         table.appendChild(dataRow);
       for(let j = 0; j < 8 ; j++){

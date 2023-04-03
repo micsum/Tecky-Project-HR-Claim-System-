@@ -64,6 +64,7 @@ userRouter.post("/login", async (req, res) => {
         //res.redirect("./admin.html");
       } else {
         res.json({ role: "user" });
+        console.log("req.session", req.session.user);
         //res.redirect("./user.html");
       }
     } else {
