@@ -200,3 +200,7 @@ progress::-ms-fill {
 #close-popup {
   margin-top: 10px;
 }
+
+#image-modal {
+  z-index: 1;
+}

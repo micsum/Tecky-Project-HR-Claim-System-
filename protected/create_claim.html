@@ -7,11 +7,13 @@
     <title>Claim Page</title>
     <link rel="stylesheet" href="create_claim.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
-    <link href="https://getbootstrap.com/docs/5.3/getting-started/introduction/" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js" integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
     <script>
       tailwind.config = {
@@ -83,7 +85,7 @@
 
         <div class="field-group flex flex-col mb-4 w-full">
           <label class="field-label mb-2 ml-2 required" for="catastrophe_event">Claim Type</label>
-          <select name="type" id="type-select" class="field border ml-2 text-grey-700 rounded">
+          <select name="type" id="type-select" class="field border ml-2 text-grey-700 rounded" required>
             <option disabled selected value>Please select the claim type....</option>
             <option value="Advertising">Advertising</option>
             <option value="Allowance">Allowance</option>
@@ -99,22 +101,31 @@
 
         <div class="field-group flex flex-col mb-4 w-full">
           <label class="field-label mb-2 ml-2 required" for="catastrophe_event">Claim Description</label>
-          <input class="field ml-2 border text-grey-700 rounded" type="text" name="claim_description" id="claim_d">
+          <input class="field ml-2 border text-grey-700 rounded" type="text" name="claim_description" id="claim_d" required>
         </div>
         <div class="field-group flex flex-col mb-4 w-1/2">
             <label class="field-label mb-1 ml-2 required" for="last_name">Transaction Date</label>
-            <input class="field ml-2 border text-grey-700 rounded" type="date" name="t_date" id="t_date">
+            <input class="field ml-2 border text-grey-700 rounded" type="date" name="t_date" id="t_date" required>
         </div>
         <div class="field-group flex flex-col mb-4 w-1/2">
             <label class="field-label mb-1 ml-2 required required:border-red-50" for="last_name">Amount</label>
-            <input class="field ml-2 border text-grey-700 rounded" type="text" name="amount" id="amount" placeholder="0.00" >
+            <input class="field ml-2 border text-grey-700 rounded" type="text" name="amount" id="amount" placeholder="0.00" required >
         </div>
         <div class="field-group flex flex-col mb-4 w-full">
           <label class="field-label mb-2 ml-2 required" for="attachment">Upload File</label>         
-          <input class="block w-full ml-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" name="attachment" id="attachment" accept="image/*, .pdf,capture=camera" multiple>
+          <input class="block w-full ml-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" name="attachment" id="attachment" accept="image/*, .pdf,capture=camera" multiple required>
         </div>
-        <div class="field-group flex flex-row mb-4 ml-2 w-full preview">
-        </div>
+        
+        <!--<dialog id="image-modal">
+          <div class="image-container relative">
+        <button class="closePreviewImage absolute -top-4 -right-4">
+          <i class="fa-regular fa-circle-xmark fa-lg" style="color: #71a1f4;"></i>         
+        </button>
+        <img class="full-preview"></div>
+        </dialog>-->
+
+        <div class="field-group flex flex-row mb-4 ml-2 w-full preview"></div>
+
         <div class="field-group flex flex-col mb-4 w-full">
           <label class="field-label mb-2 ml-2" for="catastrophe_event" hidden>Claim Status</label>
           <input class="field ml-2 border text-grey-700 rounded read-only:bg-gray-100" value="Pending" type="hidden" name="claim_status" id="claim_status" readonly>
@@ -198,10 +209,24 @@
    //document.querySelector(".preview").textContent = console.log(result); show the success:true result
   });
 
+  function getFileLength(number){
+    return number;
+  }
+
+  let fileLength;
+   
+  let imageModal = document.querySelector("#image-modal") //preview image in large modal
   let attachInput = document.querySelector("#attachment"); //image preview with different condition after browse files
+  let closePreviewImageBtn = document.querySelector(".closePreviewImage")
+
+  //closePreviewImageBtn.addEventListener('click',(event)=>{
+  //  event.preventDefault()
+  //  imageModal.open=false
+  //})
   attachInput.addEventListener("change", preview);
   function preview(e) {
   let fileObject = this.files;
+  //console.log('fileObject',fileObject)
   if(fileObject.length>4){
     e.preventDefault();
     Swal.fire({
@@ -210,33 +235,40 @@
   text: 'Maximum Upload 4 files',
 })
 e.target.value="";
-  }else if(fileObject.length>1){
+return;
+  }if(fileObject.length>0){
     document.querySelector(".preview").innerHTML=""
   for (let i = 0; i < fileObject.length; i++) {
     let fileReader = new FileReader();
     if(fileObject[i].type ==="image/jpeg" || "image/bmp" || "image/png"){
     fileReader.readAsDataURL(fileObject[i]);
+    let files=[]
     fileReader.onload = function () {
       let result = fileReader.result;
       let preview = document.createElement("img");
+      //let fullPreview = document.querySelector(".full-preview")
+      //let image_container = document.querySelector(".image-container")
       preview.setAttribute("src", result);
-      preview.setAttribute("class", "preview-image");
-      preview.setAttribute("class", "mx-3");
+      preview.setAttribute("class", "mx-3 preview-image");
       document.querySelector(".preview").appendChild(preview);
-    };}}}else if (fileObject.length === 1){
-      let fileReader = new FileReader();
-    if(fileObject[0].type ==="image/jpeg" || "image/bmp" || "image/png"){
-    fileReader.readAsDataURL(fileObject[0]);
-    fileReader.onload = function () {
-      let result = fileReader.result;
-      let preview = document.createElement("img");
-      preview.setAttribute("src", result);
-      preview.setAttribute("class", "preview-image");
-      preview.setAttribute("class", "mx-3");
-      //console.log(preview.outerHTML) preview the outerHTML
-      document.querySelector(".preview").innerHTML=preview.outerHTML;
-    };}
-    }}
+      let images = document.querySelector(".preview").querySelectorAll(".preview-image")
+      
+      images.forEach((image)=>{
+        image.addEventListener("click", ()=>{
+        //imageModal.open = true
+        //fullPreview.src = result;
+        Swal.fire({
+  imageUrl: image.src,
+  showCloseButton: true,
+})
+      })
+      })
+      
+    };}}}
+  //console.log("files : ", typeof fileObject.length)
+fileLength = getFileLength(fileObject.length)
+ }
+
 
 const previewBtn = document.querySelector("#preview");
 const popupContainer = document.querySelector("#popup-container");
@@ -260,9 +292,8 @@ previewBtn.addEventListener('click', function(event) {
     "Claim Type": document.querySelector('select[name="type"] option:checked').textContent,
     "Claim Amount": formData.get('amount'),
     "Claim Description": formData.get('claim_description'),
-    attachments: formData.get('attachment').name
+    Attachments: `${fileLength} files`
   };
-  console.log("files:",formData.get('attachment'))
   // Display preview page with claim data
   displayClaimPreview(claimData);
 });
