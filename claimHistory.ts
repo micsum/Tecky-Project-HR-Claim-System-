@@ -24,3 +24,7 @@ historyRouter.get("/claimRecord", async (req, res) => {
     console.log(claimList.rows);
     res.json(claimList.rows);
   });
+
+  historyRouter.get("/claimInfo", (req, res) => {
+    res.redirect("./claimInfo.html");
+  });

@@ -83,6 +83,10 @@
             let button = document.createElement("button");
             button.innerHTML = "View";
             cell.appendChild(button);
+            button.addEventListener("click", () => {
+                console.log(claimList[i])
+                window.open('claimInfo')
+            })
         }
         else{
         cell.appendChild(cellText)
