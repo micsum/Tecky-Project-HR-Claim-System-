@@ -81,7 +81,7 @@
     let searchList = await res.json()
     console.log(searchList);
     
-    for(let i = rowNumber; i < rowLimit; i++){
+    for(let i = rowNumber; i < rowLimit && i < searchList.length; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
         dataRow.setAttribute("class" ,"info")
@@ -127,8 +127,8 @@
     
     var expand = document.querySelector("#expand");
     expand.addEventListener("click", async () => {
-        rowNumber += 1
-        rowLimit += 1;
+        rowNumber += 10
+        rowLimit += 10;
         const res = await fetch ("/claimRecord", {
         method:"GET",
         headers:{"Content-Type": "application/json"},
@@ -136,7 +136,7 @@
     let claimList = await res.json()
     console.log(claimList);
     
-    for(let i = rowNumber; i < rowLimit; i++){
+    for(let i = rowNumber; i < rowLimit && i < claimList.length; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
         dataRow.setAttribute("class" ,"info")
@@ -179,7 +179,7 @@
     let claimList = await res.json()
     console.log(claimList);
     
-    for(let i = rowNumber; i < rowLimit; i++){
+    for(let i = rowNumber; i < rowLimit && i < claimList.length; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
         dataRow.setAttribute("class" ,"info")

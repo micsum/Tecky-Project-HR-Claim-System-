@@ -163,19 +163,19 @@
     const claimRecord = await resClaimRecord.json();
     console.log(claimRecord)
     const claimRecordData = claimRecord[0]
-    const departmentId = document.querySelector("#departmentId");
-    const employeeName = document.querySelector("#employeeName");
-    const email = document.querySelector("#email");
-    const phoneNumber = document.querySelector("#phoneNumber");
+ //   const departmentId = document.querySelector("#departmentId");
+ //   const employeeName = document.querySelector("#employeeName");
+ //   const email = document.querySelector("#email");
+ //   const phoneNumber = document.querySelector("#phoneNumber");
     const claim_type = document.querySelector("#type-select");
     const claim_description = document.querySelector("#claim_d");
     const claim_date = document.querySelector("#t_date");
     const claim_amount = document.querySelector("#amount");
     
-     departmentId.value = claimRecordData.department.id
-     employeeName.value = claimRecordData.employee_name
-     email.value = claimRecordData.email
-     phoneNumber.value = 
+  //   departmentId.value = claimRecordData.department.id
+  //   employeeName.value = claimRecordData.employee_name
+  //   email.value = claimRecordData.email
+  //   phoneNumber.value = 
     claim_type.value = claimRecordData.claim_type
     claim_description.value = claimRecordData.claim_description
     claim_date.value = claimRecordData.transaction_date.slice(0,10)

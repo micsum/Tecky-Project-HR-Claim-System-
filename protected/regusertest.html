@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Reistration Form</title>
+    <link rel="stylesheet" href="regusertest.css">
+</head>
+<body>
+    <form action="regusertest" method="POST" id="contact-form">
+        <div class="container">
+          <h1>Register</h1>
+          <p>Please fill in this form to create an user.</p>
+      
+              <label for="email"><b>Username</b></label>
+            <input type="text" name="employeeName" placeholder="Enter Username" required>
+          <label for="email"><b>Email</b></label>
+          <input type="text" placeholder="Enter Email" name="email" required>
+          <label for="psw"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="password" id="password" required>
+          <label for="email"><b>Phone Number</b></label>
+          <input type="text" name="phoneNumber" id="phoneNumber" placeholder="Enter Phone Number" required>
+        <label for="email"><b>Role</b>
+        <select name="role" id="role">
+            <option value="User">User</option>
+            <option value="Admin">Admin</option> <!--change to admin to fit db-->
+          </select>
+        
+          <label for="hireDate"><b> Hire Date </b></label>
+          <input type="date" name="hireDate"  required>
+          <label for="department"><b> Department </b></label>
+          <select
+                id="departmentSelect"
+                name="departmentId"
+                >
+                <option disabled selected value>--Select Department-- </option>
+                <option value="1">Accounting Team</option>
+                <option value="2">Sales Team</option>
+            </select>
+            <button id="#addDepartBtn" class="addDepartBtn" type="button" onclick="showAddDepart()">+</button>  
+      
+      
+      
+          
+      
+          <div class="clearfix">
+      
+            <button type="submit" class="submitbutton">Sign Up</button>
+          </div>
+        </div>
+      </form>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  let departSelect = document.querySelector("#departmentSelect");
+  window.addEventListener("load", async()=>{
+    const res = await fetch ("/getDepartment", {
+        method:"GET",
+        headers:{"Content-Type": "application/json"},
+      });
+      const department = await res.json()
+      console.log(department) //check the department list
+      let newDepart =department.slice(2);
+      for(let indiv of newDepart){
+      const newOption = document.createElement("Option");
+      const newOptionName = document.createTextNode(indiv.name);
+      newOption.appendChild(newOptionName);
+      newOption.setAttribute("value", indiv.id);
+      departSelect.insertBefore(newOption, departSelect.lastChild);
+      }
+    }
+  )
+  
+
+
+  let contactForm = document.querySelector("#contact-form");
+  contactForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    
+    let form = event.target;
+    const select = document.querySelector("#departmentSelect")
+    let text = select[select.selectedIndex].textContent;
+    let formObject = {};
+    formObject["employeeName"] = form.employeeName.value;
+    formObject["email"] = form.email.value;
+    formObject["password"] = form.password.value;
+    formObject["phoneNumber"] = form.phoneNumber.value;
+    formObject["role"] = form.role.value;
+    formObject["hireDate"] = form.hireDate.value;
+    formObject["departmentId"] = form.departmentId.value;
+    let res = await fetch("/regusertest", {
+    method:"POST",
+    headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formObject),
+    });
+    const result = await res.json(); // { success: true }
+    console.log(result.error)
+    console.log("submitted");
+    if(
+      result.success === "Registered"){
+      Swal.fire({
+  icon: 'success',
+  title: 'Registered',
+  text: ` ${formObject["role"]} in ${text}:
+  ${formObject["employeeName"]} (${formObject["email"]})
+  has registered in the system.`
+})
+    }else if (result.error.length !== 0){
+      Swal.fire({
+  icon: 'error',
+  title: 'Error Message',
+  text: result.error,
+})
+    }
+  });
+
+
+
+  let addDepartBtn = document.querySelector("#addDepartBtn");
+  function showAddDepart(){
+    Swal.fire({
+      title: "Edit Department",
+      html:
+      '<input id="id" type="hidden">' +
+      '<input id="val" class="swal2-input" placeholder="Department Name">',
+      focusConfirm: false,
+      showCloseButton:true,
+      showCancelButton:true,
+      confirmButtonText:"Add",
+      preConfirm:() =>{
+        createDepartment();
+      }
+    })}
+
+  async function createDepartment(){
+    const select = document.querySelector("#departmentSelect")
+    const departVal = document.querySelector("#val").value
+    const newOption = document.createElement("Option");
+    //const newOptionName = document.createTextNode(departVal);
+
+    //newOption.appendChild(newOptionName);
+    //select.insertBefore(newOption, select.lastChild);
+    newOption.value=select.options.length
+    newOption.text=departVal;
+    select.add(newOption,null)
+
+    async function updateDb(){
+      const res = await fetch ("/addDepartment", {
+        method:"POST",
+        headers:{"Content-Type": "application/json"},
+        body: JSON.stringify({id:`${newOption.value}`, name:`${newOption.text}`})
+      });
+      const result = await res.json()
+    }
+    updateDb()
+  }
+  
+  
+  
+   
+</script>
+</html>
