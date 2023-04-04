@@ -19,7 +19,7 @@
         </div>
     -->
     <form action="/claimSearch" method="POST" id="contact-form">
-    Search By:<select name="search" id="search">ID</option>
+    Search by:<select name="search" id="search">ID</option>
             <option value="department.name">Department</option>
             <option value="employee.name">Employee</option>
             <option value="claim_type">Type</option>
@@ -28,7 +28,7 @@
         <button type="submit" class="submitbutton">Search</button>
     </form>
         <table id="table">
-            <tr>
+            <tr class="heading">
                 <th class="row" id="id">ID</div>
                 <th class="row" id="departmentName">Department Name</div>
                 <th class="row" id="employeeName">Employee Name</div>
@@ -36,14 +36,14 @@
                 <th class="row" id="amount">Amount</div>
                 <th class="row" id="date">Date</div>
                 <th class="row" id="status">Status</div>
-                <th class="row" id="view">View</div>
+                <th class="row" id="view" hidden>View</div>
             </tr>
-            <tr>
+            <!--<tr> testing default
               <td>Alfreds Futterkiste</td>
               <td>Maria Anders</td>
               <td>Germany</td>
               <td>123</td>
-            </tr>
+            </tr>-->
             
           </table>
           <button id="expand">Expand</button>
@@ -52,12 +52,13 @@
 <script>
     var rowNumber = 0;
     var rowLimit = 10;
-    let contactForm = document.querySelector("#contact-form");
+    let contactForm = document.querySelector("#contact-form"); //search by , query
   contactForm.addEventListener("submit", async (event) => {
      rowNumber = 0;
      rowLimit = 10;
     event.preventDefault();
     let allInfo = document.querySelectorAll(".info")
+    //console.log("allInfo",allInfo)
     for(let i = 0; i < allInfo.length; i++){
         allInfo[i].remove()
     }
@@ -77,36 +78,39 @@
       },
       body: JSON.stringify(formObject),
     });
-    console.log(formObject)
+    //console.log("formObject",formObject)
     let searchList = await res.json()
-    console.log(searchList);
+    //console.log("searchList",searchList);
     
     for(let i = rowNumber; i < rowLimit; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
+        let headingRow = document.getElementsByClassName("row")
+        let headingRowLength = headingRow.length
         dataRow.setAttribute("class" ,"info")
-        console.log('123: ',dataRow)
+        //console.log('dataRow: ',dataRow)
         table.appendChild(dataRow);
-      for(let j = 0; j < 8 ; j++){
+        //console.log("headingRowLength",headingRow.length)
+      for(let j = 0; j < headingRowLength  ; j++){ // <small than the header row, so is 8
         var cell = document.createElement("td");
         dataRow.appendChild(cell);
         var cellText = document.createTextNode(Object.values(searchList[i])[j]);
         if(j === 5){
           dateText = document.createTextNode(Object.values(searchList[i])[j].slice(0,10));
-            console.log(dateText)
+            //console.log("dateText" ,dateText)
             cell.appendChild(dateText)
         } else if(j === 7){
             let button = document.createElement("button");
             button.innerHTML = "View";
             cell.appendChild(button);
             button.addEventListener("click", () => {
-                console.log(searchList[i])
+                //console.log("searchList", searchList[i])
                 window.open(`claimInfo.html?id=${searchList[i].id}`)
             })
         }
         else{
         cell.appendChild(cellText)
-        console.log('ok  ', cellText)
+        //console.log('othercellText', cellText)
    
         }
     }
@@ -127,41 +131,42 @@
     
     var expand = document.querySelector("#expand");
     expand.addEventListener("click", async () => {
-        rowNumber += 1
-        rowLimit += 1;
+        rowNumber += 10
+        rowLimit += 10;
         const res = await fetch ("/claimRecord", {
         method:"GET",
         headers:{"Content-Type": "application/json"},
       });
     let claimList = await res.json()
-    console.log(claimList);
+    //console.log("claimlistexpand",claimList);
     
     for(let i = rowNumber; i < rowLimit; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
         dataRow.setAttribute("class" ,"info")
-        console.log('123: ',dataRow)
+        //console.log('dataRowexpand: ',dataRow)
         table.appendChild(dataRow);
       for(let j = 0; j < 8 ; j++){
         var cell = document.createElement("td");
         dataRow.appendChild(cell);
+        //console.log("expandcell",cell)
         var cellText = document.createTextNode(Object.values(claimList[i])[j]);
         if(j === 5){
           dateText = document.createTextNode(Object.values(claimList[i])[j].slice(0,10));
-            console.log(dateText)
+            //console.log("expanddatatext",dateText)
             cell.appendChild(dateText)
         } else if(j === 7){
             let button = document.createElement("button");
             button.innerHTML = "View";
             cell.appendChild(button);
             button.addEventListener("click", () => {
-                console.log(claimList[i])
+                //console.log("expandclaimList",claimList[i])
                 window.open(`claimInfo.html?id=${claimList[i].id}`)
             })
         }
         else{
         cell.appendChild(cellText)
-        console.log('ok  ', cellText)
+        //console.log('expandcellText', cellText)
    
         }
     
@@ -177,34 +182,36 @@
         headers:{"Content-Type": "application/json"},
       });
     let claimList = await res.json()
-    console.log(claimList);
+    //console.log("windowloadclaimList",claimList);
     
     for(let i = rowNumber; i < rowLimit; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
+        let headingRow = document.getElementsByClassName("row")
+        let headingRowLength = headingRow.length
         dataRow.setAttribute("class" ,"info")
-        console.log('123: ',dataRow)
+        //console.log('windowload dataRow1st load: ',dataRow)
         table.appendChild(dataRow);
-      for(let j = 0; j < 8 ; j++){
+      for(let j = 0; j < headingRowLength ; j++){
         var cell = document.createElement("td");
         dataRow.appendChild(cell);
         var cellText = document.createTextNode(Object.values(claimList[i])[j]);
         if(j === 5){
           dateText = document.createTextNode(Object.values(claimList[i])[j].slice(0,10));
-            console.log(dateText)
+            //console.log("window load checkdate"dateText)
             cell.appendChild(dateText)
         } else if(j === 7){
             let button = document.createElement("button");
             button.innerHTML = "View";
             cell.appendChild(button);
             button.addEventListener("click", () => {
-                console.log(claimList[i])
-                window.open(`claimInfo.html?id=${claimList[i].id}`)
+                //console.log("window load ", claimList[i]) loop list 
+                window.open(`claimInfo.html?id=${claimList[i].id}`,'Claim Information', 'toolbar=0,location=0,menubar=0')
             })
         }
         else{
         cell.appendChild(cellText)
-        console.log('ok  ', cellText)
+        //console.log('window load cellText', cellText)
    
         }
       }

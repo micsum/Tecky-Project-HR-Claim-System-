@@ -3,6 +3,28 @@
 #forgotpw {
   text-decoration: none;
 }
+@keyframes horizontal-shaking {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(5px);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+div .shake {
+  color: rgba(242, 7, 7, 0.931);
+  animation: horizontal-shaking 2s infinite;
+}
 
 body {
   background-image: url("https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg");
@@ -41,7 +63,7 @@ body {
   left: 0px;
   font-size: 16px;
   color: #fff;
-  pointer-event: none;
+  pointer-events: none;
   transition: all 0.5s ease-in-out;
 }
 .input-container input {

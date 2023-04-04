@@ -31,14 +31,14 @@ createClaim.get("/getEmployee", async (req, res) => {
   res.json(dbEmployee);
 });
 
-let uploadDir = join("uploads", "attachment");
+export let uploadDir = join("uploads", "attachment");
 createClaim.use("uploads/attachment", express.static(uploadDir));
 
 fs.mkdirSync(path.join(__dirname, uploadDir), { recursive: true });
 let attach = formidable({
   uploadDir,
   keepExtensions: true,
-  //multiples: true,
+  multiples: true,
   maxFiles: 5,
   maxFieldsSize: 5 * 1024 * 1024,
   filter: (part) =>
@@ -47,57 +47,82 @@ let attach = formidable({
     false,
 });
 
+function checkArray(x: any) {
+  // const x = Array.isArray(x) ? x[0] : x;
+  return Array.isArray(x);
+}
 createClaim.post("/create_claim", (req, res) => {
   attach.parse(req, async (err, fields, files) => {
-    //console.log("files:", files);
-    console.log("fields", fields);
-    function checkArray(x: any | any[]) {
-      x = Array.isArray(x) ? x[0] : x;
-      return x;
-    }
-    let employeeName = checkArray(fields.employeeName);
-    let claimTypeVal = checkArray(fields.type);
-    let claimDesVal = checkArray(fields.claim_description);
-    let tranDate = checkArray(fields.t_date);
-    let amount = checkArray(fields.amount);
-    let status = checkArray(fields.claim_status);
-    let employee_id = checkArray(fields.employeeDbId);
-    let department_id = checkArray(fields.departmentDbId);
-    let email = checkArray(fields.email);
-    let claimTypeText = checkArray(fields.claimTypeText);
-    const result = await client.query(
-      /*sql*/ `INSERT INTO claim(claim_type, transaction_date, amount, claim_description, date_of_submission, status, employee_id, department_id) VALUES($1,$2,$3,$4,NOW()::timestamp,$5,$6,$7)RETURNING id`,
-      [
-        claimTypeVal,
-        tranDate,
-        amount,
-        claimDesVal,
-        status,
-        employee_id,
-        department_id,
-      ]
-    );
-    const claimId = result.rows[0].id;
-    let attachMaybeArray = files.attachment;
-    let attachment = Array.isArray(attachMaybeArray)
-      ? attachMaybeArray[0]
-      : attachMaybeArray;
-    //@ts-ignore
-    let filename = attachment?.newFilename;
-    //console.log(filename);
-    await client.query(
-      /*sql*/ `INSERT INTO file(file_name,created_at,claim_id) VALUES($1, NOW()::timestamp,$2)`,
-      [filename, claimId] // how to create the claim id??
-    );
+    try {
+      //console.log("files:", files);
+      console.log("fields", fields);
+      let employeeName = String(fields.employeeName);
+      let claimTypeVal = String(fields.type);
+      let claimDesVal = String(fields.claim_description);
+      let tranDate = String(fields.t_date);
+      let amount = +String(fields.amount);
+      let status = String(fields.claim_status);
+      let employee_id = String(fields.employeeDbId);
+      let department_id = String(fields.departmentDbId);
+      let email = String(fields.email);
 
-    sendClaimEmail(
-      email,
-      employeeName,
-      claimId,
-      claimTypeText,
-      claimDesVal,
-      amount
-    );
-    res.json({ success: true });
+      let claimTypeText = String(fields.claimTypeText);
+      const result = await client.query(
+        /*sql*/ `INSERT INTO claim(claim_type, transaction_date, amount, claim_description, date_of_submission, status, employee_id, department_id) VALUES($1,$2,$3,$4,NOW()::timestamp,$5,$6,$7)RETURNING id`,
+        [
+          claimTypeVal,
+          tranDate,
+          amount,
+          claimDesVal,
+          status,
+          employee_id,
+          department_id,
+        ]
+      );
+      const claimId = result.rows[0].id;
+      let attachMaybeArray: formidable.File | formidable.File[] =
+        files.attachment;
+      // console.log("attach", attachMaybeArray);
+
+      console.log(attachMaybeArray);
+      console.log((attachMaybeArray as formidable.File).newFilename);
+
+      if (checkArray(attachMaybeArray)) {
+        //@ts-ignore
+        for (let file of attachMaybeArray) {
+          console.log("newFilename", file.newFilename);
+          //@ts-ignore
+          let filename = file?.newFilename;
+          //console.log(filename);
+          await client.query(
+            /*sql*/ `INSERT INTO file(file_name,created_at,claim_id) VALUES($1, NOW()::timestamp,$2)`,
+            [filename, claimId] // how to create the claim id??
+          );
+        }
+        //@ts-ignore //single file not work to write in database
+      } else if (!!attachMaybeArray && !!attachMaybeArray.newFilename) {
+        let filename = (attachMaybeArray as formidable.File).newFilename;
+        //console.log(filename);
+
+        await client.query(
+          /*sql*/ `INSERT INTO file(file_name,created_at,claim_id) VALUES($1, NOW()::timestamp,$2)`,
+          [filename, claimId] // how to create the claim id??
+        );
+      }
+
+      sendClaimEmail(
+        email,
+        employeeName,
+        claimId,
+        claimTypeText,
+        claimDesVal,
+        amount
+      );
+      res.json({ success: true });
+    } catch (error) {
+      console.log(error);
+
+      res.json({ success: false });
+    }
   });
 });
