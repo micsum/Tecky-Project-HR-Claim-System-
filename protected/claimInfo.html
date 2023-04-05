@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claim Page</title>
+    <title>Claim Information</title>
     <link rel="stylesheet" href="create_claim.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
     <link href="https://getbootstrap.com/docs/5.3/getting-started/introduction/" rel="stylesheet" />
@@ -38,10 +38,10 @@
   <div class="bg-white shadow-card w-full pt-8 pb-4 sm:pt-10 sm:pb-6 mb-2">
     <div class="max-w-4xl mx-auto px-4">
       <img src="https://uxwing.com/wp-content/themes/uxwing/download/file-and-folder-type/claim-icon.png" alt="HelloClaims" class="mb-4 sm:mb-6 h-10 sm:h-12">
-      <h1 class="text-xl sm:text-2xl font-semibold">Claim Application</h1>
+      <h1 class="text-xl sm:text-2xl font-semibold">Claim Application Approval</h1>
     </div>
   </div>
-  <form action="/create_claim" method="POST" id="createClaim" enctype="multipart/form-data">
+  <form action="claimInfo" method="GET" id="createClaim" enctype="multipart/form-data">
   <div class="max-w-4xl mx-auto">
     <section class="w-full border-b border-gray-200 px-4 py-6 flex flex-col md:flex-row">
       <div class="mb-4 mr-6 md:w-64">
@@ -74,7 +74,7 @@
     
         <div class="mb-4 mr-6 md:w-64">
         <h3 class="text-base font-semibold">Claim Info</h3>
-        <p class="text-grey-500">Please fill all required fields </p>
+        <p class="text-grey-500" hidden>Please fill all required fields </p>
 
         <!--         <p class="text-grey-500">Secondary text could go here to help explain why we need this info</p> -->
         </div>
@@ -111,14 +111,14 @@
         </div>
         <div class="field-group flex flex-col mb-4 w-full">
           <label class="field-label mb-2 ml-2 required" for="attachment">Upload File</label>         
-          <input class="block w-full ml-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 read-only:bg-gray-100" 
-          type="file" name="attachment" id="attachment" accept="image/*, .pdf,capture=camera" multiple readonly disabled>
+          <!--<input class="block w-full ml-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 read-only:bg-gray-100" 
+          type="file" name="attachment" id="attachment" accept="image/*, .pdf,capture=camera" multiple readonly disabled hidden>-->
         </div>
-        <div class="field-group flex flex-row mb-4 ml-2 w-full preview">
+        <div class="field-group flex flex-row mb-4 ml-2 w-full image-container">
         </div>
         <div class="field-group flex flex-col mb-4 w-full">
-          <label class="field-label mb-2 ml-2" for="catastrophe_event" hidden>Claim Status</label>
-          <input class="field ml-2 border text-grey-700 rounded read-only:bg-gray-100" value="Pending" type="hidden" name="claim_status" id="claim_status" readonly>
+          <label class="field-label mb-2 ml-2" for="catastrophe_event" >Claim Status</label>
+          <input class="field ml-2 border text-grey-700 rounded read-only:bg-gray-100"  name="claim_status" id="claim_status" readonly>
         </div>
    
     </div>
@@ -136,54 +136,52 @@
 <div class="bg-white w-full text-sm fixed bottom-0 left-0 border-t border-gray-200">
   <div class="max-w-4xl mx-auto px-4 flex flex-row justify-end pt-4 pb-5">
     <button class="btn" id="closeBtn">Close</button>
-    <button class="btn btn-primary" id="preview">Preview</button>
-<div id="popup-container">
-  <div id="popup-content">
-    <h3>Claim Preview</h3>
-    <ul id="preview-list"></ul>
-    <button class="btn" id="close-popup">Close</button>
-    <button class="btn btn-primary" id="submit" type="submit">Submit</button>
-  </div>
-</div>
+    <button class="btn btn-primary" id="update">Update Status</button>
   </div>
 </div>
 </form>
 
 <script>
-  let employeeDbId;
-  let departmentDbId;
+  //let employeeDbId;
+  //let departmentDbId;
   //load info from db into employee table
  window.addEventListener("load", async()=>{ 
 
     const searchParams = new URLSearchParams(location.search);
     const id = searchParams.get("id");
-    console.log(id);
+    //console.log("claimId",id);
 
-    const resClaimRecord = await fetch (`/claimOneRecord?id=${id}`);
-    const claimRecord = await resClaimRecord.json();
-    console.log(claimRecord)
-    const claimRecordData = claimRecord[0]
- //   const departmentId = document.querySelector("#departmentId");
- //   const employeeName = document.querySelector("#employeeName");
- //   const email = document.querySelector("#email");
- //   const phoneNumber = document.querySelector("#phoneNumber");
+    const resClaimInfo= await fetch (`/claimInfo?id=${id}`,{
+      method:"POST",
+      headers:{"Content-Type": "application/json"}
+    })
+    const claimInfo = await resClaimInfo.json();
+    
+    const selectedClaimInfo = claimInfo
+    //console.log("selected claimInfo",claimInfo)
+    const departmentId = document.querySelector("#departmentId");
+    const employeeName = document.querySelector("#employeeName");
+    const email = document.querySelector("#email");
+    const phoneNumber = document.querySelector("#phoneNumber");
     const claim_type = document.querySelector("#type-select");
     const claim_description = document.querySelector("#claim_d");
     const claim_date = document.querySelector("#t_date");
     const claim_amount = document.querySelector("#amount");
+    const claim_status = document.querySelector("#claim_status")
     
-  //   departmentId.value = claimRecordData.department.id
-  //   employeeName.value = claimRecordData.employee_name
-  //   email.value = claimRecordData.email
-  //   phoneNumber.value = 
-    claim_type.value = claimRecordData.claim_type
-    claim_description.value = claimRecordData.claim_description
-    claim_date.value = claimRecordData.transaction_date.slice(0,10)
-    claim_amount.value = claimRecordData.amount
+    departmentId.value = selectedClaimInfo.department_name
+    employeeName.value = selectedClaimInfo.employee_name
+    email.value = selectedClaimInfo.email
+    phoneNumber.value = selectedClaimInfo.employee_phonenumber
+    claim_type.value = selectedClaimInfo.claim_type
+    claim_description.value = selectedClaimInfo.claim_description
+    claim_date.value = selectedClaimInfo.transaction_date.slice(0,10)
+    claim_amount.value = selectedClaimInfo.amount
+    claim_status.value = selectedClaimInfo.status
 
 
-    console.log(claimRecordData);
-    console.log(claimRecordData.claim_type)
+    //console.log(claimRecordData);
+    //console.log(claimRecordData.claim_type)
 
 
 
@@ -206,123 +204,89 @@
  //    departmentDbId = employeeList.department_id
     }
   )
+let updateStatus = document.querySelector("#update")
+updateStatus.addEventListener("click",(e)=>{
+  e.preventDefault();
 
-
-
-
-
-
-  let createClaim = document.querySelector("#createClaim");
-  createClaim.addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const attachment = event.target;
-    const attachData = new FormData(attachment);
-    let claimTypeText = document.querySelector('select[name="type"] option:checked').textContent
-   attachData.append("employeeDbId", employeeDbId)
-   attachData.append("departmentDbId", departmentDbId)
-   attachData.append("claimTypeText", claimTypeText)
-
-
-
-   const res = await fetch("/create_claim", {
-     method: "POST",
-     body: attachData,
-   });
-   const result = await res.json();
-   console.log(result)
-   //document.querySelector(".preview").textContent = console.log(result); show the sucess:true result
-  });
-
-  let attachInput = document.querySelector("#attachment");
-  attachInput.addEventListener("change", preview);
-  function preview(e) {
-  let fileObject = this.files;
-  if(fileObject.length>4){
-    e.preventDefault();
-    Swal.fire({
-  icon: 'error',
-  title: 'Error uploading files:',
-  text: 'Maximum Upload 4 files',
+Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
 })
-e.target.value="";
-  }else {
-  for (let i = 0; i < fileObject.length; i++) {
-    let fileReader = new FileReader();
-    if(fileObject[i].type ==="image/jpeg" || "image/bmp" || "image/png"){
-    fileReader.readAsDataURL(fileObject[i]);
-    fileReader.onload = function () {
-      let result = fileReader.result;
-      let preview = document.createElement("img");
-      preview.setAttribute("src", result);
-      preview.setAttribute("class", "preview-image");
-      preview.setAttribute("class", "mx-3");
-      document.querySelector(".preview").appendChild(preview);
-    };}}}}
+const searchParams = new URLSearchParams(location.search);
+ const id = searchParams.get("id");
+Swal.fire({
+  title: 'Update Claim Status?',
+  text: "You won't be able to revert this!",
+  icon: 'question',
+  showCancelButton: true,
+  showCloseButton:true,
+  confirmButtonText: 'Approve',
+  confirmButtonColor:'#45B08C',
+  cancelButtonText: 'Reject',
+  cancelButtonColor:'#D10000',
+  preConfirm: async()=>{
+    const res = await fetch(`/claimInfo/${id}`,{
+      method:"POST",
+      headers:{"Content-Type": "application/json"},
+      body: JSON.stringify({status:"approved"})
+    })
+    const result = await res.json()
+    console.log("statusA", result.status) 
+  },
+  preDeny: async()=>{
+    //console.log("deny")
+    const res =await fetch(`/claimInfo/${id}`,{
+      method:"POST",
+      headers:{"Content-Type": "application/json"},
+      body: JSON.stringify({status:"rejected"})
+    })
 
-const previewBtn = document.querySelector("#preview");
-const popupContainer = document.querySelector("#popup-container");
-const popupContent = document.querySelector("#popup-content");
-const previewList = document.querySelector("#preview-list");
-const closePopupBtn = document.querySelector("#close-popup");
-const  submitBtn = document.querySelector("#submit");
-
-previewBtn.addEventListener('click', function(event) {
-  // Prevent default form submission behavior
-  event.preventDefault();
-
-  // Get form data
-  const formData = new FormData(createClaim);
-  const claimData = {
-    Department: formData.get('departmentId'),
-    "Employee Name": formData.get('employeeName'),
-    Email: formData.get('email'),
-    "Phone Number": formData.get('phoneNumber'),
-    "Claim Type": document.querySelector('select[name="type"] option:checked').textContent,
-    "Claim Amount": formData.get('amount'),
-    "Claim Description": formData.get('claim_description'),
-    attachments: formData.get('attachment')
-  };
-
-  // Display preview page with claim data
-  displayClaimPreview(claimData);
-});
-
-function displayClaimPreview(claimData) {
-  // Populate the list with claim data
-  previewList.innerHTML = '';
-  for (const [key, value] of Object.entries(claimData)) {
-    const listItem = document.createElement('li');
-    listItem.innerHTML = `<strong>${key}:</strong> ${value}`;
-    previewList.appendChild(listItem);
-  }
-
-  // Show the popup dialog
-  popupContainer.style.display = "block";
-}
-
-
-submitBtn.addEventListener("click",function(event){
+    const result = await res.json()
+    console.log("statusR", result.status) 
+  },
+  reverseButtons: true,
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire(
+      'Approved!',
+      'Claim has been approved.',
+      'success',
+    )
+  } else if (
+    result.isDismissed
+  ) {
   Swal.fire({
-  icon: 'success',
-  title: 'Submitted',
-  showCloseButton: true,
-  text: 'Your claim has been submitted!',
+  input: 'textarea',
+  inputLabel: 'Reject Reasons',
+  inputPlaceholder: 'Type your reasons here...',
+  inputAttributes: {
+    'aria-label': 'Type your reasons here'
+  },
+  showCancelButton: true,  
+  showCloseButton:true,
+  showDenyButton:true,
+  denyButtonText:"Confirm to Reject",
+  denyButtonColor: "#D10000",
+  showConfirmButton:false,
 })
-popupContainer.style.display="none";  
-})
-
-
-closePopupBtn.addEventListener('click', function(event) {
-  // Hide the popup dialog
-  event.preventDefault()
-  popupContainer.style.display = "none";
-});
+let rejectText = document.querySelector("#swal2-input")
+console.log(rejectText.value)
+  }
+})})
 
 
 const closeBtn = document.querySelector("#closeBtn")
 closeBtn.addEventListener("click",function(event){
   event.preventDefault();
+  window.close()
 })
+
+let image_container = document.querySelector(".image-container");
+
+
 </script>
 </body>
 </html>

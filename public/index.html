@@ -19,12 +19,11 @@
           <input id="passwordInput" type="password" name="password" required />
           <label for="password">Password:</label>
         </div>
-
+        <div id="loginStatus" class="shake"></div>
         <button type="submit" class="btn">Login</button>
         <button id="forgotpw" class="btn" onclick="forgotpwRequest()">
           Forgot Password?
         </button>
-        <div id="loginStatus"></div>
       </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -47,7 +46,9 @@
           body: JSON.stringify(loginObject),
         });
         const result = await res.json();
-        document.querySelector("#loginStatus").textContent = result.Error;
+        let loginStatus = document.querySelector("#loginStatus");
+        loginStatus.textContent = result.Error;
+
         if (result.role === "admin") {
           window.location.href = "/admin.html";
         } else if (result.role === "user") {
@@ -72,7 +73,19 @@
           showLoaderOnConfirm: true,
         });
         if (email) {
-          Swal.fire(`Request link sent to ${email}`);
+          const emailObject = {};
+          emailObject.email = email;
+          Swal.fire(`Reset password link sent to ${email}`);
+          Swal.fire({
+            preConfirm: async (email) => {
+              const res = await fetch("/forgotPw", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(emailObject),
+              });
+              const result = await res.json();
+            },
+          });
         }
       }
     </script>

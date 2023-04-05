@@ -81,3 +81,42 @@ export async function sendClaimEmail( //send Claim submission confirm email
   });
   console.log("claim submit message sent:", message.messageId);
 }
+
+export async function forgotPwEmail(email: string, employeeName: string) {
+  //send forgot password email to update
+  let mailGenerator = new Mailgen({
+    theme: "default",
+    product: {
+      name: "KEUNG TWO INC.",
+      link: "https://mailgen.js/",
+      copyright: "Copyright © 2023 KEUNG TWO INC. All rights reserved.",
+    },
+  });
+  let emailMessage = {
+    body: {
+      name: `${employeeName}`,
+      signature: "Sincerely",
+      intro:
+        "You have received this email because a password reset request for your account was received.",
+      action: {
+        instructions: "Click the button below to reset your password:",
+        button: {
+          color: "#DC4D2F",
+          text: "Reset Your Password",
+          link: "http://localhost:8000/forgotpassword",
+        },
+      },
+      outro:
+        "If you did not request a password reset, please contact the admin.",
+    },
+  };
+  let mail = mailGenerator.generate(emailMessage);
+  let message = await transporter.sendMail({
+    from: senderEmail, //from here set the main sender email
+    to: email, //receiver email from body - body email
+    subject: "Password Reset",
+    //text: "testingemail",
+    html: mail, //mail message need refer to formdata info
+  });
+  console.log("reset password message sent:", message.messageId);
+}

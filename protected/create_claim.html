@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claim Page</title>
+    <title>Claim Application</title>
     <link rel="stylesheet" href="create_claim.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
@@ -215,7 +215,7 @@
 
   let fileLength;
    
-  let imageModal = document.querySelector("#image-modal") //preview image in large modal
+  //let imageModal = document.querySelector("#image-modal") //preview image in large modal
   let attachInput = document.querySelector("#attachment"); //image preview with different condition after browse files
   let closePreviewImageBtn = document.querySelector(".closePreviewImage")
 
@@ -260,6 +260,9 @@ return;
         Swal.fire({
   imageUrl: image.src,
   showCloseButton: true,
+  showConfirmButton: false,
+  imageWidth:500,
+
 })
       })
       })
