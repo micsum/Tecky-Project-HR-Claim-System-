@@ -15,7 +15,7 @@ export let createClaim = Router();
 createClaim.use(sessionMiddleware);
 createClaim.use(express.static("protected"));
 createClaim.use(express.json());
-createClaim.use(sessionMiddleware);
+//createClaim.use(sessionMiddleware);
 
 createClaim.get("/create_claim", (req, res) => {
   res.redirect("./create_claim.html");
@@ -27,7 +27,7 @@ createClaim.get("/getEmployee", async (req, res) => {
     [req.session.user?.id]
   );
   let dbEmployee = dbEmployeeList.rows[0];
-  console.log("dbEmployee", dbEmployee);
+  //console.log("dbEmployee", dbEmployee);
   res.json(dbEmployee);
 });
 
@@ -84,8 +84,8 @@ createClaim.post("/create_claim", (req, res) => {
         files.attachment;
       // console.log("attach", attachMaybeArray);
 
-      console.log(attachMaybeArray);
-      console.log((attachMaybeArray as formidable.File).newFilename);
+      //console.log(attachMaybeArray);
+      //console.log((attachMaybeArray as formidable.File).newFilename);
 
       if (checkArray(attachMaybeArray)) {
         //@ts-ignore

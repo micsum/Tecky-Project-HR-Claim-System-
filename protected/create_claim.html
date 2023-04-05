@@ -205,7 +205,7 @@
      body: attachData,
    });
    const result = await res.json();
-   console.log("resut",result)
+   //console.log("resut",result)
    //document.querySelector(".preview").textContent = console.log(result); show the success:true result
   });
 
@@ -231,12 +231,12 @@
     e.preventDefault();
     Swal.fire({
   icon: 'error',
-  title: 'Error uploading files:',
-  text: 'Maximum Upload 4 files',
+  title: 'Error in uploading files:',
+  text: 'Maximum to upload 4 files',
 })
 e.target.value="";
 return;
-  }if(fileObject.length>0){
+  }if(fileObject.length>=0){
     document.querySelector(".preview").innerHTML=""
   for (let i = 0; i < fileObject.length; i++) {
     let fileReader = new FileReader();
@@ -314,15 +314,17 @@ function displayClaimPreview(claimData) {
   popupContainer.style.display = "block";
 }
 
-
-submitBtn.addEventListener("click",function(event){
+submitBtn.addEventListener("click", function(){
   Swal.fire({
   icon: 'success',
   title: 'Submitted',
   showCloseButton: true,
   text: 'Your claim has been submitted!',
 })
-popupContainer.style.display="none";  
+popupContainer.style.display="none";
+setTimeout(function() {
+  window.location.reload(); //reset the form submission details
+}, 1800);  
 })
 
 

@@ -21,7 +21,8 @@
               clifford: '#da373d',
             }
           }
-        }
+        },
+       content:['./protected/claimInfo.html'],
       }
     </script>
      <style type="text/tailwindcss">
@@ -110,7 +111,7 @@
             <input class="field ml-2 border text-grey-700 rounded read-only:bg-gray-100" type="text" name="amount" id="amount" placeholder="0.00" readonly >
         </div>
         <div class="field-group flex flex-col mb-4 w-full">
-          <label class="field-label mb-2 ml-2 required" for="attachment">Upload File</label>         
+          <label class="field-label mb-2 ml-2 required" for="attachment">Uploaded Files</label>         
           <!--<input class="block w-full ml-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 read-only:bg-gray-100" 
           type="file" name="attachment" id="attachment" accept="image/*, .pdf,capture=camera" multiple readonly disabled hidden>-->
         </div>
@@ -118,7 +119,11 @@
         </div>
         <div class="field-group flex flex-col mb-4 w-full">
           <label class="field-label mb-2 ml-2" for="catastrophe_event" >Claim Status</label>
-          <input class="field ml-2 border text-grey-700 rounded read-only:bg-gray-100"  name="claim_status" id="claim_status" readonly>
+          <input class="field ml-2 border text-grey-700 rounded" type="text" name="claim_status" id="claim_status" readonly>
+        </div>
+        <div class="field-group flex flex-col mb-4 w-full reject">
+          <label class="field-label mb-2 ml-2" for="catastrophe_event" >Rejected Reasons</label>
+          <input class="field ml-2 border-red-200 text-gray-950 rounded read-only:bg-red-200"  type="text" name="reject_reasons" id="reject_reasons" readonly>
         </div>
    
     </div>
@@ -136,7 +141,7 @@
 <div class="bg-white w-full text-sm fixed bottom-0 left-0 border-t border-gray-200">
   <div class="max-w-4xl mx-auto px-4 flex flex-row justify-end pt-4 pb-5">
     <button class="btn" id="closeBtn">Close</button>
-    <button class="btn btn-primary" id="update">Update Status</button>
+    <button class="btn btn-primary shadow-lg shadow-blue-800/50" id="update">Update Status</button>
   </div>
 </div>
 </form>
@@ -168,6 +173,8 @@
     const claim_date = document.querySelector("#t_date");
     const claim_amount = document.querySelector("#amount");
     const claim_status = document.querySelector("#claim_status")
+   const reject_reasons = document.querySelector("#reject_reasons")
+
     
     departmentId.value = selectedClaimInfo.department_name
     employeeName.value = selectedClaimInfo.employee_name
@@ -178,13 +185,27 @@
     claim_date.value = selectedClaimInfo.transaction_date.slice(0,10)
     claim_amount.value = selectedClaimInfo.amount
     claim_status.value = selectedClaimInfo.status
+    reject_reasons.value = selectedClaimInfo.reject_reasons
 
+    let updateStatus = document.querySelector("#update")
+    if(claim_status.value === "Approved" || claim_status.value==="Rejected"){
+      updateStatus.setAttribute("class","bg-blue-500 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed")
+      updateStatus.setAttribute("disabled","true")
+    }
+    
+    if(claim_status.value === "Approved"){
+      claim_status.setAttribute("class", "field ml-2 border-teal-300 text-grey-700 rounded read-only:bg-emerald-400")
+    }else if(claim_status.value === "Rejected"){
+      claim_status.setAttribute("class", "field ml-2 border-red-300	 text-grey-700 rounded read-only:bg-red-400")
+    }else{
+      claim_status.setAttribute("class", "field ml-2 border-zinc-300 text-grey-700 rounded read-only:bg-zinc-400")
 
-    //console.log(claimRecordData);
-    //console.log(claimRecordData.claim_type)
+    }
 
-
-
+    let rejectDiv = document.querySelector(".reject")
+    if(claim_status.value != "Rejected"){
+      rejectDiv.setAttribute("class","invisible")
+    }
  //   const res = await fetch (`/getEmployee?id=${id}`, {
  //       method:"GET",
  //       headers:{"Content-Type": "application/json"},
@@ -204,6 +225,8 @@
  //    departmentDbId = employeeList.department_id
     }
   )
+
+let sameAdminId;
 let updateStatus = document.querySelector("#update")
 updateStatus.addEventListener("click",(e)=>{
   e.preventDefault();
@@ -234,31 +257,36 @@ Swal.fire({
       body: JSON.stringify({status:"approved"})
     })
     const result = await res.json()
-    console.log("statusA", result.status) 
+    console.log("statusA", result.status)
+    if(result.adminId){
+    //console.log("duplicate",result.adminId)
+    sameAdminId = result.adminId
+    } 
   },
-  preDeny: async()=>{
-    //console.log("deny")
-    const res =await fetch(`/claimInfo/${id}`,{
-      method:"POST",
-      headers:{"Content-Type": "application/json"},
-      body: JSON.stringify({status:"rejected"})
-    })
-
-    const result = await res.json()
-    console.log("statusR", result.status) 
-  },
+ 
   reverseButtons: true,
 }).then((result) => {
-  if (result.isConfirmed) {
+  if (result.isConfirmed && sameAdminId) {
+    Swal.fire(
+      'Error!',
+      'You can not approve your own claim.',
+      'warning',
+    ).then(function(){
+      window.location.reload()
+    })
+  } else if(result.isConfirmed){
     Swal.fire(
       'Approved!',
       'Claim has been approved.',
       'success',
-    )
-  } else if (
-    result.isDismissed
+    ).then(function(){
+      window.location.reload()
+    })
+  }
+  else if (
+    result.dismiss === Swal.DismissReason.cancel
   ) {
-  Swal.fire({
+  const {value:text} = Swal.fire({
   input: 'textarea',
   inputLabel: 'Reject Reasons',
   inputPlaceholder: 'Type your reasons here...',
@@ -271,9 +299,31 @@ Swal.fire({
   denyButtonText:"Confirm to Reject",
   denyButtonColor: "#D10000",
   showConfirmButton:false,
+  returnInputValueOnDeny:true,
+  preDeny: async(text)=>{
+    //console.log("deny")
+    const res =await fetch(`/claimInfo/${id}`,{
+      method:"POST",
+      headers:{"Content-Type": "application/json"},
+      body: JSON.stringify({status:"rejected", rejectReasons: text})
+    })
+
+
+    const statusResult = await res.json()
+    console.log("statusR", statusResult.status)
+    //console.log("text",text) //text from textarea 
+    //console.log("reasons",statusResult.rejectId) test reject id
+    await Swal.fire({
+      title:"Rejected",
+      text:"Claim has been rejected.",
+      icon:"error"
+    }).then(function(){
+      window.location.reload()
+    })
+  },
+  
+  
 })
-let rejectText = document.querySelector("#swal2-input")
-console.log(rejectText.value)
   }
 })})
 

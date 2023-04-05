@@ -105,7 +105,7 @@
             cell.appendChild(button);
             button.addEventListener("click", () => {
                 //console.log("searchList", searchList[i])
-                window.open(`claimInfo.html?id=${searchList[i].id}`)
+                window.open(`claimInfo.html?id=${searchList[i].id}`,'Claim Information', 'toolbar=0,location=0,menubar=0')
             })
         }
         else{
@@ -161,7 +161,7 @@
             cell.appendChild(button);
             button.addEventListener("click", () => {
                 //console.log("expandclaimList",claimList[i])
-                window.open(`claimInfo.html?id=${claimList[i].id}`)
+                window.open(`claimInfo.html?id=${claimList[i].id}`,'Claim Information', 'toolbar=0,location=0,menubar=0')
             })
         }
         else{

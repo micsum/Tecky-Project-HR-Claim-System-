@@ -120,3 +120,66 @@ export async function forgotPwEmail(email: string, employeeName: string) {
   });
   console.log("reset password message sent:", message.messageId);
 }
+
+export async function statusEmail( //send Claim submission confirm email
+  email: string,
+  employeeName: string,
+  claimId: number,
+  claimTypeText: string,
+  amount: number,
+  status: string
+) {
+  let mailGenerator = new Mailgen({
+    theme: "default",
+    product: {
+      name: "KEUNG TWO INC.",
+      link: "https://mailgen.js/",
+      copyright: "Copyright © 2023 KEUNG TWO INC. All rights reserved.",
+    },
+  });
+  let emailMessage = {
+    body: {
+      signature: "Sincerely",
+      title: `Hi ${employeeName}, your claim has been ${status}.`,
+      table: {
+        data: [
+          {
+            "Claim Id": claimId,
+            "Claim Type": claimTypeText,
+            Amount: amount,
+            Status: status,
+          },
+        ],
+        columns: {
+          customWidth: {
+            "Claim Id": "20%",
+          },
+
+          customAlignment: {
+            "Claim Id": "center",
+            "Claim Type": "center",
+            Amount: "center",
+            Status: "center",
+          },
+        },
+      },
+      action: {
+        instructions: "You can check the status and details of your claim:",
+        button: {
+          color: "#29A0B1",
+          text: `Check Details`,
+          link: `http://localhost:8000/claiminfo.html?id=${claimId}`,
+        },
+      },
+    },
+  };
+  let mail = mailGenerator.generate(emailMessage);
+  let message = await transporter.sendMail({
+    from: senderEmail, //from here set the main sender email
+    to: email, //receiver email from formdata - field email
+    subject: "Your Claim status has been updated.",
+    //text: "testingemail",
+    html: mail, //mail message need refer to formdata info
+  });
+  console.log("status message sent:", message.messageId);
+}
