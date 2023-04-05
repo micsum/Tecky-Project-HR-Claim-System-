@@ -54,11 +54,11 @@
     // employeeDbId = employeeList.id
     // departmentDbId = employeeList.department_id
     var rowNumber = 0;
-    var rowLimit = 1;
+    var rowLimit = 10;
     var expand = document.querySelector("#expand");
     expand.addEventListener("click", async () => {
-        rowNumber += 1
-        rowLimit += 1;
+        rowNumber += 10
+        rowLimit += 10;
         const res = await fetch ("/userRecord", {
         method:"GET",
         headers:{"Content-Type": "application/json"},
@@ -66,7 +66,7 @@
     let claimList = await res.json()
     console.log(claimList);
     
-    for(let i = rowNumber; i < rowLimit; i++){
+    for(let i = rowNumber; i < rowLimit && i < claimList.length; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
         console.log('123: ',dataRow)
@@ -108,7 +108,7 @@
     let claimList = await res.json()
     console.log(claimList);
     
-    for(let i = rowNumber; i < rowLimit; i++){
+    for(let i = rowNumber; i < rowLimit && i < claimList.length; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
         console.log('123: ',dataRow)

@@ -254,7 +254,9 @@ Swal.fire({
       'Approved!',
       'Claim has been approved.',
       'success',
-    )
+    ).then(function(){ 
+window.location.reload();
+})
   } else if (
     result.isDismissed
   ) {

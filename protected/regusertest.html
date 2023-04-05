@@ -109,6 +109,8 @@
   text: ` ${formObject["role"]} in ${text}:
   ${formObject["employeeName"]} (${formObject["email"]})
   has registered in the system.`
+}).then(function(){ 
+window.location.reload();
 })
     }else if (result.error.length !== 0){
       Swal.fire({
