@@ -8,7 +8,7 @@ userHistoryRouter.use(express.static("protected"));
 userHistoryRouter.use(express.json());
 
 userHistoryRouter.get("/userHistory", (req, res) => {
-    res.redirect("./userHistorytest.html");
+    res.redirect("./userHistorytest2.html");
   });
 
   
