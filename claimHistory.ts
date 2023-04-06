@@ -14,7 +14,11 @@ historyRouter.use("/uploads", express.static(uploadDir));
 historyRouter.use(express.json());
 
 historyRouter.get("/claimHistory", (req, res) => {
+<<<<<<< HEAD
+  res.redirect("./claimHistorytest2.html");
+=======
   res.redirect("./claimHistorytest.html");
+>>>>>>> 69445b33b9adfef523a7ab5ac45534e95280784b
 });
 
 historyRouter.get("/claimRecord", async (req, res) => {

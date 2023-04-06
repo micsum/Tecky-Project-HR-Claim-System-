@@ -7,7 +7,7 @@ export let userHistoryRouter = Router();
 userHistoryRouter.use(express.static("protected"));
 userHistoryRouter.use(express.json());
 
-userHistoryRouter.get("/userHistorytest", (req, res) => {
+userHistoryRouter.get("/userHistory", (req, res) => {
     res.redirect("./userHistorytest.html");
   });
 
