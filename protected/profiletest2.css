@@ -125,13 +125,14 @@ body {
 /* Main */
 .main {
     margin-top: 2%;
-    margin-left: 29%;
+    margin-left: 40%;
     font-size: 28px;
     padding: 0 10px;
     width: 58%;
 }
 
 .main h2 {
+    text-align: center;
     color: #333;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 24px;
@@ -199,20 +200,23 @@ body {
     color: #fffb01 !important;
 }
 
-@media screen and (max-width:600px) {
+@media screen and (max-width:639px) {
     h2{
         
     }
     .main{
+        margin-top: 2%;
+    margin-left: 5%;
         height: 100%;
+        width:88%;
     }
     .main .card {
         background-color: #fff;
         border-radius: 18px;
         box-shadow: 1px 1px 8px 0 grey;
         height: 80%;
-        margin-bottom: 20px;
-        padding: 20px 0 20px 50px;
+        margin-bottom: 5px;
+        padding: 5px 0 5px 10px;
         overflow: auto ;
         
     }
