@@ -9,7 +9,7 @@ userDashRouter.use(express.urlencoded({ extended: true })); //middleware for htm
 userDashRouter.use(express.json());
 
 userDashRouter.get("/userDash", async (req, res) => {
-    res.redirect("userdashtest.html");
+    res.redirect("userdashtest2.html");
     //console.log(req.session.user?.id)
   });
 

@@ -13,8 +13,8 @@ historyRouter.use(express.static("protected"));
 historyRouter.use("/uploads", express.static(uploadDir));
 historyRouter.use(express.json());
 
-historyRouter.get("/claimHistorytest", (req, res) => {
-  res.redirect("./claimHistorytest.html");
+historyRouter.get("/claimHistory", (req, res) => {
+  res.redirect("./claimHistorytest2.html");
 });
 
 historyRouter.get("/claimRecord", async (req, res) => {

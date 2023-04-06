@@ -11,8 +11,8 @@ registerRouter.use(express.static("protected")); //read the html and css file , 
 registerRouter.use(express.urlencoded({ extended: true })); //middleware for html-form-post
 registerRouter.use(express.json());
 //changed to regusertest from adduser
-registerRouter.get("/regusertest", isAdmin, (req, res) => {
-  res.redirect("regusertest.html");
+registerRouter.get("/adduser", isAdmin, (req, res) => {
+  res.redirect("regusertest2.html");
 });
 
 //registerRouter.post('/adduser', (req,res) => {
