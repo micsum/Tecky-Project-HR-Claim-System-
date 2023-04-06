@@ -9,7 +9,7 @@ profileRouter.use(express.urlencoded({ extended: true })); //middleware for html
 profileRouter.use(express.json());
 
 profileRouter.get("/profile", async (req, res) => {
-    res.redirect("profiletest.html");
+    res.redirect("profiletest2.html");
     //console.log(req.session.user?.id)
   });
 
