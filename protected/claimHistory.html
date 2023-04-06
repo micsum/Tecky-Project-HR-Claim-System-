@@ -82,7 +82,7 @@
     let searchList = await res.json()
     //console.log("searchList",searchList);
     
-    for(let i = rowNumber; i < rowLimit; i++){
+    for(let i = rowNumber; i < rowLimit && i < searchList.length; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
         let headingRow = document.getElementsByClassName("row")
@@ -140,7 +140,7 @@
     let claimList = await res.json()
     //console.log("claimlistexpand",claimList);
     
-    for(let i = rowNumber; i < rowLimit; i++){
+    for(let i = rowNumber; i < rowLimit && i < claimList.length; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
         dataRow.setAttribute("class" ,"info")
@@ -184,7 +184,7 @@
     let claimList = await res.json()
     //console.log("windowloadclaimList",claimList);
     
-    for(let i = rowNumber; i < rowLimit; i++){
+    for(let i = rowNumber; i < rowLimit && i < claimList.length; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
         let headingRow = document.getElementsByClassName("row")

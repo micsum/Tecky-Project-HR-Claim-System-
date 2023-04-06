@@ -10,8 +10,9 @@ export let registerRouter = Router();
 registerRouter.use(express.static("protected")); //read the html and css file , sequence is matter, public guy watch public
 registerRouter.use(express.urlencoded({ extended: true })); //middleware for html-form-post
 registerRouter.use(express.json());
-registerRouter.get("/adduser", isAdmin, (req, res) => {
-  res.redirect("adduser.html");
+//changed to regusertest from adduser
+registerRouter.get("/regusertest", isAdmin, (req, res) => {
+  res.redirect("regusertest.html");
 });
 
 //registerRouter.post('/adduser', (req,res) => {
@@ -43,8 +44,8 @@ registerRouter.get("/getDepartment", async (req, res) => {
   console.log("dbDepart", dbDepartmentList); //test fetch work or not
   res.json(dbDepartmentList);
 });
-
-registerRouter.post("/adduser", async (req, res) => {
+//changed to regusertest from adduser
+registerRouter.post("/regusertest", async (req, res) => {
   console.log("req.body: ", req.body);
   let employeeName = req.body.employeeName;
   let email = req.body.email;

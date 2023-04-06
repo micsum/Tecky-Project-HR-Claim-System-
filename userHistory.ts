@@ -7,8 +7,8 @@ export let userHistoryRouter = Router();
 userHistoryRouter.use(express.static("protected"));
 userHistoryRouter.use(express.json());
 
-userHistoryRouter.get("/userHistory", (req, res) => {
-    res.redirect("./userHistory.html");
+userHistoryRouter.get("/userHistorytest", (req, res) => {
+    res.redirect("./userHistorytest.html");
   });
 
   
@@ -48,6 +48,26 @@ userHistoryRouter.get("/userHistory", (req, res) => {
       res.json(claimList.rows);
     });
 
+    userHistoryRouter.post("/claimInfo", async (req, res) => {
+        const id = req.query.id;
+        //console.log("claimID1", id);
+        let selectedClaimInfo = await client.query(
+          /*sql*/ `
+            SELECT  employee.phone_number AS employee_phoneNumber, employee.email AS email, employee.name AS employee_name, 
+            department.name AS department_name, 
+            claim.id as claim_id,claim.claim_type, claim.amount, claim.transaction_date, claim.status, claim.claim_description 
+            FROM claim 
+            INNER JOIN employee ON employee.id = claim.employee_id
+            INNER JOIN department ON department.id = claim.department_id
+            WHERE claim.id = $1
+            ;`,
+          [id]
+        );
+        //let dbEmployee = dbEmployeeList.rows[0];
+        //console.log(dbEmployee);
+        //console.log("selected claimid", selectedClaimInfo.rows[0]);
+        res.json(selectedClaimInfo.rows[0]);
+      });
 //    userHistoryRouter.get("/claimInfo", (req, res) => {
 //    res.redirect("./claimInfo.html");
 //  })
