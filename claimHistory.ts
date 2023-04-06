@@ -14,7 +14,11 @@ historyRouter.use("/uploads", express.static(uploadDir));
 historyRouter.use(express.json());
 
 historyRouter.get("/claimHistory", (req, res) => {
+<<<<<<< HEAD
   res.redirect("./claimHistorytest2.html");
+=======
+  res.redirect("./claimHistorytest.html");
+>>>>>>> 69445b33b9adfef523a7ab5ac45534e95280784b
 });
 
 historyRouter.get("/claimRecord", async (req, res) => {
@@ -64,7 +68,7 @@ historyRouter.post("/claimInfo", async (req, res) => {
     /*sql*/ `
       SELECT  employee.phone_number AS employee_phoneNumber, employee.email AS email, employee.name AS employee_name, 
       department.name AS department_name, 
-      claim.id as claim_id,claim.claim_type, claim.amount, claim.transaction_date, claim.status, claim.claim_description, claim.employee_id as claim_employee_id,
+      claim.id as claim_id, claim.claim_type, claim.amount, claim.transaction_date, claim.status, claim.claim_description, claim.employee_id as claim_employee_id,
       reject.reasons AS reject_reasons
       FROM claim 
       INNER JOIN employee ON employee.id = claim.employee_id
@@ -86,6 +90,18 @@ historyRouter.post("/claimInfo", async (req, res) => {
   res.json(selectedClaimInfo.rows[0]);
 });
 
+historyRouter.post("/claimInfoFiles/:id", async (req, res) => {
+  const id = req.params.id;
+  //console.log("claimId", id);
+  let upload = await client.query(
+    /*sql*/ `SELECT file_name FROM file WHERE claim_id=$1`,
+    [id]
+  );
+  const result = upload.rows;
+  //console.log("files", result); check the file_name exists of each id
+  res.json({ filesname: result });
+});
+
 historyRouter.get("/claimInfo", (req, res) => {
   res.redirect("./claimInfo.html");
 });
@@ -94,10 +110,11 @@ historyRouter.post("/claimInfo/:id", async (req, res) => {
   const id = req.params.id;
   const userId = req.session.user?.id;
   if (userId === claimEmployeeId) {
+    //console.log("id", id);
+    //console.log("userId", userId);
     res.json({ adminId: "sameAdminId" });
     return;
-  }
-  if (req.body.status === "approved") {
+  } else if (req.body.status === "approved") {
     //console.log("claimId2", +id); //check query id
     let statusA = await client.query(
       /*sql*/ `

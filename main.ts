@@ -9,7 +9,7 @@ import { historyRouter } from "./claimHistory";
 import { userHistoryRouter } from "./userHistory";
 import { sessionMiddleware } from "./login";
 import { emailRouter } from "./sendEmail";
-import { userDashRouter } from "./userDash"
+import { userDashRouter } from "./userDash";
 export const app = express();
 
 app.use(sessionMiddleware);
@@ -17,17 +17,16 @@ app.use(express.static("public"));
 //app.use(express.static("protected"));
 app.use(express.json());
 app.use(passwordRouter);
+app.use(historyRouter);
 app.use(createClaim);
 app.use(emailRouter);
 app.use(userRouter);
 app.use(profileRouter);
 app.use(userHistoryRouter);
-app.use(userDashRouter)
+app.use(userDashRouter);
 app.use(isUser, express.static("user"));
 app.use(isAdmin, registerRouter);
 app.use(isAdmin, express.static("admin"));
-app.use(historyRouter);
-
 
 //read the html and css file , sequence is matter, admin/user read the private
 //app.use(createClaim);

@@ -115,7 +115,7 @@
           <!--<input class="block w-full ml-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 read-only:bg-gray-100" 
           type="file" name="attachment" id="attachment" accept="image/*, .pdf,capture=camera" multiple readonly disabled hidden>-->
         </div>
-        <div class="field-group flex flex-row mb-4 ml-2 w-full image-container">
+        <div class="field-group flex flex-row mb-4 ml-2 w-full file-container preview">
         </div>
         <div class="field-group flex flex-col mb-4 w-full">
           <label class="field-label mb-2 ml-2" for="catastrophe_event" >Claim Status</label>
@@ -155,6 +155,40 @@
     const searchParams = new URLSearchParams(location.search);
     const id = searchParams.get("id");
     //console.log("claimId",id);
+    let file_container = document.querySelector(".file-container");
+
+    const resclaimFile = await fetch (`claimInfoFiles/${id}`,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"}
+    })
+    const filesInfo = await resclaimFile.json()
+    //console.log("files",filesInfo.filesname) //check files_name exist or not 
+    let files = filesInfo.filesname  //show the uploaded files
+    for(let i = 0; i<files.length;i++){
+      //console.log(files[i].file_name) 
+      const filename = files[i].file_name
+      const url = `/uploads/${filename}`;
+      let element;
+      if(filename.endsWith('.pdf')){
+        element=document.createElement('embed');
+        element.setAttribute('src',url);
+        element.setAttribute('type',"application/pdf");
+      }else{
+        element= document.createElement('img');
+        element.setAttribute('src',url)
+        element.setAttribute("class", "mx-3 preview-image")
+        element.addEventListener("click",()=>{
+          Swal.fire({
+  imageUrl: element.src,
+  showCloseButton: true,
+  showConfirmButton: false,
+  imageWidth:500,
+})
+        })
+      }file_container.appendChild(element)
+
+    }
+
 
     const resClaimInfo= await fetch (`/claimInfo?id=${id}`,{
       method:"POST",
@@ -163,7 +197,7 @@
     const claimInfo = await resClaimInfo.json();
     
     const selectedClaimInfo = claimInfo
-    //console.log("selected claimInfo",claimInfo)
+    //console.log("selected claimInfo",selectedClaimInfo)
     const departmentId = document.querySelector("#departmentId");
     const employeeName = document.querySelector("#employeeName");
     const email = document.querySelector("#email");
@@ -173,8 +207,7 @@
     const claim_date = document.querySelector("#t_date");
     const claim_amount = document.querySelector("#amount");
     const claim_status = document.querySelector("#claim_status")
-   const reject_reasons = document.querySelector("#reject_reasons")
-
+    const reject_reasons = document.querySelector("#reject_reasons")
     
     departmentId.value = selectedClaimInfo.department_name
     employeeName.value = selectedClaimInfo.employee_name
@@ -186,6 +219,7 @@
     claim_amount.value = selectedClaimInfo.amount
     claim_status.value = selectedClaimInfo.status
     reject_reasons.value = selectedClaimInfo.reject_reasons
+
 
     let updateStatus = document.querySelector("#update")
     if(claim_status.value === "Approved" || claim_status.value==="Rejected"){
@@ -259,7 +293,7 @@ Swal.fire({
     const result = await res.json()
     console.log("statusA", result.status)
     if(result.adminId){
-    //console.log("duplicate",result.adminId)
+    console.log("duplicate",result.adminId)
     sameAdminId = result.adminId
     } 
   },
@@ -334,7 +368,6 @@ closeBtn.addEventListener("click",function(event){
   window.close()
 })
 
-let image_container = document.querySelector(".image-container");
 
 
 </script>
