@@ -3,6 +3,7 @@
 .preview {
   max-width: 20%;
   height: auto;
+  cursor: pointer;
 }
 
 .preview-image {

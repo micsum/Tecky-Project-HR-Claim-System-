@@ -240,6 +240,7 @@ return;
     document.querySelector(".preview").innerHTML=""
   for (let i = 0; i < fileObject.length; i++) {
     let fileReader = new FileReader();
+    console.log("object",fileObject)
     if(fileObject[i].type ==="image/jpeg" || "image/bmp" || "image/png"){
     fileReader.readAsDataURL(fileObject[i]);
     let files=[]
