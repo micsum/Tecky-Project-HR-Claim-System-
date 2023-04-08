@@ -76,3 +76,16 @@ userHistoryRouter.get("/userHistory", (req, res) => {
 //    
 //    `
 //  }
+
+userHistoryRouter.post("/logout", (req, res) => {
+  console.log("logout");
+
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+  res.redirect("/");
+  //res.json({});
+  console.log("destroy:", req.session);
+});
