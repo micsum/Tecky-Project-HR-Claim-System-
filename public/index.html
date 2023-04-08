@@ -33,11 +33,11 @@
       let login = document.querySelector("#login");
       let forgotpw = document.querySelector("#forgotpw");
 
-  //    window.addEventListener("load", async function(event) {
-  //      const res = await fetch("/autologout",{
-  //        
-  //      })
-  //    })
+      //    window.addEventListener("load", async function(event) {
+      //      const res = await fetch("/autologout",{
+      //
+      //      })
+      //    })
       login.addEventListener("submit", async function (event) {
         event.preventDefault();
         const loginForm = event.target;
@@ -53,14 +53,13 @@
         const result = await res.json();
         let loginStatus = document.querySelector("#loginStatus");
         loginStatus.textContent = result.Error;
-        
+
         if (result.role === "admin" || result.role === "user") {
-          
           window.location.href = "/userdashtest2.html";
-        } 
-       // else if (result.role === "user") {
-       //   window.location.href = "/userdashtest2.html";
-       // }
+        }
+        // else if (result.role === "user") {
+        //   window.location.href = "/userdashtest2.html";
+        // }
       });
 
       async function forgotpwRequest() {
@@ -74,25 +73,23 @@
           cancelButtonText: "Back To Login",
           popup: "swal2-show",
           backdrop: "swal2-backdrop-show",
-          icon: "swal2-icon-show",
           input: "email",
           inputPlaceholder: "Your email address",
           showLoaderOnConfirm: true,
+          preConfirm: async () => {
+            const emailObject = {};
+            emailObject.email = email;
+            //console.log("email", email);
+            const res = await fetch("/forgotPw", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(emailObject),
+            });
+            const result = await res.json();
+          },
         });
         if (email) {
-          const emailObject = {};
-          emailObject.email = email;
-          Swal.fire(`Reset password link sent to ${email}`);
-          Swal.fire({
-            preConfirm: async (email) => {
-              const res = await fetch("/forgotPw", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(emailObject),
-              });
-              const result = await res.json();
-            },
-          });
+          Swal.fire({ text: `Reset password link sent to ${email}` });
         }
       }
     </script>
