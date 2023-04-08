@@ -9,10 +9,16 @@
   </head>
   <body>
     <div class="chart-container">
-      <div class="depart-piechart" style="height: 50vh; width: 60vw">
+      <div
+        class="depart-piechart"
+        style="position: relative; height: 50vh; width: 60vw"
+      >
         <canvas id="departPieChart"></canvas>
       </div>
-      <div class="indiv-piechart" style="height: 50vh; width: 60vw">
+      <div
+        class="indiv-piechart"
+        style="position: relative; height: 50vh; width: 60vw"
+      >
         <canvas id="pieChart"></canvas>
       </div>
       <div class="indiv-barchart">
@@ -116,7 +122,7 @@
           ],
         },
         options: {
-          reponsive: true,
+          responsive: true,
           animation: { animateScale: true },
           plugins: {
             title: {
@@ -158,7 +164,7 @@
         type: "bar",
         data: barChartData,
         options: {
-          reponsive: true,
+          responsive: true,
           animation: { animateScale: true },
           plugins: {
             title: {
@@ -219,7 +225,7 @@
             ],
           },
           options: {
-            reponsive: true,
+            responsive: true,
             animation: { animateScale: true },
             plugins: {
               title: {
