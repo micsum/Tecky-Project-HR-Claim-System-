@@ -41,8 +41,19 @@ created_at date
 claim_id INTEGER FK >- claim.id
 
 
-# employee (50, 382)
-# department (69, 74)
+
+
+reject
+-------------------------------------------------
+id serial PK unique not null
+reasons varchar(255)
+claim_id INTEGER not null
+reject_date date not null
+claim_id INTEGER FK -- claim.id
+
+# employee (-17, 264)
+# department (550, 786)
 # claim (418, 164)
-# view: (-8, 10)
-# claim_file (1033, 86)
+# view: (157, 15)
+# claim_file (1178, 121)
+# reject (1037, 548)

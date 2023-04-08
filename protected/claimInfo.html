@@ -318,7 +318,7 @@ Swal.fire({
     })
   }
   else if (
-    result.dismiss === Swal.DismissReason.cancel
+    result.isDismissed
   ) {
   const {value:text} = Swal.fire({
   input: 'textarea',
@@ -343,17 +343,27 @@ Swal.fire({
     })
 
 
-    const statusResult = await res.json()
-    console.log("statusR", statusResult.status)
+    const result = await res.json()
+    console.log("statusR", result.status)
+    console.log("duplicate",result.adminId)    
+    if(result.adminId){
+      Swal.fire(
+      'Error!',
+      'You can not approve your own claim.',
+      'warning',
+    ).then(function(){
+      window.location.reload()
+    })
+    }
     //console.log("text",text) //text from textarea 
     //console.log("reasons",statusResult.rejectId) test reject id
-    await Swal.fire({
+    else{Swal.fire({
       title:"Rejected",
       text:"Claim has been rejected.",
       icon:"error"
     }).then(function(){
       window.location.reload()
-    })
+    })} 
   },
   
   

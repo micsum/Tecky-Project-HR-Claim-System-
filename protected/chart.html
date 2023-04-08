@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="chart-container">
+      <div class="indiv-piechart" style="height: 50vh; width: 60vw">
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="indiv-barchart" style="height: 50vh; width: 60vw">
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+  </body>
+  <script>
+    let User_claim_type = [];
+    let User_amount = [];
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const status = ["Approved", "Pending", "Rejected"];
+
+    getIndivClaimData();
+
+    async function getIndivClaimData() {
+      const res = await fetch("/chart", {
+        method: "get",
+        headers: { "Content-Type": "application/json" },
+      });
+      const result = await res.json();
+      createIndivPieChart(result);
+
+      createIndivBarChart(result);
+
+      //console.log("monthlybar", result.monthlyBar);
+    }
+
+    function drawBarChart(result) {
+      let dataset = [];
+
+      for (let item of status) {
+        // console.log("item", item);
+
+        let array = [];
+        for (let month in months) {
+          array.push(0);
+        }
+
+        for (let claim of result.monthlyBar) {
+          if (claim.status === item) {
+            let index = months.indexOf(claim.submit_month.trim());
+            //console.log("index", index);
+
+            array[index] = claim.monthly_sum;
+          }
+        }
+        dataset.push(array);
+      }
+      return dataset;
+      //console.log(dataset);
+      //console.log(User_amount);
+      //console.log(User_claim_type);
+    }
+
+    async function createIndivPieChart(result) {
+      if (result.typePie) {
+        for (let indiv of result.typePie) {
+          User_claim_type.push(indiv.claim_type);
+          User_amount.push(indiv.sum);
+        }
+      }
+      const ctx = document.getElementById("pieChart");
+      const indivChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: User_claim_type,
+          datasets: [
+            {
+              //label: User_claim_type,
+              data: User_amount,
+              backgroundColor: [
+                "rgb(255, 99, 132)",
+                "rgb(54, 162, 235)",
+                "rgb(255, 205, 86)",
+                "rgb(60, 205, 86)",
+                "#E7F2F8",
+                "#FFA384",
+                "#74BDCB",
+                "#EFE7BC",
+                "#A16AE8",
+              ],
+              hoverOffset: 9,
+            },
+          ],
+        },
+        options: {
+          animation: { animateScale: true },
+          plugins: {
+            title: {
+              display: true,
+              text: "All claims you made in categories:",
+              position: "top",
+              padding: {
+                top: 10,
+                bottom: 10,
+              },
+            },
+          },
+        },
+      });
+    }
+
+    async function createIndivBarChart(result) {
+      let data = drawBarChart(result);
+      let chartInfo = [
+        ["lightgreen", "green"],
+        ["lightblue", "blue"],
+        ["pink", "red"],
+      ];
+      let datasets = [];
+      for (let i = 0; i < status.length; i++) {
+        const object = {
+          label: status[i],
+          backgroundColor: chartInfo[i][0],
+          borderColor: chartInfo[i][1],
+          borderWidth: 1,
+          data: data[i],
+        };
+        datasets.push(object);
+      }
+      const barChartData = { labels: months, datasets: datasets };
+
+      const ctx = document.getElementById("barChart");
+      const barChart = new Chart(ctx, {
+        type: "bar",
+        data: barChartData,
+        options: {
+          animation: { animateScale: true },
+          plugins: {
+            title: {
+              display: true,
+              text: "Monthly Claims by status",
+              position: "top",
+              padding: {
+                top: 10,
+                bottom: 10,
+              },
+            },
+          },
+        },
+      });
+    }
+  </script>
+</html>

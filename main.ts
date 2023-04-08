@@ -10,6 +10,7 @@ import { userHistoryRouter } from "./userHistory";
 import { sessionMiddleware } from "./login";
 import { emailRouter } from "./sendEmail";
 import { userDashRouter } from "./userDash";
+import { chartRouter } from "./chart";
 export const app = express();
 
 app.use(sessionMiddleware);
@@ -18,12 +19,14 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(passwordRouter);
 app.use(historyRouter);
+app.use(chartRouter);
 app.use(createClaim);
 app.use(emailRouter);
 app.use(userRouter);
 app.use(profileRouter);
 app.use(userHistoryRouter);
 app.use(userDashRouter);
+
 app.use(isUser, express.static("user"));
 app.use(isAdmin, registerRouter);
 app.use(isAdmin, express.static("admin"));

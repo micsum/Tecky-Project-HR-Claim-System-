@@ -1,27 +1,24 @@
+department
+-------------------------
+id serial PK	unique 
+name	varchar(20)	
+
 employee
 --------------------------
 id	serial unique PK                
 name	varchar(35)	                              
 email	varchar(35)	                               
-phone_number	varchar(25)	                        
-department_id	integer FK -- department.id
+phone_number	varchar(25)	 
 hire_date	date
+role varchar(20)                       
+department_id	integer FK -- department.id
 
 
 
 
-authorizing_officer
---------------------------
-id serial unique	PK
-name	varchar(35)	
-email	varchar(35)	
-phone_number varchar(25)	
-department_id FK -- department.id 	
 
-department
--------------------------
-id serial PK	unique 
-name	varchar(20)	
+
+
 
 claim
 -----------------------------------------------------------
@@ -33,18 +30,30 @@ claim_description	varchar(100)
 date_of_submission date
 status	varchar(16)
 employee_id	integer FK >- employee.id
-authorizing_officer_id	integer	FK >- authorizing_officer.id
+department_id	integer	FK >- department.id
 
 claim_file
 ----------------------------------------------------
 id serial	PK unique
-file_name varchar(255)
-claim_id integer FK >- claim.id
+id SERIAL PK
+file_name VARCHAR(255)
+created_at date
+claim_id INTEGER FK >- claim.id
 
 
-# claim (720, 365)
-# employee (345, 42)
-# authorizing_officer (356, 868)
-# claim_file (1821, 305)
-# department (38, 527)
-# view: (-8, 86)
+
+
+reject
+-------------------------------------------------
+id serial PK unique not null
+reasons varchar(255)
+claim_id INTEGER not null
+reject_date date not null
+claim_id INTEGER FK -- claim.id
+
+# employee (-17, 264)
+# department (550, 786)
+# claim (418, 164)
+# view: (157, 15)
+# claim_file (1178, 121)
+# reject (1037, 548)
