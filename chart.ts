@@ -22,12 +22,23 @@ chartRouter.get("/chart", async (req, res) => {
   let monthlyData = dbResultByMonth.rows;
   //console.log("monthlyData", monthlyData);
 
-  //let dbDepartResult = await client.query(
-  ///*sql*/ `select sum(amount), claim_type from claim WHERE employee_id=$1 group by claim_type;`,
-  //   [req.session.user?.id]
-  //);
-  //let typeDepartData = dbResult.rows;
-  //console.log("typeDepartData", typeData);
-
-  res.json({ typePie: typeData, monthlyBar: monthlyData });
+  if (req.session.user?.role === "admin") {
+    let dbDepartResult = await client.query(
+      /*sql*/ `select sum(amount), claim_type from claim WHERE department_id=$1 group by claim_type;`,
+      [req.session.user?.department_id]
+    );
+    let typeDepartData = dbDepartResult.rows;
+    res.json({
+      typePie: typeData,
+      monthlyBar: monthlyData,
+      typeDepartData: typeDepartData,
+      role: req.session.user?.role,
+    });
+  } else {
+    res.json({
+      typePie: typeData,
+      monthlyBar: monthlyData,
+      role: req.session.user?.role,
+    });
+  }
 });

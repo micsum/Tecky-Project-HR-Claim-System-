@@ -9,10 +9,13 @@
   </head>
   <body>
     <div class="chart-container">
+      <div class="depart-piechart" style="height: 50vh; width: 60vw">
+        <canvas id="departPieChart"></canvas>
+      </div>
       <div class="indiv-piechart" style="height: 50vh; width: 60vw">
         <canvas id="pieChart"></canvas>
       </div>
-      <div class="indiv-barchart" style="height: 50vh; width: 60vw">
+      <div class="indiv-barchart">
         <canvas id="barChart"></canvas>
       </div>
     </div>
@@ -35,6 +38,8 @@
       "December",
     ];
     const status = ["Approved", "Pending", "Rejected"];
+    let Depart_claim_type = [];
+    let Depart_amount = [];
 
     getIndivClaimData();
 
@@ -48,6 +53,7 @@
 
       createIndivBarChart(result);
 
+      createDepartPieChart(result);
       //console.log("monthlybar", result.monthlyBar);
     }
 
@@ -110,6 +116,7 @@
           ],
         },
         options: {
+          reponsive: true,
           animation: { animateScale: true },
           plugins: {
             title: {
@@ -130,7 +137,7 @@
       let data = drawBarChart(result);
       let chartInfo = [
         ["lightgreen", "green"],
-        ["lightblue", "blue"],
+        ["lightgrey", "grey"],
         ["pink", "red"],
       ];
       let datasets = [];
@@ -151,6 +158,7 @@
         type: "bar",
         data: barChartData,
         options: {
+          reponsive: true,
           animation: { animateScale: true },
           plugins: {
             title: {
@@ -165,6 +173,68 @@
           },
         },
       });
+    }
+
+    async function createDepartPieChart(result) {
+      let departChart = document.querySelector(".depart-piechart");
+      window.addEventListener("beforeprint", () => {
+        departPieChart.resize(600, 600);
+      });
+      window.addEventListener("afterprint", () => {
+        departPieChart.resize();
+      });
+      if (result.role === "user") {
+        departChart.setAttribute("hidden", "true");
+      }
+      if (result.typeDepartData) {
+        //console.log("result.typeDepartData", result.typeDepartData);
+        for (let type of result.typeDepartData) {
+          Depart_claim_type.push(type.claim_type);
+          Depart_amount.push(type.sum);
+        }
+        //console.log("damount", Depart_amount);
+        //console.log("dclaim", Depart_claim_type);
+        const ctx = document.getElementById("departPieChart");
+        const departChart = new Chart(ctx, {
+          type: "pie",
+          data: {
+            labels: Depart_claim_type,
+            datasets: [
+              {
+                //label: Depart_claim_type,
+                data: Depart_amount,
+                backgroundColor: [
+                  "#FFC2C7",
+                  "#B6E5D8",
+                  "#FBE5C8",
+                  "#8FDDE7",
+                  "#C9D9F0",
+                  "#897BC1",
+                  "#FEC437",
+                  "#FE5BD6",
+                  "#A49393",
+                ],
+                hoverOffset: 9,
+              },
+            ],
+          },
+          options: {
+            reponsive: true,
+            animation: { animateScale: true },
+            plugins: {
+              title: {
+                display: true,
+                text: "All claims of your department made in categories:",
+                position: "top",
+                padding: {
+                  top: 10,
+                  bottom: 10,
+                },
+              },
+            },
+          },
+        });
+      }
     }
   </script>
 </html>
