@@ -90,15 +90,15 @@
             <div class="main">
             <div class="card">
                 <div class="card-body">
-     <form action="/claimSearch" method="POST" id="contact-form" class="flex item-center">
+     <form action="/claimSearch" method="POST" id="contact-form" class="flex item-center searchForm ml-1">
         <div class="items-center">
-        Search by:<select name="search" id="search">ID</option>
+        <select name="search" id="search">ID</option>
                 <option value="department.name">Department</option>
                 <option value="employee.name">Employee</option>
                 <option value="claim_type">Type</option>
                 <input type="text" placeholder="Search Query" name="query"></input>
             </select>
-            <button type="submit" class="submitbutton">Search</button>
+            <button type="submit" class="submitbutton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button>
         </div>
         </form>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

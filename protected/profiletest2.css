@@ -229,4 +229,29 @@ body {
         overflow: auto ;
     }
 }
+@media screen and (min-width:999px){
+    .main{
+        margin-left: 25%;
+    }
+}
+
+@media screen and (min-width:1799px){
+    .main{
+        margin-left: 15%;
+        
+    }
+    .card{
+        padding-bottom: 5%;
+    }
+    .main h2{
+        font-size: 32px;
+    }
+    .card-body{
+        padding:20px;
+        padding-bottom: 40px;
+    }
+}
+
+
+
 /* End */
