@@ -86,3 +86,16 @@ passwordRouter.post('/changepassword', async (req,res) => {
     } 
 })
 
+
+passwordRouter.post("/logout", (req, res) => {
+  console.log("logout");
+
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+  res.redirect("/");
+  //res.json({});
+  console.log("destroy:", req.session);
+});

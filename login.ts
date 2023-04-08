@@ -88,6 +88,11 @@ export function isAdmin( //check the session is Admin or not
     res.status(401);
     //res.json({});
     //console.log("user redirect in isadmin");
+    req.session.destroy((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
     res.redirect("/");
   }
 }
@@ -98,9 +103,16 @@ export function isUser( //check the session is User or not
   next: express.NextFunction
 ) {
   if (req.session.user) {
+   
+    
     next();
   } else {
     res.status(401);
+    req.session.destroy((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
     //res.json({});
     //console.log("user redirect in isuser");
     res.redirect("/");

@@ -33,6 +33,11 @@
       let login = document.querySelector("#login");
       let forgotpw = document.querySelector("#forgotpw");
 
+  //    window.addEventListener("load", async function(event) {
+  //      const res = await fetch("/autologout",{
+  //        
+  //      })
+  //    })
       login.addEventListener("submit", async function (event) {
         event.preventDefault();
         const loginForm = event.target;
@@ -48,12 +53,14 @@
         const result = await res.json();
         let loginStatus = document.querySelector("#loginStatus");
         loginStatus.textContent = result.Error;
-
-        if (result.role === "admin") {
-          window.location.href = "/admin.html";
-        } else if (result.role === "user") {
-          window.location.href = "/user.html";
-        }
+        
+        if (result.role === "admin" || result.role === "user") {
+          
+          window.location.href = "/userdashtest2.html";
+        } 
+       // else if (result.role === "user") {
+       //   window.location.href = "/userdashtest2.html";
+       // }
       });
 
       async function forgotpwRequest() {

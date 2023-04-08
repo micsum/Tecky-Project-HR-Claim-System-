@@ -89,3 +89,10 @@ userHistoryRouter.post("/logout", (req, res) => {
   //res.json({});
   console.log("destroy:", req.session);
 });
+
+userHistoryRouter.get("/blocking",  async (req, res) => {
+  //let dbEmployee = dbEmployeeList.rows[0];
+  //console.log(dbEmployee);
+  console.log(req.session.user?.role);
+  res.json(req.session.user?.role);
+});

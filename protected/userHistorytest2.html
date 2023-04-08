@@ -47,12 +47,12 @@
                       <a href="/userHistory" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">User History</a>
                    </li>
                    <li>
-                      <a href="/claimHistory" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Claim History</a>
+                      <a href="/claimHistory" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 blockingUser">Claim History</a>
                    </li>
              </ul>
           </li>
           <li>
-            <a href="/addUser" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+            <a href="/addUser" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 blockingUser">
                <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"></path></svg>
                <span class="flex-1 ml-3 whitespace-nowrap">Add User</span>
             </a>
@@ -163,6 +163,22 @@
 </div>
 </body>
 <script>
+    window.addEventListener("load", async()=>{
+        const blocking = await fetch ("/blocking", {
+        method:"GET",
+        headers:{"Content-Type": "application/json"},
+      });
+      let bjson = await blocking.json()
+      console.log(bjson)
+      if(bjson === 'user'){
+        let blocking = document.querySelectorAll('.blockingUser');
+        console.log(blocking)
+        for(let a of blocking){
+            a.remove()
+        }
+      }
+    })
+    
     var rowNumber = 0;
     var rowLimit = 10;
     var expand = document.querySelector("#expand");
