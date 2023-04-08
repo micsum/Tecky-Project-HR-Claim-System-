@@ -318,7 +318,7 @@ Swal.fire({
     })
   }
   else if (
-    result.isDismissed
+    result.dismiss === Swal.DismissReason.cancel
   ) {
   const {value:text} = Swal.fire({
   input: 'textarea',

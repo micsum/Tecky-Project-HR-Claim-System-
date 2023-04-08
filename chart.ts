@@ -21,5 +21,13 @@ chartRouter.get("/chart", async (req, res) => {
   );
   let monthlyData = dbResultByMonth.rows;
   //console.log("monthlyData", monthlyData);
+
+  //let dbDepartResult = await client.query(
+  ///*sql*/ `select sum(amount), claim_type from claim WHERE employee_id=$1 group by claim_type;`,
+  //   [req.session.user?.id]
+  //);
+  //let typeDepartData = dbResult.rows;
+  //console.log("typeDepartData", typeData);
+
   res.json({ typePie: typeData, monthlyBar: monthlyData });
 });
