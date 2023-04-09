@@ -56,7 +56,7 @@ forgotpwRouter.get("/forgotpw/:id/:token", (req, res) => {
   try {
     //@ts-ignore
     const payload = jwt.verify(token, secret);
-    res.sendFile("./resetpw.html");
+    res.render("./resetpw.html");
   } catch (error) {
     console.error(error);
     res.send(error);
