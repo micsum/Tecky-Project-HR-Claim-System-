@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 export let forgotpwRouter = Router();
 
 forgotpwRouter.use(express.static("public"));
+forgotpwRouter.use(express.static("protected"));
 forgotpwRouter.use(express.urlencoded()); //middleware for html-form-post
 forgotpwRouter.use(express.json());
 
@@ -56,7 +57,7 @@ forgotpwRouter.get("/forgotpw/:id/:token", (req, res) => {
   try {
     //@ts-ignore
     const payload = jwt.verify(token, secret);
-    res.render("./resetpw.html");
+    res.sendFile(__dirname + "/protected/" + "resetpw.html");
   } catch (error) {
     console.error(error);
     res.send(error);
