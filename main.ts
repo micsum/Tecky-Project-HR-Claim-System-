@@ -11,15 +11,16 @@ import { sessionMiddleware } from "./login";
 import { emailRouter } from "./sendEmail";
 import { userDashRouter } from "./userDash";
 import { chartRouter } from "./chart";
+import { forgotpwRouter } from "./forgotpw";
 export const app = express();
+
 app.use(express.static("public"));
 app.use(express.json());
+app.use(forgotpwRouter);
 app.use(userRouter);
 app.use(sessionMiddleware);
 app.use(isUser, express.static("protected"));
 //app.use(isAdmin, express.static("protected"));
-
-//app.use(express.static("protected"));
 
 app.use(userDashRouter);
 app.use(passwordRouter);
@@ -31,11 +32,9 @@ app.use(emailRouter);
 app.use(profileRouter);
 app.use(userHistoryRouter);
 
-
 //app.use(isUser, express.static("user"));
 app.use(isAdmin, historyRouter);
 app.use(isAdmin, registerRouter);
-
 
 //read the html and css file , sequence is matter, admin/user read the private
 //app.use(createClaim);

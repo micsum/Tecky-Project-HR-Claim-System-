@@ -87,8 +87,16 @@
               body: JSON.stringify({ reqEmail: `${email}` }),
             });
             const result = await res.json();
-            console.log("res", result.test);
-            if (email) {
+            if (result.error) {
+              Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: "Invalid Email. Please try again.",
+              });
+            }
+            //console.log("error", result.error);
+            //console.log("res", result.emailStatus);
+            else if (result.emailStatus) {
               Swal.fire({ text: `Reset password link sent to ${email}` });
             }
           },
