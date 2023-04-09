@@ -1,5 +1,10 @@
+body {
+    background-color: #e8f5ff;
+    font-family: Arial;
+    overflow: hidden;
+}
 .main {
-    margin-top: 0%;
+    margin-top: 0.3%;
     margin-left: 0%;
     font-size: 28px;
     padding: 0 0px;
@@ -21,6 +26,8 @@
     margin-bottom: 20px;
     padding: 20px 0 20px 50px;
     width:100%;
+    overflow:auto;
+    height:100%;
 }
 
 .main .card table {
@@ -31,8 +38,15 @@
 }
 
 p{
-    font-size:1.1rem;
+    font-size:1rem;
+    font-family:"Times New Roman", Times, serif;
 }
+
+h2{
+    font-family:"Times New Roman", Times, serif;
+}
+
+
 
 @media screen and (max-width:639px) {
     h2{
@@ -80,13 +94,45 @@ p{
     #navbtn{
         visibility: visible !important;
     }
+    
+    #pieChart{
+        min-width:100%;
+        max-width: 100%;
+        max-height: 100%;
+        
+    }
+    
+    #departPieChart {
+        min-width:100%;
+        max-width: 100vw;
+        max-height: 100%;
+       
+        
+    }
+    
+    #barChart{
+        max-width: 100%;
+        max-height: 120%;
+        
+    }
+    .indiv-barchart{
+        position: relative; height: 30vh; width: 67vw;
+    }
+    
+    .indiv-piechart{
+        position: relative; height: 30vh; width: 67vw;
+    }
+    
+    .depart-piechart{
+        position: relative; height: 30vh; width: 67vw;
+    }
 }
 
 @media screen and (min-width:1281px){
     .main{
         margin-left: 20%;
         width:70%;
-        max-width:1200px;
+        max-width:1350px;
         
     }
     .card{
@@ -99,4 +145,34 @@ p{
         padding:20px;
         padding-bottom: 40px;
     }
+    
+    #pieChart{
+        max-width: 75%;
+        max-height: 80%;
+        
+    }
+    
+    #departPieChart {
+        max-width: 75%;
+        max-height: 80%;
+       
+    }
+
+    #barChart{
+        max-width: 75%;
+        max-height: 80%; 
+       
+    }
+    .indiv-barchart{
+        position: relative; height: 30vh; width: 60vw;
+    }
+    
+    .indiv-piechart{
+        position: relative; height: 30vh; width: 60vw;
+    }
+    
+    .depart-piechart{
+        position: relative; height: 30vh; width: 60vw;
+    }
 }
+
