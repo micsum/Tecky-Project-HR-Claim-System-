@@ -6,15 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="chart.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="chart.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
   </head>
   <body>
-    <button id="navbtn" data-drawer-target="sidebar-multi-level-sidebar" data-drawer-toggle="sidebar-multi-level-sidebar" aria-controls="sidebar-multi-level-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+    <button
+      id="navbtn"
+      data-drawer-target="sidebar-multi-level-sidebar"
+      data-drawer-toggle="sidebar-multi-level-sidebar"
+      aria-controls="sidebar-multi-level-sidebar"
+      type="button"
+      class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+    >
       <span class="sr-only">Open sidebar</span>
-      <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-         <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+      <svg
+        class="w-6 h-6"
+        aria-hidden="true"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          clip-rule="evenodd"
+          fill-rule="evenodd"
+          d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+        ></path>
       </svg>
    </button>
    
@@ -142,41 +162,40 @@
    </div>
   </body>
   <script>
-    window.addEventListener("load", async()=>{
-        const blocking = await fetch ("/blocking", {
-        method:"GET",
-        headers:{"Content-Type": "application/json"},
+    window.addEventListener("load", async () => {
+      const blocking = await fetch("/blocking", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
       });
-      let bjson = await blocking.json()
-      console.log(bjson)
-      if(bjson === 'user'){
-        let blocking = document.querySelectorAll('.blockingUser');
-        console.log(blocking)
-        for(let a of blocking){
-            a.remove()
+      let bjson = await blocking.json();
+      console.log(bjson);
+      if (bjson === "user") {
+        let blocking = document.querySelectorAll(".blockingUser");
+        console.log(blocking);
+        for (let a of blocking) {
+          a.remove();
         }
       }
-    })
-    
-   let employeeDbId;
-     let departmentDbId;
-   //load info from db into employee table
-    window.addEventListener("load", async()=>{ 
-       const res = await fetch ("/getuserdashtest", {
-           method:"GET",
-           headers:{"Content-Type": "application/json"},
-         });
-         const employeeList = await res.json()
-         console.log(employeeList) //check the employee list
-         
-        const employeeName = document.querySelector("#employeeName");
-        const role = document.querySelector("#role");
-        employeeName.textContent=employeeList.name
-        role.textContent = employeeList.role
-        document.querySelector("#employeeName").style.fontWeight = "700";
-        document.querySelector("#role").style.fontWeight = "700";
-       }
-     )
+    });
+
+    let employeeDbId;
+    let departmentDbId;
+    //load info from db into employee table
+    window.addEventListener("load", async () => {
+      const res = await fetch("/getuserdashtest", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      const employeeList = await res.json();
+      console.log(employeeList); //check the employee list
+
+      const employeeName = document.querySelector("#employeeName");
+      const role = document.querySelector("#role");
+      employeeName.textContent = employeeList.name;
+      role.textContent = employeeList.role;
+      document.querySelector("#employeeName").style.fontWeight = "700";
+      document.querySelector("#role").style.fontWeight = "700";
+    });
     let User_claim_type = [];
     let User_amount = [];
     const months = [
