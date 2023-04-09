@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="userdashtest2.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
    <button data-drawer-target="sidebar-multi-level-sidebar" data-drawer-toggle="sidebar-multi-level-sidebar" aria-controls="sidebar-multi-level-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -79,6 +80,28 @@
                     
                  <p>  Hi <span id="employeeName"></span>  </p>
                  <p>You have successfully logged as <span id="role"></span> </p>
+            
+                </div>
+                <div class="chart-container">
+                  <div class="depart-piechart" style="height: 50vh; width: 60vw">
+                    <canvas id="departPieChart"></canvas>
+                  </div>
+                  <div class="indiv-piechart" style="height: 50vh; width: 60vw">
+                    <canvas id="pieChart"></canvas> <div class="chart-container">
+                     <div class="depart-piechart" style="height: 50vh; width: 60vw">
+                       <canvas id="departPieChart"></canvas>
+                     </div>
+                     <div class="indiv-piechart" style="height: 50vh; width: 60vw">
+                       <canvas id="pieChart"></canvas>
+                     </div>
+                     <div class="indiv-barchart" style="position: relative; height:50vh; width:60vw">
+                       <canvas id="barChart"></canvas>
+                     </div>
+                   </div>
+                  </div>
+                  <div class="indiv-barchart" style="position: relative; height:50vh; width:60vw">
+                    <canvas id="barChart"></canvas>
+                  </div>
                 </div>
         </div>
      </div>
@@ -119,5 +142,221 @@
         document.querySelector("#role").style.fontWeight = "700";
        }
      )
+
+     let User_claim_type = [];
+    let User_amount = [];
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const status = ["Approved", "Pending", "Rejected"];
+    let Depart_claim_type = [];
+    let Depart_amount = [];
+
+    getIndivClaimData();
+
+    async function getIndivClaimData() {
+      const res = await fetch("/chart", {
+        method: "get",
+        headers: { "Content-Type": "application/json" },
+      });
+      const result = await res.json();
+      createIndivPieChart(result);
+
+      createIndivBarChart(result);
+
+      createDepartPieChart(result);
+      //console.log("monthlybar", result.monthlyBar);
+    }
+
+    function drawBarChart(result) {
+      let dataset = [];
+
+      for (let item of status) {
+        // console.log("item", item);
+
+        let array = [];
+        for (let month in months) {
+          array.push(0);
+        }
+
+        for (let claim of result.monthlyBar) {
+          if (claim.status === item) {
+            let index = months.indexOf(claim.submit_month.trim());
+            //console.log("index", index);
+
+            array[index] = claim.monthly_sum;
+          }
+        }
+        dataset.push(array);
+      }
+      return dataset;
+      //console.log(dataset);
+      //console.log(User_amount);
+      //console.log(User_claim_type);
+    }
+
+    async function createIndivPieChart(result) {
+      if (result.typePie) {
+        for (let indiv of result.typePie) {
+          User_claim_type.push(indiv.claim_type);
+          User_amount.push(indiv.sum);
+        }
+      }
+      const ctx = document.getElementById("pieChart");
+      const indivChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: User_claim_type,
+          datasets: [
+            {
+              //label: User_claim_type,
+              data: User_amount,
+              backgroundColor: [
+                "rgb(255, 99, 132)",
+                "rgb(54, 162, 235)",
+                "rgb(255, 205, 86)",
+                "rgb(60, 205, 86)",
+                "#E7F2F8",
+                "#FFA384",
+                "#74BDCB",
+                "#EFE7BC",
+                "#A16AE8",
+              ],
+              hoverOffset: 9,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          animation: { animateScale: true },
+          plugins: {
+            title: {
+              display: true,
+              text: "All claims you made in categories:",
+              position: "top",
+              padding: {
+                top: 10,
+                bottom: 10,
+              },
+            },
+          },
+        },
+      });
+    }
+
+    async function createIndivBarChart(result) {
+      let data = drawBarChart(result);
+      let chartInfo = [
+        ["lightgreen", "green"],
+        ["lightgrey", "grey"],
+        ["pink", "red"],
+      ];
+      let datasets = [];
+      for (let i = 0; i < status.length; i++) {
+        const object = {
+          label: status[i],
+          backgroundColor: chartInfo[i][0],
+          borderColor: chartInfo[i][1],
+          borderWidth: 1,
+          data: data[i],
+        };
+        datasets.push(object);
+      }
+      const barChartData = { labels: months, datasets: datasets };
+
+      const ctx = document.getElementById("barChart");
+      const barChart = new Chart(ctx, {
+        type: "bar",
+        data: barChartData,
+        options: {
+          responsive: true,
+          animation: { animateScale: true },
+          plugins: {
+            title: {
+              display: true,
+              text: "Monthly Claims by status",
+              position: "top",
+              padding: {
+                top: 10,
+                bottom: 10,
+              },
+            },
+          },
+        },
+      });
+    }
+
+    async function createDepartPieChart(result) {
+      let departChart = document.querySelector(".depart-piechart");
+      window.addEventListener("beforeprint", () => {
+        departPieChart.resize(600, 600);
+      });
+      window.addEventListener("afterprint", () => {
+        departPieChart.resize();
+      });
+      if (result.role === "user") {
+        departChart.setAttribute("hidden", "true");
+      }
+      if (result.typeDepartData) {
+        //console.log("result.typeDepartData", result.typeDepartData);
+        for (let type of result.typeDepartData) {
+          Depart_claim_type.push(type.claim_type);
+          Depart_amount.push(type.sum);
+        }
+        //console.log("damount", Depart_amount);
+        //console.log("dclaim", Depart_claim_type);
+        const ctx = document.getElementById("departPieChart");
+        const departChart = new Chart(ctx, {
+          type: "pie",
+          data: {
+            labels: Depart_claim_type,
+            datasets: [
+              {
+                //label: Depart_claim_type,
+                data: Depart_amount,
+                backgroundColor: [
+                  "#FFC2C7",
+                  "#B6E5D8",
+                  "#FBE5C8",
+                  "#8FDDE7",
+                  "#C9D9F0",
+                  "#897BC1",
+                  "#FEC437",
+                  "#FE5BD6",
+                  "#A49393",
+                ],
+                hoverOffset: 9,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            animation: { animateScale: true },
+            plugins: {
+              title: {
+                display: true,
+                text: "All claims of your department made in categories:",
+                position: "top",
+                padding: {
+                  top: 10,
+                  bottom: 10,
+                },
+              },
+            },
+          },
+        });
+      }
+    }
    </script>
 </html>

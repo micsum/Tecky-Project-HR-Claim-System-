@@ -12,7 +12,7 @@ userDashRouter.use(express.json());
 
 userDashRouter.get("/userDash", async (req, res) => {
   console.log("loginasuser")
-    res.redirect("userdashtest2.html");
+    res.redirect("chart.html");
     //console.log(req.session.user?.id)
   });
 

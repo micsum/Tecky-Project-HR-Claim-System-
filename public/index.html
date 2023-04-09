@@ -21,9 +21,7 @@
         </div>
         <div id="loginStatus" class="shake"></div>
         <button type="submit" class="btn">Login</button>
-        <button id="forgotpw" class="btn" onclick="forgotpwRequest()">
-          Forgot Password?
-        </button>
+        <button id="forgotpw" class="btn">Forgot Password?</button>
       </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -62,8 +60,11 @@
         // }
       });
 
-      async function forgotpwRequest() {
-        const { value: email } = await Swal.fire({
+      let forgotPw = document.querySelector("#forgotpw");
+      forgotPw.addEventListener("click", forgotpwRequest);
+
+      function forgotpwRequest() {
+        const { value: email } = Swal.fire({
           title: "Forgot Password?",
           text: "Please enter the email address you'd like your password reset information sent to",
           focusConfirm: false,
@@ -76,21 +77,22 @@
           input: "email",
           inputPlaceholder: "Your email address",
           showLoaderOnConfirm: true,
-          preConfirm: async () => {
-            const emailObject = {};
-            emailObject.email = email;
+          preConfirm: async (email) => {
+            //const emailObject = {};
+            //emailObject.email = email;
             //console.log("email", email);
             const res = await fetch("/forgotPw", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(emailObject),
+              body: JSON.stringify({ reqEmail: `${email}` }),
             });
             const result = await res.json();
+            console.log("res", result.test);
+            if (email) {
+              Swal.fire({ text: `Reset password link sent to ${email}` });
+            }
           },
         });
-        if (email) {
-          Swal.fire({ text: `Reset password link sent to ${email}` });
-        }
       }
     </script>
   </body>
