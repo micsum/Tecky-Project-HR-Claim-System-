@@ -82,7 +82,11 @@ export async function sendClaimEmail( //send Claim submission confirm email
   console.log("claim submit message sent:", message.messageId);
 }
 
-export async function forgotPwEmail(email: string, employeeName: string) {
+export async function forgotPwEmail(
+  email: string,
+  employeeName: string,
+  link: string
+) {
   //send forgot password email to update
   let mailGenerator = new Mailgen({
     theme: "default",
@@ -103,7 +107,7 @@ export async function forgotPwEmail(email: string, employeeName: string) {
         button: {
           color: "#DC4D2F",
           text: "Reset Your Password",
-          link: "http://localhost:8000/forgotpassword",
+          link: link,
         },
       },
       outro:
