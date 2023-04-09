@@ -216,8 +216,10 @@
         //console.log("formObject",formObject)
         let searchList = await res.json()
         //console.log("searchList",searchList);
-        
-        for(let i = rowNumber; i < rowLimit && i < searchList.length; i++){
+        console.log(searchList.length)
+        let expandHidden = document.querySelector("#expand");
+        expandHidden.hidden = true;
+        for(let i = rowNumber;  i < searchList.length; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
     //    let headingRow = document.getElementsByClassName("row")
@@ -283,7 +285,7 @@
         let claimList = await res.json()
         //console.log("claimlistexpand",claimList);
         
-        for(let i = rowNumber; i < rowLimit && i < claimList.length; i++){
+        for(let i = rowNumber; i < rowLimit && i < claimList.length ; i++){
         let table = document.querySelector('#table');
         let dataRow = document.createElement("tr");
     //    let headingRow = document.getElementsByClassName("row")
