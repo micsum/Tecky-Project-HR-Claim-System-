@@ -22,6 +22,12 @@ chartRouter.get("/chart", async (req, res) => {
   let monthlyData = dbResultByMonth.rows;
   //console.log("monthlyData", monthlyData);
 
+  let dbPendingNumber = await client.query(
+    /*sql*/ `SELECT count(*) from claim WHERE status = 'Pending'`
+  );
+  let pendingNumber = dbPendingNumber.rows[0].count;
+  //console.log("number", pendingNumber);
+
   if (req.session.user?.role === "admin") {
     let dbDepartResult = await client.query(
       /*sql*/ `select sum(amount), claim_type from claim WHERE department_id=$1 group by claim_type;`,
@@ -32,6 +38,7 @@ chartRouter.get("/chart", async (req, res) => {
       typePie: typeData,
       monthlyBar: monthlyData,
       typeDepartData: typeDepartData,
+      pendingNumber: pendingNumber,
       role: req.session.user?.role,
     });
   } else {

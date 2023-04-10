@@ -8,30 +8,16 @@
 .logout {
   cursor: pointer;
 }
-.main h2 {
+.main {
   color: #333;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-.main .card {
-  background-color: #fff;
-  border-radius: 18px;
-  box-shadow: 1px 1px 8px 0 grey;
-  height: auto;
-  margin-bottom: 20px;
-  padding: 20px 0 20px 50px;
-  width: 100%;
-}
-
-.main .card table {
-  border: none;
-  font-size: 16px;
-  height: 270px;
-  width: 100%;
-}
-
 p {
   font-size: 1.1rem;
+}
+body {
+  background-color: #e8f5ff;
 }

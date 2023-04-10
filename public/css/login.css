@@ -21,6 +21,11 @@
   }
 }
 
+@media only screen and (max-width: 450px) {
+  #emailInput {
+    top: -25px !important;
+  }
+}
 div .shake {
   color: rgba(242, 7, 7, 0.931);
   animation: horizontal-shaking 2s infinite;

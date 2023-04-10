@@ -25,7 +25,7 @@ userHistoryRouter.get("/userRecord", async (req, res) => {
   );
   //let dbEmployee = dbEmployeeList.rows[0];
   //console.log(dbEmployee);
-  console.log(claimList.rows);
+  //console.log(claimList.rows);
   res.json(claimList.rows);
 });
 
@@ -44,7 +44,7 @@ userHistoryRouter.get("/claimOneRecord", async (req, res) => {
   );
   //let dbEmployee = dbEmployeeList.rows[0];
   //console.log(dbEmployee);
-  console.log(claimList.rows);
+  //console.log(claimList.rows);
   res.json(claimList.rows);
 });
 

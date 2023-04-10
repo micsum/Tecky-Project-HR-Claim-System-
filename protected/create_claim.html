@@ -240,7 +240,7 @@ return;
     document.querySelector(".preview").innerHTML=""
   for (let i = 0; i < fileObject.length; i++) {
     let fileReader = new FileReader();
-    console.log("object",fileObject)
+    //console.log("object",fileObject)
     if(fileObject[i].type ==="image/jpeg" || "image/bmp" || "image/png"){
     fileReader.readAsDataURL(fileObject[i]);
     let files=[]
@@ -271,6 +271,7 @@ return;
     };}}}
   //console.log("files : ", typeof fileObject.length)
 fileLength = getFileLength(fileObject.length)
+//console.log(fileLength)
  }
 
 
@@ -285,10 +286,28 @@ previewBtn.addEventListener('click', function(event) {
   // Prevent default form submission behavior
   event.preventDefault();
 
+  
   // Get form data
   const formData = new FormData(createClaim);
 
-  const claimData = {
+  let isFormEmpty = false;
+  for(let value of formData.values()){
+    if(value === ""){
+      isFormEmpty = true;
+      break;
+    }
+  }
+  if(isFormEmpty || (`${fileLength}`==0)|| (`${fileLength}`==="undefined")|| (document.querySelector('select[name="type"] option:checked').textContent === "Please select the claim type....")){
+        Swal.fire({
+          icon:"error",
+          title:"Error!",
+          text:"Please fill all required fields."
+        })
+      
+  }else{
+    
+    
+    const claimData = {
     Department: formData.get('departmentId'),
     "Employee Name": formData.get('employeeName'),
     Email: formData.get('email'),
@@ -298,8 +317,11 @@ previewBtn.addEventListener('click', function(event) {
     "Claim Description": formData.get('claim_description'),
     Attachments: `${fileLength} files`
   };
+
+  
   // Display preview page with claim data
-  displayClaimPreview(claimData);
+  displayClaimPreview(claimData);}
+  
 });
 
 function displayClaimPreview(claimData) {

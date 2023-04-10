@@ -13,7 +13,7 @@
         <div class="text-center">Login</div>
         <div class="input-container">
           <input id="loginInput" type="text" name="username" required />
-          <label for="username">Email / User Name: </label>
+          <label for="username" id="emailInput">Email / User Name: </label>
         </div>
         <div class="input-container">
           <input id="passwordInput" type="password" name="password" required />
@@ -53,7 +53,7 @@
         loginStatus.textContent = result.Error;
 
         if (result.role === "admin" || result.role === "user") {
-          window.location.href = "/chart.html";
+          window.location.href = "/userdashtest2.html";
         }
         // else if (result.role === "user") {
         //   window.location.href = "/userdashtest2.html";

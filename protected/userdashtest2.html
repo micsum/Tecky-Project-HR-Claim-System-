@@ -5,10 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="userdashtest2.css">
+    <link rel="stylesheet" href="userdashtest2.css"><link
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+    rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
+  <script src="https://cdn.tailwindcss.com/3.2.4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          fontFamily: {
+            sans: ["Roboto", "sans-serif"],
+            body: ["Roboto", "sans-serif"],
+            mono: ["ui-monospace", "monospace"],
+          },
+        },
+        corePlugins: {
+          preflight: false,
+        },
+      };
+    </script>
 </head>
 <body>
    <button data-drawer-target="sidebar-multi-level-sidebar" data-drawer-toggle="sidebar-multi-level-sidebar" aria-controls="sidebar-multi-level-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -62,7 +85,7 @@
                   
                <a class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                   <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path></svg>
-                  <span class="flex-1 ml-3 whitespace-nowrap"><input type="submit" value="Logout"></span>
+                  <span class="flex-1 ml-3 whitespace-nowrap"><input type="submit" value="Logout" class="logout"></span>
               </a>
               </form>
                
@@ -71,40 +94,62 @@
       </div>
    </aside>
      
-     <div class="p-4 sm:ml-64">
+     <div class="p-4 sm:ml-64"> 
         <div class="p-4 dark:border-gray-700">
-         <div class="main">
-            <h1>Dashboard</h1>
-            <div class="card">
-                <div class="card-body">
-                    
-                 <p>  Hi <span id="employeeName"></span>  </p>
-                 <p>You have successfully logged as <span id="role"></span> </p>
-            
-                </div>
-                <div class="chart-container">
-                  <div class="depart-piechart" style="height: 50vh; width: 60vw">
-                    <canvas id="departPieChart"></canvas>
-                  </div>
-                  <div class="indiv-piechart" style="height: 50vh; width: 60vw">
-                    <canvas id="pieChart"></canvas> <div class="chart-container">
-                     <div class="depart-piechart" style="height: 50vh; width: 60vw">
-                       <canvas id="departPieChart"></canvas>
-                     </div>
-                     <div class="indiv-piechart" style="height: 40vh; width: 60vw">
-                       <canvas id="pieChart"></canvas>
-                     </div>
-                     <div class="indiv-barchart" style="position: relative; height:40vh; width:60vw">
-                       <canvas id="barChart"></canvas>
-                     </div>
-                   </div>
-                  </div>
-                  <div class="indiv-barchart" style="position: relative; height:50vh; width:60vw">
-                    <canvas id="barChart"></canvas>
-                  </div>
-                </div>
+         <div class="main ">
+
+            <div class="lg:grid gap-6 grid-flow-col" style="width:830px; overflow:hidden">
+            <div class="intro grid">
+           <div></div><a href="#" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Hi <span id="employeeName"></span></h5>
+            <p class="font-normal text-gray-700 dark:text-gray-400">You have successfully logged in as <span id="role"></span></p>
+           </a></div>
+           
+           <div class="max-md:mt-5 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 pendingContainer hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <a href="/claimHistory">
+                <h5 class="mb-2 text-2xl tracking-tight text-gray-900 dark:text-white">Your still have <span class="font-bold"id="pendingNumber"></span> claims need to review</h5>
+            </a>
+         
+            <a href="/claimHistory" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Review
+                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </a>
         </div>
+      </div>
+
+
+
+           <div class="pie-container lg:grid grid-row-2 grid-flow-col lg:gap-3 lg:pt-6 max-md:pt-5" style="width:830px; overflow:hidden">
+           <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 row-start-1 row-end-4" id="departContainer">
+                  <div class="depart-piechart bg-neutral-50 px-4 py-3 dark:bg-neutral-700 dark:text-neutral-200 text-base">
+                     All claims of your department made in categories
+                  </div>
+                  <canvas class="p-10" id="departPieChart"></canvas>
+            </div>
+                     
+            <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 row-start-1 row-end-4">
+                    <div class="indiv-piechart bg-neutral-50 px-4 py-3 dark:bg-neutral-700 dark:text-neutral-200 text-base">
+                     All claims you made in categories
+                       </div>
+                       <canvas class="p-10" id="pieChart"></canvas>
+            </div>
+            </div>         
+            <!--<div class="indiv-barchart" style="position: relative; height:40vh; width:60vw">
+                       <canvas id="barChart"></canvas>
+                     </div>-->
+                   
+               
+                  
+           
+                
+        
      </div>
+     <div class="w-full max-xl mt-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <div
+      class="bg-neutral-50 px-5 py-3 dark:bg-neutral-700 dark:text-neutral-200">Monthly Claims By Status
+    </div>
+    <canvas class="p-10" id="barChart"></canvas>
+   </div>
 </body>
 <script>
    window.addEventListener("load", async()=>{
@@ -171,11 +216,15 @@
         headers: { "Content-Type": "application/json" },
       });
       const result = await res.json();
+      getPendingNumber(result);
+
       createIndivPieChart(result);
 
       createIndivBarChart(result);
 
       createDepartPieChart(result);
+
+      //console.log("pendingNumber",result.pendingNumber)
       //console.log("monthlybar", result.monthlyBar);
     }
 
@@ -206,6 +255,15 @@
       //console.log(User_claim_type);
     }
 
+    async function getPendingNumber(result){
+      let pendingContainer = document.querySelector(".pendingContainer")
+      let pendingNumber = document.querySelector("#pendingNumber")
+      if(result.role === "admin"){
+         pendingNumber.innerText=result.pendingNumber
+      }else{
+         pendingContainer.style.display="none"
+      }
+    }
     async function createIndivPieChart(result) {
       if (result.typePie) {
         for (let indiv of result.typePie) {
@@ -242,7 +300,7 @@
           animation: { animateScale: true },
           plugins: {
             title: {
-              display: true,
+              display: false,
               text: "All claims you made in categories:",
               position: "top",
               padding: {
@@ -285,7 +343,7 @@
           plugins: {
             title: {
               display: true,
-              text: "Monthly Claims by status",
+              //text: "Monthly Claims by status",
               position: "top",
               padding: {
                 top: 10,
@@ -299,6 +357,7 @@
 
     async function createDepartPieChart(result) {
       let departChart = document.querySelector(".depart-piechart");
+      let departContainer = document.querySelector("#departContainer")
       window.addEventListener("beforeprint", () => {
         departPieChart.resize(600, 600);
       });
@@ -307,6 +366,7 @@
       });
       if (result.role === "user") {
         departChart.setAttribute("hidden", "true");
+        departContainer.style.display="none"
       }
       if (result.typeDepartData) {
         //console.log("result.typeDepartData", result.typeDepartData);
@@ -345,12 +405,12 @@
             animation: { animateScale: true },
             plugins: {
               title: {
-                display: true,
-                text: "All claims of your department made in categories:",
-                position: "top",
+                display: false,
+                //text: "All claims of your department made in categories:",
+                //position: "top",
                 padding: {
-                  top: 10,
-                  bottom: 10,
+                  top: 0,
+                  bottom: 0,
                 },
               },
             },
