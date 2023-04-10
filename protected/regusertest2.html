@@ -135,6 +135,22 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+  window.addEventListener("load", async () => {
+      const blocking = await fetch("/blocking", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      let bjson = await blocking.json();
+      // console.log(bjson);
+      if (bjson === "user") {
+        let blocking = document.querySelectorAll(".blockingUser");
+        //console.log(blocking);
+        for (let a of blocking) {
+          a.remove();
+        }
+      }
+    });
+    
   let departSelect = document.querySelector("#departmentSelect");
   window.addEventListener("load", async()=>{
     const res = await fetch ("/getDepartment", {
