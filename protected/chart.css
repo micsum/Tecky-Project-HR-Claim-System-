@@ -91,9 +91,11 @@ h2{
         --tw-translate-x: -100% !important;
         
     }
+    
     #navbtn{
         visibility: visible !important;
     }
+    
     
     #pieChart{
         min-width:100%;
