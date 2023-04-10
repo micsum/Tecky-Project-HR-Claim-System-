@@ -291,9 +291,9 @@ Swal.fire({
       body: JSON.stringify({status:"approved"})
     })
     const result = await res.json()
-    //console.log("statusA", result.status)
+    console.log("statusA", result.status)
     if(result.adminId){
-    //console.log("duplicate",result.adminId)
+    console.log("duplicate",result.adminId)
     sameAdminId = result.adminId
     } 
   },

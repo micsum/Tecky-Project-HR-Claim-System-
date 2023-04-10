@@ -3,6 +3,10 @@ body {
   font-family: Arial;
   overflow: hidden;
 }
+
+.logout{
+  cursor: pointer;
+}
 .main {
   margin-top: 0.3%;
   margin-left: 0%;

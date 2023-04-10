@@ -105,6 +105,7 @@ historyRouter.get("/claimInfo", (req, res) => {
 historyRouter.post("/claimInfo/:id", async (req, res) => {
   const id = req.params.id;
   const userId = req.session.user?.id;
+
   if (userId === claimEmployeeId) {
     //console.log("id", id);
     //console.log("userId", userId);
@@ -144,7 +145,6 @@ historyRouter.post("/claimInfo/:id", async (req, res) => {
 //
 //    `
 //  }
-
 
 historyRouter.post("/logout", (req, res) => {
   console.log("logout");
