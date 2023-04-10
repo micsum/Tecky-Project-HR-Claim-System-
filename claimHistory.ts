@@ -3,7 +3,7 @@ import { uploadDir } from "./create_claim";
 import { client } from "./db";
 import { statusEmail } from "./sendEmail";
 import { sessionMiddleware } from "./login";
-
+import { isAdmin } from "./login";
 //import expressSession from "express-session";
 
 export let historyRouter = Router();
@@ -77,6 +77,7 @@ historyRouter.post("/claimInfo", async (req, res) => {
   //let dbEmployee = dbEmployeeList.rows[0];
   //console.log(dbEmployee);
   //console.log("selected claimid", selectedClaimInfo.rows[0]);
+  selectedClaimInfo.rows[0].role = req.session.user?.role;
   email = selectedClaimInfo.rows[0].email;
   employeeName = selectedClaimInfo.rows[0].employee_name;
   claimId = selectedClaimInfo.rows[0].claim_id;
@@ -102,7 +103,7 @@ historyRouter.get("/claimInfo", (req, res) => {
   res.redirect("./claimInfo.html");
 });
 
-historyRouter.post("/claimInfo/:id", async (req, res) => {
+historyRouter.post("/claimInfo/:id", isAdmin, async (req, res) => {
   const id = req.params.id;
   const userId = req.session.user?.id;
 

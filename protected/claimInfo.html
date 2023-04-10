@@ -219,12 +219,17 @@
     claim_amount.value = selectedClaimInfo.amount
     claim_status.value = selectedClaimInfo.status
     reject_reasons.value = selectedClaimInfo.reject_reasons
+    let role = selectedClaimInfo.role
 
 
     let updateStatus = document.querySelector("#update")
-    if(claim_status.value === "Approved" || claim_status.value==="Rejected"){
+    if((claim_status.value === "Approved" || claim_status.value==="Rejected") && role==="admin"){
       updateStatus.setAttribute("class","bg-blue-500 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed")
       updateStatus.setAttribute("disabled","true")
+    }
+
+    if(role==="user"){
+      updateStatus.setAttribute("class","bg-blue-500 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed invisible")
     }
     
     if(claim_status.value === "Approved"){
@@ -345,7 +350,7 @@ Swal.fire({
 
     const result = await res.json()
    //console.log("statusR", result.status)
-    //console.log("duplicate",result.adminId)    
+    console.log("duplicate",result.adminId)    
     if(result.adminId){
       Swal.fire(
       'Error!',

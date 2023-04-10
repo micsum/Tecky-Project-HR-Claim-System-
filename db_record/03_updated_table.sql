@@ -56,7 +56,7 @@ TYPE VARCHAR(255);
 
 CREATE TABLE reject(
 id serial primary key unique not null,
-reasons varchar(255) unique not null,
+reasons varchar(255)  not null,
 claim_id INTEGER not null,
 reject_date date not null,
 FOREIGN KEY (claim_id) REFERENCES claim(id)

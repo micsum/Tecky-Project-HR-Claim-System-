@@ -125,7 +125,7 @@ export async function forgotPwEmail(
   console.log("reset password message sent:", message.messageId);
 }
 
-export async function statusEmail( //send Claim submission confirm email
+export async function statusEmail( //send Claim status update email
   email: string,
   employeeName: string,
   claimId: number,

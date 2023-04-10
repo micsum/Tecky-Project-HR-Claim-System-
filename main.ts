@@ -33,7 +33,7 @@ app.use(profileRouter);
 app.use(userHistoryRouter);
 
 //app.use(isUser, express.static("user"));
-app.use(isAdmin, historyRouter);
+app.use(historyRouter);
 app.use(isAdmin, registerRouter);
 
 //read the html and css file , sequence is matter, admin/user read the private
