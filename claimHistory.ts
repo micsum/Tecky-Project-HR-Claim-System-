@@ -13,11 +13,11 @@ historyRouter.use(express.static("protected"));
 historyRouter.use("/uploads", express.static(uploadDir));
 historyRouter.use(express.json());
 
-historyRouter.get("/claimHistory", (req, res) => {
+historyRouter.get("/claimHistory", isAdmin, (req, res) => {
   res.redirect("./claimHistorytest2.html");
 });
 
-historyRouter.get("/claimRecord", async (req, res) => {
+historyRouter.get("/claimRecord", isAdmin, async (req, res) => {
   let claimList = await client.query(`
     SELECT claim.id, department.name AS department_name, employee.name AS employee_name, claim.claim_type, claim.amount, claim.date_of_submission, claim.status
 FROM claim
@@ -30,7 +30,7 @@ ORDER BY claim.id DESC;`);
   res.json(claimList.rows);
 });
 
-historyRouter.post("/claimSearch", async (req, res) => {
+historyRouter.post("/claimSearch", isAdmin, async (req, res) => {
   let search = req.body.search;
   let query = req.body.query;
   //console.log("search: ", search, "query", query);

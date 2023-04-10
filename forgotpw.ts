@@ -3,6 +3,7 @@ import { client } from "./db";
 //import { comparePassword, hashPassword } from "./hash";
 import { forgotPwEmail } from "./sendEmail";
 import jwt from "jsonwebtoken";
+import { hashPassword } from "./hash";
 
 export let forgotpwRouter = Router();
 
@@ -59,6 +60,8 @@ function authenticate(
   }
   const secret = JWT_SECRET + employeePw;
   try {
+    // console.log("middleware next ed");
+
     //@ts-ignore
     const payload = jwt.verify(token, secret);
     next();
@@ -72,11 +75,37 @@ forgotpwRouter.get("/forgotpw/:id/:token", authenticate, (req, res) => {
   res.sendFile(__dirname + "/protected/" + "resetpw.html");
 });
 
-forgotpwRouter.post("/forgotpw/:id/:token", authenticate, (req, res) => {
-  //@ts-ignore
-  const { id, token } = req.params;
+forgotpwRouter.post("/resetpw", async (req, res) => {
+  //const id = req.params.id;
+  //
+  //const token = req.params.token;
   const { email, password, password2 } = req.body;
-  console.log("email", email);
-  console.log("password", password);
-  console.log("password2", password2);
+  //console.log("email", email);
+  //console.log("password", password);
+  //console.log("password2", password2);
+  const dbChecking = await client.query(
+    /*sql*/ `SELECT email, password FROM employee WHERE email=$1`,
+    [email]
+  );
+
+  if (dbChecking.rows.length != 1) {
+    res.json({ error1: "Invalid Email" });
+  }
+  if (password != password2) {
+    res.json({ error2: "Both passwords are not identical. Please correct." });
+  }
+  if (password.length < 6) {
+    res.json({
+      error3: "Please input the password with more than 6 characters",
+    });
+  }
+  if (password === password2) {
+    let newHashPassword = await hashPassword(password2);
+
+    await client.query(
+      /*sql*/ `UPDATE employee SET password = $1 WHERE email = $2`,
+      [newHashPassword, email]
+    );
+    res.json({ success: "Password has been reset" });
+  }
 });

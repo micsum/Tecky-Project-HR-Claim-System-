@@ -1,9 +1,12 @@
-.searchForm{
-    margin-bottom: 8px;
+.searchForm {
+  margin-bottom: 8px;
 }
 
-body{
-    background-color:#e8f5ff;
-    opacity: 0.8;
+body {
+  background-color: #e8f5ff;
+  opacity: 0.8;
 }
 
+.logout {
+  cursor: pointer;
+}

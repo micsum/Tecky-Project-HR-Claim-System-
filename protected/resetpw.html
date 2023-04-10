@@ -10,6 +10,7 @@
       rel="stylesheet"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
@@ -99,7 +100,7 @@
           </h2>
           <form
             class="mt-4 space-y-4 lg:mt-5 md:space-y-5"
-            action="/forgotpw"
+            action="/resetpw"
             id="resetForm"
           >
             <div>
@@ -168,21 +169,47 @@
         password: form.password.value,
         password2: form.password2.value,
       };
-      //console.log("formobject", formObject);
-      const urlParams = new URLSearchParams(window.location.search);
-      const id = urlParams.get("id");
-      const token = urlParams.get("token");
+      console.log("formobject", formObject);
+      //const urlParams = new URLSearchParams(window.location);
+      //console.log("url", urlParams);
+      //const id = urlParams.get("id");
+      //const token = urlParams.get("token");
 
-      const res = await fetch(`/forgotpw/${id}/${token}`, {
+      const res = await fetch("/resetpw", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formObject),
       });
-      console.log("id", id);
-      console.log("token", token);
+      //console.log("id", id);
+      //console.log("token", token);
       const result = await res.json();
+      if (result.error1) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: result.error1,
+        });
+      } else if (result.error2) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: result.error2,
+        });
+      } else if (result.error3) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: result.error3,
+        });
+      } else if (result.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Reset Password",
+          text: result.success,
+        });
+      }
     });
   </script>
 </html>

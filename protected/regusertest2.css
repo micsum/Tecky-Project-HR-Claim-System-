@@ -6,6 +6,9 @@ body {
 }
 * {box-sizing: border-box}
 
+.logout{
+  cursor: pointer;
+}
 /* Add padding to container elements *
 .container {
     padding: 20px;
