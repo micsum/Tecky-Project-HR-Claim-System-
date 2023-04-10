@@ -10,6 +10,9 @@
       rel="stylesheet"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <script>
       tailwind.config = {
         darkMode: "class",
@@ -76,12 +79,12 @@
         class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
       >
         <a
-          href="#"
+          href="/"
           class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
           <img
             class="w-8 h-8 mr-2"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+            src="https://icons.veryicon.com/png/o/miscellaneous/collection-1/company-17.png"
             alt="logo"
           />
           KEUNG TWO INC.
@@ -94,7 +97,11 @@
           >
             Reset Password
           </h2>
-          <form class="mt-4 space-y-4 lg:mt-5 md:space-y-5" action="/resetpw">
+          <form
+            class="mt-4 space-y-4 lg:mt-5 md:space-y-5"
+            action="/forgotpw"
+            id="resetForm"
+          >
             <div>
               <label
                 for="email"
@@ -131,9 +138,9 @@
                 >Confirm password</label
               >
               <input
-                type="confirm-password"
-                name="confirm-password"
-                id="confirm-password"
+                type="password"
+                name="password2"
+                id="password2"
                 placeholder="••••••••"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required=""
@@ -150,4 +157,32 @@
       </div>
     </section>
   </body>
+  <script>
+    let resetForm = document.querySelector("#resetForm");
+    resetForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const form = event.target;
+      //console.log("email", form.email.value);
+      const formObject = {
+        email: form.email.value,
+        password: form.password.value,
+        password2: form.password2.value,
+      };
+      //console.log("formobject", formObject);
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get("id");
+      const token = urlParams.get("token");
+
+      const res = await fetch(`/forgotpw/${id}/${token}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formObject),
+      });
+      console.log("id", id);
+      console.log("token", token);
+      const result = await res.json();
+    });
+  </script>
 </html>

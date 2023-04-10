@@ -46,7 +46,11 @@ forgotpwRouter.post("/forgotPw", async (req, res) => {
   }
 });
 
-forgotpwRouter.get("/forgotpw/:id/:token", (req, res) => {
+function authenticate(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) {
   const { id, token } = req.params;
 
   if (id != employeeId) {
@@ -57,9 +61,22 @@ forgotpwRouter.get("/forgotpw/:id/:token", (req, res) => {
   try {
     //@ts-ignore
     const payload = jwt.verify(token, secret);
-    res.sendFile(__dirname + "/protected/" + "resetpw.html");
+    next();
   } catch (error) {
     console.error(error);
     res.send(error);
   }
+}
+
+forgotpwRouter.get("/forgotpw/:id/:token", authenticate, (req, res) => {
+  res.sendFile(__dirname + "/protected/" + "resetpw.html");
+});
+
+forgotpwRouter.post("/forgotpw/:id/:token", authenticate, (req, res) => {
+  //@ts-ignore
+  const { id, token } = req.params;
+  const { email, password, password2 } = req.body;
+  console.log("email", email);
+  console.log("password", password);
+  console.log("password2", password2);
 });

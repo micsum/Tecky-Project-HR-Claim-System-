@@ -103,8 +103,6 @@ export function isUser( //check the session is User or not
   next: express.NextFunction
 ) {
   if (req.session.user) {
-   
-    
     next();
   } else {
     res.status(401);

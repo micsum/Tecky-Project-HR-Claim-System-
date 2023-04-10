@@ -190,11 +190,11 @@ b{
 }
 
 #role{
-  width:60%;
+  width:55%;
 }
 
 input[type=date]{
-  width:60%;
+  width:55%;
   margin-left:15px;
 }
 }
@@ -207,11 +207,11 @@ input[type=date]{
 }
 
 #role{
-  width:45%;
+  width:78%;
 }
 
 input[type=date]{
-  width:45%;
+  width:78%;
   margin-left:15px;
 }
 }
