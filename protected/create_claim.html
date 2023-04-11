@@ -164,10 +164,7 @@
   let departmentDbId;
   //load info from db into employee table
  window.addEventListener("load", async()=>{ 
-    const res = await fetch ("/getEmployee", {
-        method:"GET",
-        headers:{"Content-Type": "application/json"},
-      });
+    const res = await fetch ("/getEmployee");
       const employeeList = await res.json()
       //console.log(employeeList) //check the employee list
      const departmentId = document.querySelector("#departmentId");

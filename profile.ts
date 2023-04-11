@@ -1,12 +1,12 @@
-import  express, { Router } from "express";
+import { Router } from "express";
 import { client } from "./db";
 //import expressSession from "express-session";
 
 export let profileRouter = Router()
 
-profileRouter.use(express.static("protected")); //read the html and css file , sequence is matter, public guy watch public
-profileRouter.use(express.urlencoded({ extended: true })); //middleware for html-form-post
-profileRouter.use(express.json());
+// profileRouter.use(express.static("protected")); //read the html and css file , sequence is matter, public guy watch public
+// profileRouter.use(express.urlencoded({ extended: true })); //middleware for html-form-post
+// profileRouter.use(express.json());
 
 profileRouter.get("/profile", async (req, res) => {
     res.redirect("profiletest2.html");
@@ -28,15 +28,15 @@ profileRouter.get("/profile", async (req, res) => {
 
 
 
-  profileRouter.post("/logout", (req, res) => {
-    console.log("logout");
+  // profileRouter.post("/logout", (req, res) => {
+  //   console.log("logout");
   
-    req.session.destroy((err) => {
-      if (err) {
-        console.log(err);
-      }
-    });
-    res.redirect("/");
-    //res.json({});
-    console.log("destroy:", req.session);
-  });
+  //   req.session.destroy((err) => {
+  //     if (err) {
+  //       console.log(err);
+  //     }
+  //   });
+  //   res.redirect("/");
+  //   //res.json({});
+  //   console.log("destroy:", req.session);
+  // });

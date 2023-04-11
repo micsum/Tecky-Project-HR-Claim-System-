@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import { Router } from "express";
 //import path from "path";
 //import { stringify } from "querystring";
 import { client } from "./db";
@@ -7,9 +7,9 @@ import { isAdmin } from "./login";
 //import expressSession from "express-session";
 export let registerRouter = Router();
 
-registerRouter.use(express.static("protected")); //read the html and css file , sequence is matter, public guy watch public
-registerRouter.use(express.urlencoded({ extended: true })); //middleware for html-form-post
-registerRouter.use(express.json());
+// registerRouter.use(express.static("protected")); //read the html and css file , sequence is matter, public guy watch public
+// registerRouter.use(express.urlencoded({ extended: true })); //middleware for html-form-post
+// registerRouter.use(express.json());
 //changed to regusertest from adduser
 registerRouter.get("/adduser", isAdmin, (req, res) => {
   res.redirect("regusertest2.html");

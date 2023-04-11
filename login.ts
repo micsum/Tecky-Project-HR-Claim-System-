@@ -2,39 +2,26 @@ import express, { Router } from "express";
 //import expressSession from "express-session";
 import { client } from "./db";
 import { comparePassword } from "./hash";
-import session from "express-session";
+// import session from "express-session";
 
 //import path from "path";
 
 export let userRouter = Router();
-userRouter.use(express.static("admin")); //middleware for html-form-post
+// userRouter.use(express.static("admin"));.use(express.static("admin")); //middleware for html-form-post
 
 //read the html and css file , sequence is matter, public guy watch public
-userRouter.use(express.urlencoded()); //middleware for html-form-post
-userRouter.use(express.json());
 
-declare module "express-session" {
-  export interface SessionData {
-    user: {
-      id: number;
-      name: string;
-      role: string;
-      email: string;
-      department_id: number;
-    };
-  }
-}
+// export let sessionMiddleware = session({
+//   //for session saving or deliver session, no need user / admin login again, if new user : create session
+//   secret: Math.random().toString(36).slice(2),
+//   saveUninitialized: true,
+//   resave: true,
+//   cookie: {
+//     maxAge: 1000 * 60 * 60, //1hr auto logout
+//   },
+// });
 
-export let sessionMiddleware = session({
-  //for session saving or deliver session, no need user / admin login again, if new user : create session
-  secret: Math.random().toString(36).slice(2),
-  saveUninitialized: true,
-  resave: true,
-  cookie: {
-    maxAge: 1000 * 60 * 60, //1hr auto logout
-  },
-});
-userRouter.use(sessionMiddleware);
+// userRouter.use(sessionMiddleware);
 //let dbResult = await client.query(
 //    /*sql*/ `SELECT * FROM employee WHERE (email = $1 or name =$1) AND password = $2`,
 //    [username, password]
@@ -43,7 +30,7 @@ userRouter.use(sessionMiddleware);
 userRouter.post("/login", async (req, res) => {
   const { username, password } = req.body; //login username(either email or name)
   let dbResult = await client.query(
-    /*sql*/ `SELECT * FROM employee WHERE (email = $1 or name =$1)`,
+    /*sql*/ `SELECT * FROM employee WHERE (email = $1 or name = $1)`,
     [username]
   );
   let dbUser = dbResult.rows[0]; // check the db user
@@ -82,7 +69,7 @@ export function isAdmin( //check the session is Admin or not
   res: express.Response,
   next: express.NextFunction
 ) {
-  if (req.session.user?.role === `admin`) {
+  if (req.session.user && req.session.user?.role === `admin`) {
     next();
   } else {
     res.status(401);
@@ -97,25 +84,7 @@ export function isAdmin( //check the session is Admin or not
   }
 }
 
-export function isUser( //check the session is User or not
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) {
-  if (req.session.user) {
-    next();
-  } else {
-    res.status(401);
-    req.session.destroy((err) => {
-      if (err) {
-        console.log(err);
-      }
-    });
-    //res.json({});
-    //console.log("user redirect in isuser");
-    res.redirect("/");
-  }
-}
+
 
 //userRouter.get("/admin", isAdmin, (req, res) => {
 //  res.redirect("admin.html");

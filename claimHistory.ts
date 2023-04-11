@@ -2,16 +2,16 @@ import express, { Router } from "express";
 import { uploadDir } from "./create_claim";
 import { client } from "./db";
 import { statusEmail } from "./sendEmail";
-import { sessionMiddleware } from "./login";
+// import { sessionMiddleware } from "./login";
 import { isAdmin } from "./login";
 //import expressSession from "express-session";
 
 export let historyRouter = Router();
 
-historyRouter.use(sessionMiddleware);
-historyRouter.use(express.static("protected"));
+// historyRouter.use(sessionMiddleware);
+// historyRouter.use(express.static("protected"));
 historyRouter.use("/uploads", express.static(uploadDir));
-historyRouter.use(express.json());
+// historyRouter.use(express.json());
 
 historyRouter.get("/claimHistory", isAdmin, (req, res) => {
   res.redirect("./claimHistorytest2.html");
@@ -20,10 +20,11 @@ historyRouter.get("/claimHistory", isAdmin, (req, res) => {
 historyRouter.get("/claimRecord", isAdmin, async (req, res) => {
   let claimList = await client.query(`
     SELECT claim.id, department.name AS department_name, employee.name AS employee_name, claim.claim_type, claim.amount, claim.date_of_submission, claim.status
-FROM claim
-INNER JOIN employee ON employee.id = claim.employee_id
-INNER JOIN department ON department.id = claim.department_id
-ORDER BY claim.id DESC;`);
+    FROM claim
+    INNER JOIN employee ON employee.id = claim.employee_id
+    INNER JOIN department ON department.id = claim.department_id
+    ORDER BY claim.id DESC;`
+);
   //let dbEmployee = dbEmployeeList.rows[0];
   //console.log(dbEmployee);
   //console.log("claimList.rows", claimList.rows);
@@ -84,6 +85,7 @@ historyRouter.post("/claimInfo", async (req, res) => {
   claimTypeText = selectedClaimInfo.rows[0].claim_type;
   amount = selectedClaimInfo.rows[0].amount;
   claimEmployeeId = selectedClaimInfo.rows[0].claim_employee_id;
+
   res.json(selectedClaimInfo.rows[0]);
 });
 
@@ -147,15 +149,15 @@ historyRouter.post("/claimInfo/:id", isAdmin, async (req, res) => {
 //    `
 //  }
 
-historyRouter.post("/logout", (req, res) => {
-  console.log("logout");
+// historyRouter.post("/logout", (req, res) => {
+//   console.log("logout");
 
-  req.session.destroy((err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
-  res.redirect("/");
-  //res.json({});
-  console.log("destroy:", req.session);
-});
+//   req.session.destroy((err) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//   });
+//   res.redirect("/");
+//   //res.json({});
+//   console.log("destroy:", req.session);
+// });

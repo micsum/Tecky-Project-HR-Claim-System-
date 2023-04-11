@@ -162,10 +162,7 @@
 </body>
 <script>
    window.addEventListener("load", async()=>{
-        const blocking = await fetch ("/blocking", {
-        method:"GET",
-        headers:{"Content-Type": "application/json"},
-      });
+        const blocking = await fetch ("/blocking");
       let bjson = await blocking.json()
       console.log(bjson)
       if(bjson === 'user'){
@@ -181,17 +178,16 @@
      let departmentDbId;
    //load info from db into employee table
     window.addEventListener("load", async()=>{ 
-       const res = await fetch ("/getuserdashtest", {
-           method:"GET",
-           headers:{"Content-Type": "application/json"},
-         });
+       const res = await fetch ("/getuserdashtest");
          const employeeList = await res.json()
          console.log(employeeList) //check the employee list
          
         const employeeName = document.querySelector("#employeeName");
         const role = document.querySelector("#role");
+
         employeeName.textContent=employeeList.name
         role.textContent = employeeList.role
+
         document.querySelector("#employeeName").style.fontWeight = "700";
         document.querySelector("#role").style.fontWeight = "700";
        }
@@ -199,6 +195,7 @@
 
      let User_claim_type = [];
     let User_amount = [];
+    
     const months = [
       "January",
       "February",

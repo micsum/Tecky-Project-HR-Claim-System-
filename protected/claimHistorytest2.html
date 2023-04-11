@@ -204,8 +204,10 @@
        // const select = document.querySelector("#departmentSelect")
        // let text = select[select.selectedIndex].textContent;
         let formObject = {};
+
         formObject["search"] = form.search.value;
         formObject["query"] = form.query.value;
+
         let res = await fetch("/claimSearch", {
         method:"POST",
         headers: {
@@ -224,7 +226,7 @@
         let dataRow = document.createElement("tr");
     //    let headingRow = document.getElementsByClassName("row")
     //    let headingRowLength = headingRow.length
-        if(i%2===0){
+        if(i % 2 === 0){
         dataRow.setAttribute("class" , "info bg-white border-b dark:bg-gray-900 dark:border-gray-700")
         } else {
         dataRow.setAttribute("class", "info border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700")
@@ -278,11 +280,9 @@
         expand.addEventListener("click", async () => {
             rowNumber += 10
             rowLimit += 10;
-            const res = await fetch ("/claimRecord", {
-            method:"GET",
-            headers:{"Content-Type": "application/json"},
-          });
-        let claimList = await res.json()
+            const res = await fetch ("/claimRecord");
+        let claimList = await res.json();
+
         //console.log("claimlistexpand",claimList);
         
         for(let i = rowNumber; i < rowLimit && i < claimList.length ; i++){
@@ -330,10 +330,7 @@
         })
     
         window.addEventListener("load", async()=>{ 
-        const res = await fetch ("/claimRecord", {
-            method:"GET",
-            headers:{"Content-Type": "application/json"},
-          });
+        const res = await fetch ("/claimRecord");
         let claimList = await res.json()
         //console.log("windowloadclaimList",claimList);
         

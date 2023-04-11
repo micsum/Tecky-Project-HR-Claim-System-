@@ -164,16 +164,17 @@
     const filesInfo = await resclaimFile.json()
     //console.log("files",filesInfo.filesname) //check files_name exist or not 
     let files = filesInfo.filesname  //show the uploaded files
-    for(let i = 0; i<files.length;i++){
+    for(let i = 0; i < files.length;i++){
       //console.log(files[i].file_name) 
       const filename = files[i].file_name
       const url = `/uploads/${filename}`;
       let element;
       if(filename.endsWith('.pdf')){
-        element=document.createElement('embed');
+        element = document.createElement('embed');
         element.setAttribute('src',url);
         element.setAttribute('type',"application/pdf");
-      }else{
+      }
+      else{
         element= document.createElement('img');
         element.setAttribute('src',url)
         element.setAttribute("class", "mx-3 preview-image")

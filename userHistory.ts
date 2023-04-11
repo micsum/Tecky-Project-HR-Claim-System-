@@ -1,11 +1,11 @@
-import express, { Router } from "express";
+import { Router } from "express";
 import { client } from "./db";
 //import session from "express-session";
 
 export let userHistoryRouter = Router();
 
-userHistoryRouter.use(express.static("protected"));
-userHistoryRouter.use(express.json());
+// userHistoryRouter.use(express.static("protected"));
+// userHistoryRouter.use(express.json());
 
 userHistoryRouter.get("/userHistory", (req, res) => {
   res.redirect("./userHistorytest2.html");
@@ -77,18 +77,18 @@ userHistoryRouter.get("/claimOneRecord", async (req, res) => {
 //    `
 //  }
 
-userHistoryRouter.post("/logout", (req, res) => {
-  console.log("logout");
+// userHistoryRouter.post("/logout", (req, res) => {
+//   console.log("logout");
 
-  req.session.destroy((err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
-  res.redirect("/");
-  //res.json({});
-  console.log("destroy:", req.session);
-});
+//   req.session.destroy((err) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//   });
+//   res.redirect("/");
+//   //res.json({});
+//   console.log("destroy:", req.session);
+// });
 
 userHistoryRouter.get("/blocking", async (req, res) => {
   //let dbEmployee = dbEmployeeList.rows[0];

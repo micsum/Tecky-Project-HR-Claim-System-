@@ -1,14 +1,10 @@
-import express, { Router } from "express";
+import { Router } from "express";
 import { client } from "./db";
-import { sessionMiddleware } from "./login";
+// import { sessionMiddleware } from "./login";
 //import session from "express-session";
 
 export let userDashRouter = Router();
-userDashRouter.use(sessionMiddleware);
-
-userDashRouter.use(express.static("protected")); //read the html and css file , sequence is matter, public guy watch public
-userDashRouter.use(express.urlencoded({ extended: true })); //middleware for html-form-post
-userDashRouter.use(express.json());
+// userDashRouter.use(sessionMiddleware);
 
 userDashRouter.get("/userDash", async (req, res) => {
   console.log("loginasuser");
@@ -46,4 +42,6 @@ userDashRouter.get("/blocking", async (req, res) => {
   //console.log(dbEmployee);
   console.log(req.session.user?.role);
   res.json(req.session.user?.role);
+  // res.json({role: req.session.user?.role});
+
 });

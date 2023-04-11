@@ -1,11 +1,11 @@
-import express, { Router } from "express";
-import { sessionMiddleware } from "./login";
+import { Router } from "express";
+// import { sessionMiddleware } from "./login";
 import nodemailer from "nodemailer";
 import Mailgen from "mailgen";
 export let emailRouter = Router();
 
-emailRouter.use(express.json());
-emailRouter.use(sessionMiddleware);
+// emailRouter.use(express.json());
+// emailRouter.use(sessionMiddleware);
 
 let senderEmail = "cpky216@gmail.com";
 

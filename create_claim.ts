@@ -7,23 +7,22 @@ import express, { Router } from "express";
 import { join } from "path";
 import { client } from "./db";
 //import { isUser } from "./login";
-import { sessionMiddleware } from "./login";
+// import { sessionMiddleware } from "./login";
 import { sendClaimEmail } from "./sendEmail";
 
 export let createClaim = Router();
 
-createClaim.use(sessionMiddleware);
-createClaim.use(express.static("protected"));
-createClaim.use(express.json());
-//createClaim.use(sessionMiddleware);
-
 createClaim.get("/create_claim", (req, res) => {
-  res.redirect("./create_claim.html");
+  res.redirect("/create_claim.html");
 });
 
 createClaim.get("/getEmployee", async (req, res) => {
   let dbEmployeeList = await client.query(
-    /*sql*/ `SELECT employee.id,employee.name, employee.email, employee.phone_number,employee.department_id, department.name as department_name FROM employee join department on department.id = employee.department_id WHERE employee.id=$1`,
+    /*sql*/ `
+    SELECT employee.id,employee.name, employee.email, employee.phone_number,employee.department_id, department.name as department_name 
+    FROM employee 
+    join department on department.id = employee.department_id 
+    WHERE employee.id=$1`,
     [req.session.user?.id]
   );
   let dbEmployee = dbEmployeeList.rows[0];

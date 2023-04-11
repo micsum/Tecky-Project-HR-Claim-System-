@@ -159,6 +159,10 @@
     </section>
   </body>
   <script>
+
+    const jwt = window.location.pathname.split("/")[3];
+    console.log(queryString);
+
     let resetForm = document.querySelector("#resetForm");
     resetForm.addEventListener("submit", async function (event) {
       event.preventDefault();
@@ -168,6 +172,7 @@
         email: form.email.value,
         password: form.password.value,
         password2: form.password2.value,
+        jwt: jwt
       };
       console.log("formobject", formObject);
       //const urlParams = new URLSearchParams(window.location);

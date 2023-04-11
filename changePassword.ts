@@ -1,15 +1,13 @@
-import express, { Router } from "express";
-import path from "path";
+import { Router } from "express";
+// import path from "path";
 import { client } from "./db";
 import { comparePassword, hashPassword } from "./hash";
+
 export let passwordRouter = Router();
 
-passwordRouter.use(express.static("protected")); //read the html and css file , sequence is matter, public guy watch public
-passwordRouter.use(express.urlencoded({ extended: true })); //middleware for html-form-post
-passwordRouter.use(express.json());
-passwordRouter.get("/changepassword", (req, res) => {
-  res.sendFile(path.resolve("protected", "changepassword.html"));
-});
+// passwordRouter.get("/changepassword", (req, res) => {
+//   res.sendFile(path.resolve("protected", "changepassword.html"));
+// });
 
 passwordRouter.post("/changepassword", async (req, res) => {
   //console.log('hi: ', req.body)
@@ -61,9 +59,11 @@ passwordRouter.post("/changepassword", async (req, res) => {
     res.json({ error: "Incorrect Employee Name or Email" });
     return;
   }
-  if ((dbChecking.rows.length = 1)) {
+
+  if ((dbChecking.rows.length === 1)) {
     let dbRow = dbChecking.rows[0];
     console.log(dbRow.password);
+
     if (await comparePassword(currentPassword, dbRow.password)) {
       let newHashPassword = await hashPassword(newPassword);
       await client.query(
@@ -78,21 +78,28 @@ passwordRouter.post("/changepassword", async (req, res) => {
       console.log("hashed: ", newHashPassword);
       res.json({ error: "Success" });
     }
-    if (!(await comparePassword(currentPassword, dbRow.password))) {
+    else {
       res.json({ error: "Incorrect Current Password" });
     }
+
+    // if (!(await comparePassword(currentPassword, dbRow.password))) {
+    //   res.json({ error: "Incorrect Current Password" });
+    // }
+
   }
 });
 
-passwordRouter.post("/logout", (req, res) => {
-  console.log("logout");
+// passwordRouter.post("/logout", (req, res) => {
+//   console.log("logout");
 
-  req.session.destroy((err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
-  res.redirect("/");
-  //res.json({});
-  console.log("destroy:", req.session);
-});
+//   req.session.destroy((err) => {
+//     if (err) {
+//       console.log(err);
+//     }
+    
+//   });
+//   console.log("destroy:", req.session);
+//   res.redirect("/");
+  
+//   //res.json({});
+// });

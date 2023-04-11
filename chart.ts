@@ -1,11 +1,7 @@
-import express, { Router } from "express";
+import { Router } from "express";
 import { client } from "./db";
-import { sessionMiddleware } from "./login";
+// import { sessionMiddleware } from "./login";
 export let chartRouter = Router();
-
-chartRouter.use(sessionMiddleware);
-chartRouter.use(express.static("protected"));
-chartRouter.use(express.json());
 
 chartRouter.get("/chart", async (req, res) => {
   let dbResult = await client.query(

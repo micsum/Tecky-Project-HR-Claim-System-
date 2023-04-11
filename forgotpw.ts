@@ -7,14 +7,9 @@ import { hashPassword } from "./hash";
 
 export let forgotpwRouter = Router();
 
-forgotpwRouter.use(express.static("public"));
-forgotpwRouter.use(express.static("protected"));
-forgotpwRouter.use(express.urlencoded()); //middleware for html-form-post
-forgotpwRouter.use(express.json());
-
-let employeeId: string;
-let employeePw: string;
-let employeeEmail: string;
+// let employeeId: string;
+// let employeePw: string;
+// let employeeEmail: string;
 const JWT_SECRET = "ResetPASSSSSSSSSSword";
 
 forgotpwRouter.post("/forgotPw", async (req, res) => {
@@ -29,12 +24,12 @@ forgotpwRouter.post("/forgotPw", async (req, res) => {
     res.json({ error: "Invalid Email. Please try again." });
   } else {
     const employeeName = dbChecking.rows[0].name;
-    employeeId = dbChecking.rows[0].id;
-    employeePw = dbChecking.rows[0].password;
-    employeeEmail = dbChecking.rows[0].email;
+    let employeeId = dbChecking.rows[0].id;
+    // let employeePw = dbChecking.rows[0].password;
+    let employeeEmail = dbChecking.rows[0].email;
     // console.log(employeeName);
 
-    const secret = JWT_SECRET + employeePw;
+    const secret = JWT_SECRET;
     const payload = {
       email: employeeEmail,
       id: employeeId,
@@ -52,18 +47,24 @@ function authenticate(
   res: express.Response,
   next: express.NextFunction
 ) {
-  const { id, token } = req.params;
-
-  if (id != employeeId) {
-    res.json({ error: "Invalid id" });
-    return;
-  }
-  const secret = JWT_SECRET + employeePw;
+  
+  // const secret = JWT_SECRET + employeePw;
   try {
+    const { id, token } = req.params;
+    console.log(token);
+    
+  
+    let decoded = jwt.verify(token, JWT_SECRET) as {id: string, email:string};
+  
+    if (id != decoded.id) {
+      res.json({ error: "Invalid id" });
+      return;
+    }
+
     // console.log("middleware next ed");
 
     //@ts-ignore
-    const payload = jwt.verify(token, secret);
+    // const payload = jwt.verify(token, secret);
     next();
   } catch (error) {
     console.error(error);
@@ -79,10 +80,17 @@ forgotpwRouter.post("/resetpw", async (req, res) => {
   //const id = req.params.id;
   //
   //const token = req.params.token;
-  const { email, password, password2 } = req.body;
+  const { email, password, password2, jwt } = req.body;
   //console.log("email", email);
   //console.log("password", password);
   //console.log("password2", password2);
+
+  console.log(jwt);
+
+  let decoded = jwt.verify(jwt, JWT_SECRET) as {id: string, email:string};
+  console.log(decoded);
+  
+  
   const dbChecking = await client.query(
     /*sql*/ `SELECT email, password FROM employee WHERE email=$1`,
     [email]
@@ -91,14 +99,17 @@ forgotpwRouter.post("/resetpw", async (req, res) => {
   if (dbChecking.rows.length != 1) {
     res.json({ error1: "Invalid Email" });
   }
+
   if (password != password2) {
     res.json({ error2: "Both passwords are not identical. Please correct." });
   }
+
   if (password.length < 6) {
     res.json({
       error3: "Please input the password with more than 6 characters",
     });
   }
+
   if (password === password2) {
     let newHashPassword = await hashPassword(password2);
 
