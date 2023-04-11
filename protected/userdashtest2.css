@@ -21,3 +21,20 @@ p {
 body {
   background-color: #e8f5ff;
 }
+
+@media screen and (min-width:1400px) {
+  #barChart{
+    max-height: 800px !important;
+    max-width: 1300px !important;
+  }
+  .bg-neutral-50 px-5 py-3 dark:bg-neutral-700 dark:text-neutral-200{
+    max-height: 800px !important;
+    max-width: 1300px !important;
+  }
+
+  .max-xl mt-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700{
+    max-height: 800px !important;
+    max-width: 1300px !important;
+    width:1300px !important;
+  }
+}
