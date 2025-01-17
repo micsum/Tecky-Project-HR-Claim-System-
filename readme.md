@@ -29,7 +29,7 @@ This project was developed as part of a learning initiative to explore full-stac
 
 ## Built With
 - **Backend:** Node.js, Express.js
-- **Frontend:** HTML, CSS, JavaScript
+- **Frontend:** HTML, Tailwind CSS, JavaScript
 - **Database:** PostgreSQL
 - **Authentication:** JWT, Session Management
 - **File Upload:** Formidable
